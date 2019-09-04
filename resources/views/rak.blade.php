@@ -55,6 +55,17 @@
 
                <input type="hidden" name="rak_id" id="rak_id">
 
+               <div class="form-group">
+
+                    <div class="col-sm-12">
+
+                            <button align="right" type="submit" class="btn btn-primary" id="saveBtn" value="create">Save changes
+                                </button>    
+
+                    </div>
+
+                </div>
+
                 <div class="form-group">
 
                     <label for="name" class="col-sm-2 control-label">Kode Rak</label>
@@ -85,24 +96,11 @@
 
                     <div class="col-sm-12">
 
-                            <select multiple id="e1" class="form-control isi-tag" name="kode_buku[]">
+                            <select id="kode_buku" class="form-control isi-tag" name="kode_buku">
         
                     </div>
 
                 </div>
-
-                <div class="form-group">
-
-                        <label for="name" class="col-sm-2 control-label">Kode Buku</label>
-
-                        <div class="col-sm-12">
-    
-                                <button type="submit" class="btn btn-primary" id="saveBtn" value="create">Save changes
-                                    </button>    
-
-                        </div>
-    
-                    </div>
 
             </form>
 
@@ -158,7 +156,7 @@
 
             {data: 'nama_rak', name: 'nama_rak'},
 
-            {data: 'kode_rak', name: 'kode_rak'},
+            {data: 'buku.kode_buku', name: 'kode_buku'},
 
             {data: 'action', name: 'action', orderable: false, searchable: false},
 
@@ -194,7 +192,7 @@
 
         $('#productForm').trigger("reset");
 
-        $('#modelHeading').html("Create New Product");
+        $('#modelHeading').html("Create New");
 
         $('#ajaxModel').modal('show');
 
@@ -256,6 +254,12 @@
 
               table.draw();
 
+              Swal.fire(
+                'Success!',
+                'Your file has been added.',
+                'success'
+              )
+
          
 
           },
@@ -275,35 +279,45 @@
     
 
     $('body').on('click', '.deleteProduct', function () {
-
-     
-
+  
         var rak_id = $(this).data("id");
 
-        confirm("Are You sure want to delete !");
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+          }).then((result) => {
+            if (result.value) {
+                $.ajax({
 
-      
-
-        $.ajax({
-
-            type: "DELETE",
-
-            url: "{{ route('rak.store') }}"+'/'+rak_id,
-
-            success: function (data) {
-
-                table.draw();
-
-            },
-
-            error: function (data) {
-
-                console.log('Error:', data);
-
+                    type: "DELETE",
+        
+                    url: "{{ route('rak.store') }}"+'/'+rak_id,
+        
+                    success: function (data) {
+        
+                        table.draw();
+        
+                    },
+        
+                    error: function (data) {
+        
+                        console.log('Error:', data);
+        
+                    }
+        
+                });
+              Swal.fire(
+                'Deleted!',
+                'Your file has been deleted.',
+                'success'
+              )
             }
-
-        });
-
+          })
     });
 
      

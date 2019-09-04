@@ -12,6 +12,6 @@ class Rak extends Model
 
        public function buku()
        {
-           return $this->belongsTo('App\Buku');
+           return $this->belongsTo('App\Buku', 'kode_buku');
        }
 }

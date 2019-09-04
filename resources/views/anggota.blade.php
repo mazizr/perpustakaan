@@ -258,7 +258,11 @@
                   $('#ajaxModel').modal('hide');
     
                   table.draw();
-    
+                  Swal.fire(
+                'Success!',
+                'Your file has been added.',
+                'success'
+              )
              
     
               },
@@ -280,32 +284,42 @@
         $('body').on('click', '.deleteProduct', function () {
     
             var anggota_id = $(this).data("id");
-            var del=confirm("Are you sure you want to delete this record?");
-            if (del==true){
-                $.ajax({
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+              }).then((result) => {
+                if (result.value) {
+                    $.ajax({
     
-                    type: "DELETE",
-        
-                    url: "{{ route('anggota.store') }}"+'/'+anggota_id,
-        
-                    success: function (data) {
-        
-                        table.draw();
-        
-                    },
-        
-                    error: function (data) {
-        
-                        console.log('Error:', data);
-        
-                    }
-        
-                });
-                alert ("record deleted")
-            }else{
-                alert("Record Not Deleted")
-            }
-            return del;
+                        type: "DELETE",
+            
+                        url: "{{ route('anggota.store') }}"+'/'+anggota_id,
+            
+                        success: function (data) {
+            
+                            table.draw();
+            
+                        },
+            
+                        error: function (data) {
+            
+                            console.log('Error:', data);
+            
+                        }
+            
+                    });
+                  Swal.fire(
+                    'Deleted!',
+                    'Your file has been deleted.',
+                    'success'
+                  )
+                }
+              })
         });
     
          

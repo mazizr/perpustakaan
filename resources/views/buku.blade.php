@@ -117,7 +117,7 @@
 
                 <div class="col-sm-offset-2 col-sm-10">
 
-                 <button type="submit" class="btn btn-primary" id="saveBtn" value="create">Save changes
+                 <button type="submit" class="btn btn-primary swalDefaultSuccess" id="saveBtn" value="create">Save changes
 
                  </button>
 
@@ -259,6 +259,12 @@
 
               table.draw();
 
+              Swal.fire(
+                'Success!',
+                'Your file has been added.',
+                'success'
+              )
+
          
 
           },
@@ -283,29 +289,42 @@
 
         var buku_id = $(this).data("id");
 
-        confirm("Are You sure want to delete !");
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+          }).then((result) => {
+            if (result.value) {
+                $.ajax({
 
-      
-
-        $.ajax({
-
-            type: "DELETE",
-
-            url: "{{ route('buku.store') }}"+'/'+buku_id,
-
-            success: function (data) {
-
-                table.draw();
-
-            },
-
-            error: function (data) {
-
-                console.log('Error:', data);
-
+                    type: "DELETE",
+        
+                    url: "{{ route('buku.store') }}"+'/'+buku_id,
+        
+                    success: function (data) {
+        
+                        table.draw();
+        
+                    },
+        
+                    error: function (data) {
+        
+                        console.log('Error:', data);
+        
+                    }
+        
+                });
+              Swal.fire(
+                'Deleted!',
+                'Your file has been deleted.',
+                'success'
+              )
             }
-
-        });
+          })
 
     });
 
