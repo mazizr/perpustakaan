@@ -18,6 +18,7 @@ Route::get('/', function () {
 Route::resource('petugas','PetugasController');
 Route::resource('anggota','AnggotaController');
 Route::resource('buku','BukuController');
+Route::resource('rak','RakController');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

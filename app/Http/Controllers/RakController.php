@@ -36,7 +36,7 @@ class RakController extends Controller
 
         if ($request->ajax()) {
 
-            $data = Rak::latest()->get();
+            $data = Rak::latest()->with('buku')->get();
 
             return Datatables::of($data)
 

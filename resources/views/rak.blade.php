@@ -1,5 +1,9 @@
 @extends('layouts.backend')
 
+@section('css')
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/css/select2.min.css" rel="stylesheet" />
+@endsection
+
 @section('content')
 <!-- Main content -->
 <div class="container">
@@ -14,7 +18,6 @@
         <tr>
 
             <th>No</th>
-
             <th>Kode Rak</th>
             <th>Nama Rak</th>
             <th>Kode Buku</th>
@@ -36,7 +39,7 @@
 
 <div class="modal fade" id="ajaxModel" aria-hidden="true">
 
-<div class="modal-dialog">
+<div class="modal-dialog modal-lg">
 
     <div class="modal-content">
 
@@ -82,20 +85,24 @@
 
                     <div class="col-sm-12">
 
-                        <input type="text" class="form-control" id="penulis" name="penulis" placeholder="Enter Name Category" value="" maxlength="50" required="">
-
+                            <select multiple id="e1" class="form-control isi-tag" name="kode_buku[]">
+        
                     </div>
 
                 </div>
-  
 
-                <div class="col-sm-offset-2 col-sm-10">
+                <div class="form-group">
 
-                 <button type="submit" class="btn btn-primary" id="saveBtn" value="create">Save changes
+                        <label for="name" class="col-sm-2 control-label">Kode Buku</label>
 
-                 </button>
+                        <div class="col-sm-12">
+    
+                                <button type="submit" class="btn btn-primary" id="saveBtn" value="create">Save changes
+                                    </button>    
 
-                </div>
+                        </div>
+    
+                    </div>
 
             </form>
 
@@ -111,6 +118,12 @@
 @endsection
 
 @section('js')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/js/select2.min.js"></script>
+<script>
+        $(document).ready(function() { 
+            $("#e1").select2();
+           });
+</script>
 <script type="text/javascript">
 
   $(function () {
@@ -153,6 +166,24 @@
 
     });
 
+    $.ajax({
+        url: "{{ route('buku.index') }}",
+        method: "GET",
+        dataType: "json",
+        
+        success: function (berhasil) {
+            // console.log(berhasil)
+            $.each(berhasil.data, function (key, value) {
+                $(".isi-tag").append(
+                    `
+                    <option value="${value.id}">
+                        ${value.kode_buku}
+                    </option>        
+                    `
+                )
+            }) 
+        }
+    })
      
 
     $('#createNewProduct').click(function () {

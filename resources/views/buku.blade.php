@@ -4,7 +4,7 @@
 <!-- Main content -->
 <div class="container">
 
-    <a class="btn btn-success" href="javascript:void(0)" id="createNewProduct"> Create New</a>
+    <a class="btn btn-success" href="javascript:void(0)" id="createNewProduct">Create New</a>
     <br/>
     <br/>
     <table class="table table-bordered data-table">
@@ -235,7 +235,7 @@
 
         e.preventDefault();
 
-        $(this).html('Sending..');
+        $(this).html('Save Changes');
 
     
 
