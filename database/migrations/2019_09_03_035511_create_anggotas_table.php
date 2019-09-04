@@ -15,7 +15,7 @@ class CreateAnggotasTable extends Migration
     {
         Schema::create('anggotas', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->String('kode_anggot');
+            $table->String('kode_anggota');
             $table->String('nama');
             $table->String('jk');
             $table->String('jurusan');
