@@ -13,16 +13,16 @@ class Pengembalian extends Model
 
        public function petugas()
        {
-           return $this->belongsTo('App\Petugas');
+           return $this->belongsTo('App\Petugas', 'kode_petugas');
        }
 
        public function anggota()
        {
-           return $this->belongsTo('App\Anggota');
+           return $this->belongsTo('App\Anggota', 'kode_anggota');
        }
 
        public function buku()
        {
-           return $this->belongsTo('App\Buku');
+           return $this->belongsTo('App\Buku', 'kode_buku');
        }
 }

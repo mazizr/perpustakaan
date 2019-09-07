@@ -123,6 +123,8 @@ return [
 
     'cipher' => 'AES-256-CBC',
 
+    'faker_locale' => 'id_ID',
+
     /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers

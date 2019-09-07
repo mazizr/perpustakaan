@@ -27,16 +27,17 @@
   <link rel="stylesheet" href="{{asset('assets/backend/plugins/daterangepicker/daterangepicker.css')}}">
   <!-- summernote -->
   <link rel="stylesheet" href="{{asset('assets/backend/plugins/summernote/summernote-bs4.css')}}">
+  <link rel="stylesheet" href="{{asset('assets/backend/animate.css')}}">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-@yield('css')
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  @yield('css')
     
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
 
   <!-- Navbar -->
-  @include('layouts.backend.navbar')
   <!-- /.navbar -->
 
   <!-- Main Sidebar Container -->
@@ -49,7 +50,7 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="{{asset('assets/backend/dist/img/user2-160x160.jpg')}}" class="img-circle elevation-2" alt="User Image">
+          <img src="{{asset('assets/backend/dist/img/aziz.jpg')}}" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
           <a href="#" class="d-block">Mohammad Aziz Riza</a>
@@ -57,7 +58,64 @@
       </div>
 
       <!-- Sidebar Menu -->
-      
+      <nav class="mt-2">
+          <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+            <!-- Add icons to the links using the .nav-icon class
+                 with font-awesome or any other icon font library -->
+            <li class="nav-item has-treeview menu-open">
+              <a href="#" class="nav-link active">
+                {{--  <i class="nav-icon fas fa-tachometer-alt"></i>  --}}
+                <p>
+                  Data Master
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                      <a href="{{ url('petugas')}}" class="nav-link">
+                        <p>Petugas</p>
+                      </a>
+                  </li>
+                  <li class="nav-item">
+                      <a href="{{ url('anggota')}}" class="nav-link">
+                        <p>Anggota</p>
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a href="{{ url('buku')}}" class="nav-link">
+                        <p>Buku</p>
+                      </a>
+                    </li>
+                <li class="nav-item">
+                  <a href="{{ url('rak')}}" class="nav-link">
+                    <p>Rak</p>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item has-treeview menu-open">
+                <a href="#" class="nav-link active">
+                  {{--  <i class="nav-icon fas fa-tachometer-alt"></i>  --}}
+                  <p>
+                    Transaksi
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a href="{{ url('peminjaman')}}" class="nav-link">
+                          <p>Peminjaman</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url('pengembalian')}}" class="nav-link">
+                          <p>Pengembalian</p>
+                        </a>
+                      </li>
+                </ul>
+              </li>
+          </ul>
+        </nav>
       <!-- /.sidebar-menu -->
     </div>
     <!-- /.sidebar -->
@@ -70,7 +128,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Dashboard</h1>
+            <h1 class="m-0 text-dark"><i class="material-icons">library_books</i>  Perpustakaan</h1>
           </div><!-- /.col -->
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
@@ -93,6 +151,7 @@
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
     <!-- Control sidebar content goes here -->
+    
   </aside>
   <!-- /.control-sidebar -->
 </div>

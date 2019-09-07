@@ -1,12 +1,11 @@
 <?php
-
          
 
 namespace App\Http\Controllers;
 
           
 
-use App\Petugas;
+use App\Pengembalian;
 
 use Illuminate\Http\Request;
 
@@ -14,7 +13,7 @@ use DataTables;
 
         
 
-class PetugasController extends Controller
+class PengembalianController extends Controller
 
 {
 
@@ -31,7 +30,7 @@ class PetugasController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = Petugas::latest()->get();
+            $data = Pengembalian::with('petugas','anggota','buku')->get();
             return Datatables::of($data)
                     ->addIndexColumn()
                     ->addColumn('action', function($row){
@@ -42,7 +41,7 @@ class PetugasController extends Controller
                     ->rawColumns(['action'])
                     ->make(true);
         }
-        return view('petugas');
+        return view('pengembalian');
     }
 
      
@@ -60,16 +59,31 @@ class PetugasController extends Controller
      */
 
     public function store(Request $request)
-
     {
-        Petugas::updateOrCreate(['id' => $request->petugas_id],
+        $tanggal_kembali = strtotime($request->tanggal_kembali);
+        $jatuh_tempo = strtotime($request->jatuh_tempo);
+        $jumlah = $jatuh_tempo - $tanggal_kembali;
+        $jumlah_hari = floor($jumlah / (60 * 60 * 24));
+        if ($jumlah_hari <= 0) {
+            $jumlah_hari = 1;
+            $total_denda = $jumlah_hari*2000;
+        }else {
+            $total_denda = $jumlah_hari*2000;
+        }
+        
+        
+
+        Pengembalian::updateOrCreate(['id' => $request->pengembalian_id],
                 [
-                    'kode_petugas' => $request->kode_petugas, 
-                    'nama' => $request->nama,
-                    'jk' => $request->jk,
-                    'jabatan' => $request->jabatan,
-                    'telepon' => $request->telepon,
-                    'alamat' => $request->alamat
+                    'kode_kembali' => $request->kode_kembali, 
+                    'tanggal_kembali' => $request->tanggal_kembali,
+                    'jatuh_tempo' => $request->jatuh_tempo,
+                    'denda_per_hari' => 2000,
+                    'jumlah_hari' => $jumlah_hari,
+                    'total_denda' => $total_denda,
+                    'kode_petugas' => $request->kode_petugas,
+                    'kode_anggota' => $request->kode_anggota,
+                    'kode_buku' => $request->kode_buku,
                 ]
         );       
         return response()->json(['success'=>'Product saved successfully.']);
@@ -90,8 +104,8 @@ class PetugasController extends Controller
     public function edit($id)
 
     {
-        $petugas = Petugas::find($id);
-        return response()->json($petugas);
+        $pengembalian = Pengembalian::find($id);
+        return response()->json($pengembalian);
     }
 
   
@@ -110,7 +124,7 @@ class PetugasController extends Controller
 
     public function destroy($id)
     {
-        Petugas::find($id)->delete();
+        Pengembalian::find($id)->delete();
         return response()->json(['success'=>'Product deleted successfully.']);
     }
 

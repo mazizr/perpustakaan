@@ -4,10 +4,10 @@
 <!-- Main content -->
 <div class="container">
 
-    <a class="btn btn-success" href="javascript:void(0)" id="createNewProduct">Create New</a>
+    <a class="btn btn-dark btn-sm" href="javascript:void(0)" id="createNewProduct">Create New</a>
     <br/>
     <br/>
-    <table class="table table-bordered data-table">
+    <table class="table table-bordered data-table" width="100%">
 
     <thead class="thead-dark">
 
@@ -20,7 +20,7 @@
             <th>Penulis</th>
             <th>Penerit</th>
             <th>Tahun Terbit</th>
-            <th width="75px">Action</th>
+            <th width="75px">Buku</th>
 
         </tr>
 
@@ -40,7 +40,7 @@
 
 <div class="modal-dialog">
 
-    <div class="modal-content">
+    <div class="modal-content bg-dark">
 
         <div class="modal-header">
 
@@ -60,7 +60,7 @@
 
                     <div class="col-sm-12">
 
-                        <input type="text" class="form-control" id="kode_buku" name="kode_buku" placeholder="Enter Name Category" value="" maxlength="50" required="">
+                        <input type="text" class="form-control" id="kode_buku" name="kode_buku" placeholder="Masukkan Kode Buku" value="" maxlength="50" required="">
 
                     </div>
 
@@ -72,7 +72,7 @@
 
                     <div class="col-sm-12">
 
-                        <input type="text" class="form-control" id="judul" name="judul" placeholder="Enter Name Category" value="" maxlength="50" required="">
+                        <input type="text" class="form-control" id="judul" name="judul" placeholder="Masukkan Judul Buku" value="" maxlength="50" required="">
 
                     </div>
 
@@ -84,7 +84,7 @@
 
                     <div class="col-sm-12">
 
-                        <input type="text" class="form-control" id="penulis" name="penulis" placeholder="Enter Name Category" value="" maxlength="50" required="">
+                        <input type="text" class="form-control" id="penulis" name="penulis" placeholder="Masukkan Penulis" value="" maxlength="50" required="">
 
                     </div>
 
@@ -96,7 +96,7 @@
 
                     <div class="col-sm-12">
 
-                        <input type="text" class="form-control" id="penerbit" name="penerbit" placeholder="Enter Name Category" value="" maxlength="50" required="">
+                        <input type="text" class="form-control" id="penerbit" name="penerbit" placeholder="Masukkan Penerbit" value="" maxlength="50" required="">
 
                     </div>
 
@@ -108,7 +108,7 @@
 
                     <div class="col-sm-12">
 
-                        <input type="date" class="form-control" name="tahun_terbit" id="tahun_terbit" required>
+                        <input type="date" class="form-control datepicker" name="tahun_terbit" id="tahun_terbit" required>
 
                     </div>
 
@@ -117,7 +117,7 @@
 
                 <div class="col-sm-offset-2 col-sm-10">
 
-                 <button type="submit" class="btn btn-primary swalDefaultSuccess" id="saveBtn" value="create">Save changes
+                 <button type="submit" class="btn btn-outline-primary btn-flat" id="saveBtn" value="create">Save changes
 
                  </button>
 
@@ -161,7 +161,7 @@
 
         serverSide: true,
 
-        ajax: "{{ route('buku.index') }}",
+        ajax: "{{ url('buku') }}",
 
         columns: [
 
@@ -193,7 +193,7 @@
 
         $('#productForm').trigger("reset");
 
-        $('#modelHeading').html("Create New Product");
+        $('#modelHeading').html("Create New");
 
         $('#ajaxModel').modal('show');
 
@@ -205,7 +205,7 @@
 
       var buku_id = $(this).data('id');
 
-      $.get("{{ route('buku.index') }}" +'/' + buku_id +'/edit', function (data) {
+      $.get("{{ url('buku') }}" +'/' + buku_id +'/edit', function (data) {
 
           $('#modelHeading').html("Edit Product");
 
@@ -243,7 +243,7 @@
 
           data: $('#productForm').serialize(),
 
-          url: "{{ route('buku.store') }}",
+          url: "{{ url('buku-store') }}",
 
           type: "POST",
 
@@ -259,11 +259,13 @@
 
               table.draw();
 
-              Swal.fire(
-                'Success!',
-                'Your file has been added.',
-                'success'
-              )
+              Swal.fire({
+                position: 'center',
+                type: 'success',
+                title: 'Your work has been saved',
+                showConfirmButton: false,
+                timer: 1500
+              })
 
          
 
@@ -283,7 +285,7 @@
 
     
 
-    $('body').on('click', '.deleteProduct', function () {
+    $('body').on('click', '.deleteBuku', function () {
 
      
 
@@ -303,7 +305,7 @@
 
                     type: "DELETE",
         
-                    url: "{{ route('buku.store') }}"+'/'+buku_id,
+                    url: "{{ url('buku-destroy') }}"+'/'+buku_id,
         
                     success: function (data) {
         

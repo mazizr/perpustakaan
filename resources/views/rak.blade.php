@@ -8,10 +8,10 @@
 <!-- Main content -->
 <div class="container">
 
-    <a class="btn btn-success" href="javascript:void(0)" id="createNewProduct"> Create New</a>
+    <a class="btn btn-dark btn-sm" href="javascript:void(0)" id="createNewProduct"> Create New</a>
     <br/>
     <br/>
-    <table class="table table-bordered data-table">
+    <table class="table table-bordered data-table" width="100%">
 
     <thead class="thead-dark">
 
@@ -21,7 +21,7 @@
             <th>Kode Rak</th>
             <th>Nama Rak</th>
             <th>Kode Buku</th>
-            <th>Action</th>
+            <th>Aksi</th>
 
         </tr>
 
@@ -41,7 +41,7 @@
 
 <div class="modal-dialog modal-lg">
 
-    <div class="modal-content">
+    <div class="modal-content bg-dark">
 
         <div class="modal-header">
 
@@ -57,14 +57,14 @@
 
                <div class="form-group">
 
-                    <div class="col-sm-12">
+                <div class="col-sm-12">
 
-                            <button align="right" type="submit" class="btn btn-primary" id="saveBtn" value="create">Save changes
-                                </button>    
-
-                    </div>
+                        <button align="right" type="submit" class="btn btn-outline-primary btn-flat" id="saveBtn" value="create">Save changes
+                            </button>    
 
                 </div>
+
+            </div>
 
                 <div class="form-group">
 
@@ -72,7 +72,7 @@
 
                     <div class="col-sm-12">
 
-                        <input type="text" class="form-control" id="kode_rak" name="kode_rak" placeholder="Enter Name Category" value="" maxlength="50" required="">
+                        <input type="text" class="form-control" id="kode_rak" name="kode_rak" placeholder="Masukkan Kode Rak" value="" maxlength="50" required="">
 
                     </div>
 
@@ -84,7 +84,7 @@
 
                     <div class="col-sm-12">
 
-                        <input type="text" class="form-control" id="nama_rak" name="nama_rak" placeholder="Enter Name Category" value="" maxlength="50" required="">
+                        <input type="text" class="form-control" id="nama_rak" name="nama_rak" placeholder="Masukkan Nama Rak" value="" maxlength="50" required="">
 
                     </div>
 
@@ -96,7 +96,7 @@
 
                     <div class="col-sm-12">
 
-                            <select id="kode_buku" class="form-control isi-tag" name="kode_buku">
+                            <select id="kode_buku" class="form-control isi-tag" placeholder="Pilih Kode Buku" name="kode_buku">
         
                     </div>
 
@@ -146,7 +146,7 @@
 
         serverSide: true,
 
-        ajax: "{{ route('rak.index') }}",
+        ajax: "{{ url('rak') }}",
 
         columns: [
 
@@ -165,7 +165,7 @@
     });
 
     $.ajax({
-        url: "{{ route('buku.index') }}",
+        url: "{{ url('buku') }}",
         method: "GET",
         dataType: "json",
         
@@ -204,7 +204,7 @@
 
       var rak_id = $(this).data('id');
 
-      $.get("{{ route('rak.index') }}" +'/' + rak_id +'/edit', function (data) {
+      $.get("{{ url('rak') }}" +'/' + rak_id +'/edit', function (data) {
 
           $('#modelHeading').html("Edit Product");
 
@@ -238,7 +238,7 @@
 
           data: $('#productForm').serialize(),
 
-          url: "{{ route('rak.store') }}",
+          url: "{{ url('rak-store') }}",
 
           type: "POST",
 
@@ -254,11 +254,17 @@
 
               table.draw();
 
-              Swal.fire(
-                'Success!',
-                'Your file has been added.',
-                'success'
-              )
+              Swal.fire({
+                position: 'center',
+                type: 'success',
+                animation: false,
+                title: 'Your work has been saved',
+                showConfirmButton: false,
+                timer: 1000,
+                customClass: {
+                    popup: 'animated bounceOut'
+                  }
+              })
 
          
 
@@ -278,7 +284,7 @@
 
     
 
-    $('body').on('click', '.deleteProduct', function () {
+    $('body').on('click', '.deleteRak', function () {
   
         var rak_id = $(this).data("id");
 
@@ -296,7 +302,7 @@
 
                     type: "DELETE",
         
-                    url: "{{ route('rak.store') }}"+'/'+rak_id,
+                    url: "{{ url('rak-destroy') }}"+'/'+rak_id,
         
                     success: function (data) {
         

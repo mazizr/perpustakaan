@@ -4,12 +4,12 @@
     <!-- Main content -->
     <div class="container">
             
-        <a class="btn btn-success" href="javascript:void(0)" id="createNewProduct">
-            Create New
+        <a class="btn btn-dark btn-sm" href="javascript:void(0)" id="createNewProduct">
+             Create New
         </a>
         <br/>
         <br/>
-        <table class="table table-bordered data-table">
+        <table class="table table-bordered data-table" width="100%">
 
             <thead class="thead-dark">
     
@@ -23,7 +23,7 @@
                     <th>Jabatan</th>
                     <th>Telepon</th>
                     <th width="180px">Alamat</th>
-                    <th width="75px">Action</th>
+                    <th width="75px">Aksi</th>
     
                 </tr>
     
@@ -43,7 +43,7 @@
 
         <div class="modal-dialog">
     
-            <div class="modal-content">
+            <div class="modal-content bg-dark">
     
                 <div class="modal-header">
     
@@ -87,8 +87,11 @@
     
                             <div class="col-sm-12">
     
-                                <input type="text" class="form-control" id="jk" name="jk" placeholder="Masukkan Jenis Kelamin Petugas" value="" maxlength="50" required="">
-    
+                                <select id="jk" class="form-control" placeholder="Pilih Jenis Kelamin" name="jk">
+                                    <option value="Laki - Laki">Laki - Laki</option>
+                                    <option value="Perempuan">Perempuan</option>
+                                </select>
+        
                             </div>
     
                         </div>
@@ -132,7 +135,7 @@
     
                         <div class="col-sm-offset-2 col-sm-10">
     
-                         <button type="submit" class="btn btn-primary" id="saveBtn" value="create">Save changes
+                         <button type="submit" class="btn btn-outline-primary btn-flat" id="saveBtn" value="create">Save changes
     
                          </button>
     
@@ -152,8 +155,8 @@
     @endsection
     
 
-   @section('js')
-   <script type="text/javascript">
+@section('js')
+<script type="text/javascript">
 
     $(function () {
   
@@ -171,7 +174,7 @@
   
           serverSide: true,
   
-          ajax: "{{ route('petugas.index') }}",
+          ajax: "{{ url('petugas') }}",
   
           columns: [
   
@@ -190,6 +193,7 @@
               {data: 'alamat', name: 'alamat'},
   
               {data: 'action', name: 'action', orderable: false, searchable: false},
+              
   
           ]
   
@@ -205,7 +209,7 @@
   
           $('#productForm').trigger("reset");
   
-          $('#modelHeading').html("Create New Product");
+          $('#modelHeading').html("Create New");
   
           $('#ajaxModel').modal('show');
   
@@ -217,7 +221,7 @@
   
         var petugas_id = $(this).data('id');
   
-        $.get("{{ route('petugas.index') }}" +'/' + petugas_id +'/edit', function (data) {
+        $.get("{{ url('petugas') }}" +'/' + petugas_id +'/edit', function (data) {
   
             $('#modelHeading').html("Edit Product");
   
@@ -257,7 +261,7 @@
   
             data: $('#productForm').serialize(),
   
-            url: "{{ route('petugas.store') }}",
+            url: "{{ url('petugas-store') }}",
   
             type: "POST",
   
@@ -272,11 +276,17 @@
                 $('#ajaxModel').modal('hide');
   
                 table.draw();
-                Swal.fire(
-                'Success!',
-                'Your file has been added.',
-                'success'
-              )
+                Swal.fire({
+                    position: 'center',
+                    type: 'success',
+                    animation: false,
+                    title: 'Your work has been saved',
+                    showConfirmButton: false,
+                    timer: 1000,
+                    customClass: {
+                        popup: 'animated bounceOut'
+                      }
+                  })
   
            
   
@@ -313,7 +323,7 @@
 
                     type: "DELETE",
         
-                    url: "{{ route('petugas.store') }}"+'/'+petugas_id,
+                    url: "{{ url('petugas-destroy') }}"+'/'+petugas_id,
         
                     success: function (data) {
         

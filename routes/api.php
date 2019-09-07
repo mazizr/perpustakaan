@@ -13,6 +13,17 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::get('/', function (Router $router) {
+    return collect($router->getRoutes()->getRoutesByMethod()["GET"])->map(function ($value, $key) {
+        return url($key);
+    })->values();
 });
+Route::resource('petugas', 'PetugasAPIController', [
+    'only' => ['index', 'show', 'store', 'update', 'destroy']
+]);
+
+Route::resource('rak', 'RakAPIController', [
+    'only' => ['index', 'show', 'store', 'update', 'destroy']
+]);
+
+

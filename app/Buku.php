@@ -17,11 +17,11 @@ class Buku extends Model
 
        public function peminjaman()
        {
-           return $this->hasOne('App\Peminjaman');
+           return $this->hasOne('App\Peminjaman', 'kode_buku');
        }
 
        public function pengembalian()
         {
-    	    return $this->hasOne('App\Pengembalian');
+    	    return $this->hasOne('App\Pengembalian', 'kode_buku');
         }
 }

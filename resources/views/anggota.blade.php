@@ -4,10 +4,10 @@
 <!-- Main content -->
 <div class="container">
 
-    <a class="btn btn-success" href="javascript:void(0)" id="createNewProduct"> Create New</a>
+    <a class="btn btn-dark btn-sm" href="javascript:void(0)" id="createNewProduct"> Create New</a>
     <br/>
     <br/>
-    <table class="table table-bordered data-table">
+    <table class="table table-bordered data-table" width="100%">
 
     <thead class="thead-dark">
 
@@ -20,7 +20,7 @@
             <th>Jenis Kelamin</th>
             <th>Jurusan</th>
             <th width="280px">Alamat</th>
-            <th width="75px">Action</th>
+            <th width="75px">Aksi</th>
 
         </tr>
 
@@ -40,7 +40,7 @@
 
 <div class="modal-dialog">
 
-    <div class="modal-content">
+    <div class="modal-content bg-dark">
 
         <div class="modal-header">
 
@@ -60,7 +60,7 @@
 
                     <div class="col-sm-12">
 
-                        <input type="text" class="form-control" id="kode_anggota" name="kode_anggota" placeholder="Enter Name Category" value="" maxlength="50" required="">
+                        <input type="text" class="form-control" id="kode_anggota" name="kode_anggota" placeholder="Masukkan Kode Anggota" value="" maxlength="50" required="">
 
                     </div>
 
@@ -72,7 +72,7 @@
 
                     <div class="col-sm-12">
 
-                        <input type="text" class="form-control" id="nama" name="nama" placeholder="Enter Name Category" value="" maxlength="50" required="">
+                        <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukkan Nama Anggota" value="" maxlength="50" required="">
 
                     </div>
 
@@ -84,7 +84,10 @@
 
                     <div class="col-sm-12">
 
-                        <input type="text" class="form-control" id="jk" name="jk" placeholder="Enter Name Category" value="" maxlength="50" required="">
+                            <select id="jk" class="form-control" placeholder="Pilih Jenis Kelamin" name="jk">
+                                <option value="Laki - Laki">Laki - Laki</option>
+                                <option value="Perempuan">Perempuan</option>
+                            </select>
 
                     </div>
 
@@ -96,7 +99,7 @@
 
                     <div class="col-sm-12">
 
-                        <input type="text" class="form-control" id="jurusan" name="jurusan" placeholder="Enter Name Category" value="" maxlength="50" required="">
+                        <input type="text" class="form-control" id="jurusan" name="jurusan" placeholder="Masukkan Jurusan" value="" maxlength="50" required="">
 
                     </div>
 
@@ -108,7 +111,7 @@
 
                         <div class="col-sm-12">
 
-                            <textarea id="alamat" name="alamat" required="" placeholder="Enter Details" class="form-control"></textarea>
+                            <textarea id="alamat" name="alamat" required="" placeholder="Masukkan Alamat" class="form-control"></textarea>
 
                         </div>
 
@@ -117,7 +120,7 @@
 
                 <div class="col-sm-offset-2 col-sm-10">
 
-                 <button type="submit" class="btn btn-primary" id="saveBtn" value="create">Save changes
+                 <button type="submit" class="btn btn-outline-primary btn-flat" id="saveBtn" value="create">Save changes
 
                  </button>
 
@@ -161,7 +164,7 @@
     
             serverSide: true,
     
-            ajax: "{{ route('anggota.index') }}",
+            ajax: "{{ url('anggota') }}",
     
             columns: [
     
@@ -193,7 +196,7 @@
     
             $('#productForm').trigger("reset");
     
-            $('#modelHeading').html("Create New Product");
+            $('#modelHeading').html("Create New");
     
             $('#ajaxModel').modal('show');
     
@@ -205,7 +208,7 @@
     
           var anggota_id = $(this).data('id');
     
-          $.get("{{ route('anggota.index') }}" +'/' + anggota_id +'/edit', function (data) {
+          $.get("{{ url('anggota') }}" +'/' + anggota_id +'/edit', function (data) {
     
               $('#modelHeading').html("Edit Product");
     
@@ -243,7 +246,7 @@
     
               data: $('#productForm').serialize(),
     
-              url: "{{ route('anggota.store') }}",
+              url: "{{ url('anggota-store') }}",
     
               type: "POST",
     
@@ -258,11 +261,17 @@
                   $('#ajaxModel').modal('hide');
     
                   table.draw();
-                  Swal.fire(
-                'Success!',
-                'Your file has been added.',
-                'success'
-              )
+                  Swal.fire({
+                    position: 'center',
+                    type: 'success',
+                    animation: false,
+                    title: 'Your work has been saved',
+                    showConfirmButton: false,
+                    timer: 1000,
+                    customClass: {
+                        popup: 'animated bounceOut'
+                      }
+                  })
              
     
               },
@@ -281,7 +290,7 @@
     
         
     
-        $('body').on('click', '.deleteProduct', function () {
+        $('body').on('click', '.deleteAnggota', function () {
     
             var anggota_id = $(this).data("id");
             Swal.fire({
@@ -298,7 +307,7 @@
     
                         type: "DELETE",
             
-                        url: "{{ route('anggota.store') }}"+'/'+anggota_id,
+                        url: "{{ url('anggota-destroy') }}"+'/'+anggota_id,
             
                         success: function (data) {
             
