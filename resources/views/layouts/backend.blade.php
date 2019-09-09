@@ -1,3 +1,4 @@
+@include('layouts.flash')
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,6 +14,9 @@
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css')}}">
   <!-- Tempusdominus Bbootstrap 4 -->
   <link rel="stylesheet" href="{{asset('assets/backend/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css')}}">
+  <!-- Select2 -->
+  <link rel="stylesheet" href="{{ asset('assets/backend/plugins/select2/css/select2.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('assets/backend/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
   <!-- iCheck -->
   <link rel="stylesheet" href="{{asset('assets/backend/plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
   <!-- JQVMap -->
@@ -38,7 +42,6 @@
 <div class="wrapper">
 
   <!-- Navbar -->
-  @include('layouts.backend.navbar')
   <!-- /.navbar -->
 
   <!-- Main Sidebar Container -->
@@ -54,7 +57,7 @@
           <img src="{{asset('assets/backend/dist/img/aziz.jpg')}}" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">Mohammad Aziz Riza</a>
+            <p class="text-white">Mohammad Aziz Riza</p>
         </div>
       </div>
 
@@ -63,9 +66,9 @@
           <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
             <!-- Add icons to the links using the .nav-icon class
                  with font-awesome or any other icon font library -->
-            <li class="nav-item has-treeview menu-open">
-              <a href="#" class="nav-link active">
-                {{--  <i class="nav-icon fas fa-tachometer-alt"></i>  --}}
+            <li class="nav-item has-treeview">
+              <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-th"></i>
                 <p>
                   Data Master
                   <i class="right fas fa-angle-left"></i>
@@ -74,29 +77,33 @@
               <ul class="nav nav-treeview">
                   <li class="nav-item">
                       <a href="{{ url('petugas')}}" class="nav-link">
+                        <i class="far fa-circle nav-icon text-info"></i>
                         <p>Petugas</p>
                       </a>
                   </li>
                   <li class="nav-item">
                       <a href="{{ url('anggota')}}" class="nav-link">
+                        <i class="far fa-circle nav-icon text-info"></i>
                         <p>Anggota</p>
                       </a>
                     </li>
                     <li class="nav-item">
                       <a href="{{ url('buku')}}" class="nav-link">
+                        <i class="far fa-circle nav-icon text-info"></i>
                         <p>Buku</p>
                       </a>
                     </li>
                 <li class="nav-item">
                   <a href="{{ url('rak')}}" class="nav-link">
+                    <i class="far fa-circle nav-icon text-info"></i>
                     <p>Rak</p>
                   </a>
                 </li>
               </ul>
             </li>
-            <li class="nav-item has-treeview menu-open">
-                <a href="#" class="nav-link active">
-                  {{--  <i class="nav-icon fas fa-tachometer-alt"></i>  --}}
+            <li class="nav-item has-treeview">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon fas fa-edit"></i>
                   <p>
                     Transaksi
                     <i class="right fas fa-angle-left"></i>
@@ -105,11 +112,13 @@
                 <ul class="nav nav-treeview">
                     <li class="nav-item">
                         <a href="{{ url('peminjaman')}}" class="nav-link">
+                          <i class="far fa-circle nav-icon text-warning"></i>
                           <p>Peminjaman</p>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="{{ url('pengembalian')}}" class="nav-link">
+                          <i class="far fa-circle nav-icon text-warning"></i>
                           <p>Pengembalian</p>
                         </a>
                       </li>
@@ -166,6 +175,8 @@
 <script>
   $.widget.bridge('uibutton', $.ui.button)
 </script>
+<!-- Select2 -->
+<script src="{{ asset('assets/backend/plugins/select2/js/select2.full.min.js') }}"></script>
 <!-- Bootstrap 4 -->
 <script src="{{asset('assets/backend/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <!-- ChartJS -->

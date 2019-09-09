@@ -15,6 +15,15 @@ class User extends Authenticatable
      *
      * @var array
      */
+    public function index(){
+        if(!Session::get('login')){
+            return redirect('login')->with('alert','Kamu harus login dulu');
+        }
+        else{
+            return view('home');
+        }
+    }
+
     protected $fillable = [
         'name', 'email', 'password',
     ];

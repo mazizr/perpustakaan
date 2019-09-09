@@ -120,7 +120,7 @@
 
                 <div class="col-sm-offset-2 col-sm-10">
 
-                 <button type="submit" class="btn btn-outline-primary btn-flat" id="saveBtn" value="create">Save changes
+                 <button type="submit" class="btn btn-outline-primary btn-flat" id="saveBtn" value="create"><ion-icon name="paper-plane"></ion-icon> Save changes
 
                  </button>
 

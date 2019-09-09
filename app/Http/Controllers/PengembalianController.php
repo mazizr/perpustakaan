@@ -64,17 +64,16 @@ class PengembalianController extends Controller
     {
         $tanggal_kembali = strtotime($request->tanggal_kembali);
         $jatuh_tempo = strtotime($request->jatuh_tempo);
-        $jumlah = $jatuh_tempo - $tanggal_kembali;
+        $jumlah =  $tanggal_kembali - $jatuh_tempo ;
         $jumlah_hari = floor($jumlah / (60 * 60 * 24));
         if ($jumlah_hari <= 0) {
             $jumlah_hari = 0;
-            $total_denda = 1*2000;
+            $total_denda = 0;
         }else {
             $total_denda = $jumlah_hari*2000;
         }
-        
-        
 
+        
         Pengembalian::updateOrCreate(['id' => $request->pengembalian_id],
                 [
                     'kode_kembali' => $request->kode_kembali, 

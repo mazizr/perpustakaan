@@ -1,5 +1,5 @@
 @extends('layouts.backend')
-    
+
 @section('content')
 <!-- Main content -->
 <div class="container">
@@ -75,7 +75,7 @@
 
                         <div class="col-sm-12">
 
-                            <select type="text" class="form-control isi-petugas" id="kode_petugas" name="kode_petugas" placeholder="Masukkan Nama Petugas" value="" maxlength="50" required="">
+                            <select type="text" class="form-control select2 isi-petugas" id="kode_petugas" name="kode_petugas" placeholder="Masukkan Nama Petugas" value="" maxlength="50" required="">
                             </select>
                         </div>
 
@@ -87,7 +87,7 @@
 
                         <div class="col-sm-12">
 
-                                <select type="text" class="form-control isi-anggota" id="kode_anggota" name="kode_anggota" placeholder="Masukkan Nama Petugas" value="" maxlength="50" required="">
+                                <select type="text" class="form-control select2 isi-anggota" id="kode_anggota" name="kode_anggota" placeholder="Masukkan Nama Petugas" value="" maxlength="50" required="">
                                 </select>
                         </div>
 
@@ -99,7 +99,7 @@
 
                         <div class="col-sm-12">
 
-                            <select type="text" class="form-control isi-buku" id="kode_buku" name="kode_buku" placeholder="Masukkan Jabatan Petugas" value="" maxlength="50" required="">
+                            <select type="text" class="form-control select2 isi-buku" id="kode_buku" name="kode_buku" placeholder="Masukkan Jabatan Petugas" value="" maxlength="50" required="">
                             </select>
                         </div>
 
@@ -132,7 +132,7 @@
 
                     <div class="col-sm-offset-2 col-sm-10">
 
-                     <button type="submit" class="btn btn-outline-primary btn-flat" id="saveBtn" value="create">Save changes
+                     <button type="submit" class="btn btn-outline-primary btn-flat" id="saveBtn" value="create"><ion-icon name="paper-plane"></ion-icon> Save changes
 
                      </button>
 
@@ -157,13 +157,13 @@
 
 $(function () {
 
-   
-
     $.ajaxSetup({
         headers: {
           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
       });
+
+      $('.select2').select2();
 
   var table = $('.data-table').DataTable({
 
@@ -207,7 +207,7 @@ $(function () {
             $(".isi-buku").append(
                 `
                 <option value="${value.id}">
-                    ${value.kode_buku}
+                    ${value.judul}
                 </option>        
                 `
             )
@@ -226,7 +226,7 @@ $.ajax({
             $(".isi-petugas").append(
                 `
                 <option value="${value.id}">
-                    ${value.kode_petugas}
+                    ${value.nama}
                 </option>        
                 `
             )
@@ -245,7 +245,7 @@ $.ajax({
             $(".isi-anggota").append(
                 `
                 <option value="${value.id}">
-                    ${value.kode_anggota}
+                    ${value.nama}
                 </option>        
                 `
             )
