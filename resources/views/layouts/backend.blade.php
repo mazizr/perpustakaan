@@ -38,6 +38,7 @@
 <div class="wrapper">
 
   <!-- Navbar -->
+  @include('layouts.backend.navbar')
   <!-- /.navbar -->
 
   <!-- Main Sidebar Container -->
@@ -128,7 +129,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0 text-dark"><i class="material-icons">library_books</i>  Perpustakaan</h1>
+            <h1 class="m-0 text-dark"><a class="text-dark" data-widget="pushmenu" href="#"><i class="material-icons">code</i></i></a>  Perpustakaan</h1>
           </div><!-- /.col -->
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->

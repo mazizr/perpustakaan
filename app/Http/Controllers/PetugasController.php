@@ -11,7 +11,8 @@ use App\Petugas;
 use Illuminate\Http\Request;
 
 use DataTables;
-
+use Session;
+use Auth;
         
 
 class PetugasController extends Controller

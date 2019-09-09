@@ -18,7 +18,7 @@
             <th>Kode Buku</th>
             <th>Judul</th>
             <th>Penulis</th>
-            <th>Penerit</th>
+            <th>Penerbit</th>
             <th>Tahun Terbit</th>
             <th width="75px">Buku</th>
 

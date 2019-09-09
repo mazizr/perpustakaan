@@ -20,7 +20,7 @@
                 <th width="5px">Kode Peminjaman</th>
                 <th>Nama Petugas</th>
                 <th>Nama Anggota</th>
-                <th>Nama Buku</th>
+                <th>Judul Buku</th>
                 <th>Tanggal Pinjam</th>
                 <th>Tanggal Kembali</th>
                 <th width="75px">Aksi</th>

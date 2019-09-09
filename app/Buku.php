@@ -12,16 +12,16 @@ class Buku extends Model
 
        public function rak()
         {
-    	    return $this->hasOne('App\Rak', 'kode_buku');
+    	    return $this->hasMany('App\Rak', 'kode_buku');
         }
 
        public function peminjaman()
        {
-           return $this->hasOne('App\Peminjaman', 'kode_buku');
+           return $this->hasMany('App\Peminjaman', 'kode_buku');
        }
 
        public function pengembalian()
         {
-    	    return $this->hasOne('App\Pengembalian', 'kode_buku');
+    	    return $this->hasMany('App\Pengembalian', 'kode_buku');
         }
 }

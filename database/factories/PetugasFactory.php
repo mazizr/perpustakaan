@@ -21,7 +21,7 @@ $factory->define(App\Petugas::class, function (Faker $faker) {
         'kode_petugas' => $faker->numberBetween($min = 0000, $max = 9999),
         'nama' => $faker->name,
         'jk' => $gender,
-        'jabatan' => $fake.job(),  
+        'jabatan' => $faker->jobTitle,  
         'telepon' => $faker->phoneNumber,  
         'alamat' => $faker->address
     ];

@@ -12,11 +12,11 @@ class Anggota extends Model
 
        public function peminjaman()
        {
-           return $this->hasOne('App\Peminjaman', 'kode_anggota');
+           return $this->hasMany('App\Peminjaman', 'kode_anggota');
        }
 
        public function pengembalian()
         {
-    	    return $this->hasOne('App\Pengembalian', 'kode_anggota');
+    	    return $this->hasMany('App\Pengembalian', 'kode_anggota');
         }
 }

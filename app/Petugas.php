@@ -12,11 +12,11 @@ class Petugas extends Model
 
        public function peminjaman()
        {
-           return $this->hasOne('App\Peminjaman', 'kode_petugas');
+           return $this->hasMany('App\Peminjaman', 'kode_petugas');
        }
 
        public function pengembalian()
         {
-    	    return $this->hasOne('App\Pengembalian', 'kode_petugas');
+    	    return $this->hasMany('App\Pengembalian', 'kode_petugas');
         }
 }

@@ -10,6 +10,8 @@ use App\Pengembalian;
 use Illuminate\Http\Request;
 
 use DataTables;
+use Session;
+use Auth;
 
         
 
@@ -65,8 +67,8 @@ class PengembalianController extends Controller
         $jumlah = $jatuh_tempo - $tanggal_kembali;
         $jumlah_hari = floor($jumlah / (60 * 60 * 24));
         if ($jumlah_hari <= 0) {
-            $jumlah_hari = 1;
-            $total_denda = $jumlah_hari*2000;
+            $jumlah_hari = 0;
+            $total_denda = 1*2000;
         }else {
             $total_denda = $jumlah_hari*2000;
         }

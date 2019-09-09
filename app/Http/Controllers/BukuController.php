@@ -11,6 +11,8 @@ use App\Buku;
 use Illuminate\Http\Request;
 
 use DataTables;
+use Session;
+use Auth;
 
         
 

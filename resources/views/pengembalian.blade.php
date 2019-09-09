@@ -22,9 +22,9 @@
                 <th>Denda per Hari</th>
                 <th>Jumlah Hari</th>
                 <th>Total Denda</th>
-                <th>Kode Petugas</th>
-                <th>Kode Anggota</th>
-                <th>Kode Buku</th>
+                <th>Nama Petugas</th>
+                <th>Nama Anggota</th>
+                <th>Nama Buku</th>
                 <th width="75px">Aksi</th>
 
             </tr>

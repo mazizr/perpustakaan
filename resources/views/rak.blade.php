@@ -20,7 +20,7 @@
             <th>No</th>
             <th>Kode Rak</th>
             <th>Nama Rak</th>
-            <th>Kode Buku</th>
+            <th>Judul Buku</th>
             <th>Aksi</th>
 
         </tr>
@@ -96,7 +96,8 @@
 
                     <div class="col-sm-12">
 
-                            <select id="kode_buku" class="form-control isi-tag" placeholder="Pilih Kode Buku" name="kode_buku">
+                        <select id="kode_buku" class="form-control js-example-basic-single isi-tag" name="kode_buku">
+                          </select>
         
                     </div>
 
@@ -118,9 +119,10 @@
 @section('js')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/js/select2.min.js"></script>
 <script>
-        $(document).ready(function() { 
-            $("#e1").select2();
-           });
+    $(document).ready(function() {
+        placeholder: 'Pilih Judul Buku'
+        $('.js-example-basic-single').select2();
+    });
 </script>
 <script type="text/javascript">
 
@@ -156,7 +158,7 @@
 
             {data: 'nama_rak', name: 'nama_rak'},
 
-            {data: 'buku.kode_buku', name: 'kode_buku'},
+            {data: 'buku.judul', name: 'judul', searchable: true},
 
             {data: 'action', name: 'action', orderable: false, searchable: false},
 
@@ -175,7 +177,7 @@
                 $(".isi-tag").append(
                     `
                     <option value="${value.id}">
-                        ${value.kode_buku}
+                        ${value.judul}
                     </option>        
                     `
                 )
@@ -228,6 +230,8 @@
 
     $('#saveBtn').click(function (e) {
 
+        var formData    = new FormData($('#productForm')[0]);
+
         e.preventDefault();
 
         $(this).html('Sending..');
@@ -236,11 +240,16 @@
 
         $.ajax({
 
-          data: $('#productForm').serialize(),
+          data: formData,
 
           url: "{{ url('rak-store') }}",
 
           type: "POST",
+
+          cache: true,
+            contentType: false,
+            processData: false,
+            async:false,
 
           dataType: 'json',
 

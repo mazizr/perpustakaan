@@ -11,6 +11,8 @@ use App\Peminjaman;
 use Illuminate\Http\Request;
 
 use DataTables;
+use Session;
+use Auth;
 
         
 
