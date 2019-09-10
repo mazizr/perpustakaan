@@ -87,6 +87,13 @@ class BukuController extends Controller
 
     {
 
+        $request->validate([
+            'kode_buku' => 'required|max:4',
+            'judul' => 'required',
+            'penulis' => 'required',
+            'penerbit' => 'required',
+            'tahun_terbit' => 'required'
+        ]);
         Buku::updateOrCreate(['id' => $request->buku_id],
 
                 [

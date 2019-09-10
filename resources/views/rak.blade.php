@@ -37,7 +37,7 @@
 
 <div class="modal-dialog modal-lg">
 
-    <div class="modal-content bg-dark">
+    <div class="modal-content">
 
         <div class="modal-header">
 
@@ -88,12 +88,12 @@
 
                 <div class="form-group">
 
-                    <label for="name" class="col-sm-2 control-label">Kode Buku</label>
+                    <label for="name" class="col-sm-2 control-label">Judul Buku</label>
 
                     <div class="col-sm-12">
 
-                        <select id="kode_buku" class="form-control isi-tag select2" style="width: 100%;" name="kode_buku">
-                          </select>
+                          <select id="buku" class="form-control buku select2" multiple="multiple" data-placeholder="Select a State"
+                          style="width: 100%;" name="buku[]">
         
                     </div>
 
@@ -114,6 +114,28 @@
 
 @section('js')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/js/select2.min.js"></script>
+<script>
+    $("#productForm").validate({
+        rules: {
+            kode_rak:{
+                required: true,
+                maxlength: 4
+            },
+            nama_rak: {
+                required:true
+            }
+        },
+        messages:{
+            kode_rak:{
+                required:"Harap diisi",
+                maxlength : "Tidak bisa lebih dari 4"
+            },
+            nama_rak:{
+                required:"Harap diisi"
+            }
+        }
+    })
+</script>
 <script type="text/javascript">
 
   $(function () {
@@ -148,7 +170,10 @@
 
             {data: 'nama_rak', name: 'nama_rak'},
 
-            {data: 'buku.judul', name: 'judul', searchable: true},
+            { data: 'buku[].judul', render :  function(judul){
+                return `${judul}`;
+                }
+            },
 
             {data: 'action', name: 'action', orderable: false, searchable: false},
 
@@ -157,6 +182,7 @@
     });
 
     $.ajax({
+        
         url: "{{ url('buku') }}",
         method: "GET",
         dataType: "json",
@@ -164,9 +190,9 @@
         success: function (berhasil) {
             // console.log(berhasil)
             $.each(berhasil.data, function (key, value) {
-                $(".isi-tag").append(
+                $(".buku").append(
                     `
-                    <option value="${value.id}">
+                    <option value="${value.id}" (buku_id[key]==value.id?'selected':'')>
                         ${value.judul}
                     </option>        
                     `
@@ -189,7 +215,6 @@
         $('#ajaxModel').modal('show');
 
     });
-
     
 
     $('body').on('click', '.editProduct', function () {
@@ -210,7 +235,10 @@
 
           $('#nama_rak').val(data.nama_rak);
 
-          $('#kode_buku').val(data.kode_buku);
+            $('#buku').select2(data.buku.judul);
+
+          
+        
 
       })
 

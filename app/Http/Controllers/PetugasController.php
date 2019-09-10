@@ -63,6 +63,13 @@ class PetugasController extends Controller
     public function store(Request $request)
 
     {
+
+        $request->validate([
+            'kode_petugas' => 'required|max:4',
+            'nama' => 'required',
+            'jabatan' => 'required',
+            'telepon' => 'required'
+        ]);
         Petugas::updateOrCreate(['id' => $request->petugas_id],
                 [
                     'kode_petugas' => $request->kode_petugas, 

@@ -43,7 +43,7 @@
 
     <div class="modal-dialog">
 
-        <div class="modal-content bg-dark">
+        <div class="modal-content">
 
             <div class="modal-header">
 
@@ -153,6 +153,22 @@
 
 
 @section('js')
+<script>
+    $("#productForm").validate({
+        rules: {
+            kode_pinjam:{
+                required: true,
+                maxlength: 4
+            }
+        },
+        messages:{
+            kode_pinjam:{
+                required:"Harap diisi",
+                maxlength : "Tidak bisa lebih dari 4"
+            }
+        }
+    })
+</script>
 <script type="text/javascript">
 
 $(function () {

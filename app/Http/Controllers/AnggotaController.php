@@ -9,11 +9,10 @@ namespace App\Http\Controllers;
 use App\Anggota;
 
 use Illuminate\Http\Request;
-
 use DataTables;
 use Session;
 use Auth;
-
+use Validator;
         
 
 class AnggotaController extends Controller
@@ -86,6 +85,12 @@ class AnggotaController extends Controller
     public function store(Request $request)
 
     {
+        $request->validate([
+            'kode_anggota' => 'required|max:4',
+            'nama' => 'required',
+            'jurusan' => 'required',
+            'alamat' => 'required'
+        ]);
 
         Anggota::updateOrCreate(['id' => $request->anggota_id],
 

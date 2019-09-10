@@ -40,7 +40,7 @@
 
 <div class="modal-dialog">
 
-    <div class="modal-content bg-dark">
+    <div class="modal-content">
 
         <div class="modal-header">
 
@@ -92,7 +92,7 @@
 
                 <div class="form-group">
 
-                    <label for="name" class="col-sm-2 control-label">Penerit</label>
+                    <label for="name" class="col-sm-2 control-label">Penerbit</label>
 
                     <div class="col-sm-12">
 
@@ -137,6 +137,47 @@
 @endsection
 
 @section('js')
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+<script>
+    $("#productForm").validate({
+        rules: {
+            kode_buku:{
+                required: true,
+                maxlength: 4
+            },
+            judul: {
+                required:true
+            },
+            penulis: {
+                required:true
+            },
+            penerbit: {
+                required:true
+            },
+            tahun_terbit: {
+                required:true
+            }
+        },
+        messages:{
+            kode_buku:{
+                required:"Harap diisi",
+                maxlength : "Tidak bisa lebih dari 4"
+            },
+            judul:{
+                required:"Harap diisi"
+            },
+            penulis:{
+                required:"Harap diisi"
+            },
+            penerbit:{
+                required:"Harap diisi"
+            },
+            alamat:{
+                required:"Tentukkan tahun terbitnya"
+            }
+        }
+    })
+</script>
 <script type="text/javascript">
 
   $(function () {

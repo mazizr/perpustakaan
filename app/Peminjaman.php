@@ -3,10 +3,15 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 use Session;
 
 class Peminjaman extends Model
 {
+    use SoftDeletes;
+
+
     protected $fillable = [
         'kode_pinjam', 'tanggal_pinjam', 'tanggal_kembali', 'kode_petugas', 'kode_anggota', 'kode_buku'
        ];
@@ -25,5 +30,23 @@ class Peminjaman extends Model
        {
            return $this->belongsTo('App\Buku', 'kode_buku');
        }
+
+       public function pengembalian()
+       {
+        return $this->hasMany('App\Pengembalian', 'kode_pinjam');
+       }
+       
+
+       public static function boot()
+    {
+        parent::boot();
+        self::deleting(function (Peminjaman $peminjaman) {
+            // mengecek apakah penulis masih punya buku
+            if ($peminjaman->pengembalian->count() > 0) {
+                // membatalkan proses penghapusan
+                return true;
+            }
+        });
+    }
 
 }

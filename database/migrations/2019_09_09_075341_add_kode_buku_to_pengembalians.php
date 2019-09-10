@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRaksTable extends Migration
+class AddKodeBukuToPengembalians extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,8 @@ class CreateRaksTable extends Migration
      */
     public function up()
     {
-        Schema::create('raks', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->String('kode_rak');
-            $table->String('nama_rak');
-            $table->timestamps();
+        Schema::table('pengembalians', function (Blueprint $table) {
+            $table->unsignedBigInteger('kode_pinjam');
         });
     }
 
@@ -28,6 +25,8 @@ class CreateRaksTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('raks');
+        Schema::table('pengembalians', function (Blueprint $table) {
+            //
+        });
     }
 }

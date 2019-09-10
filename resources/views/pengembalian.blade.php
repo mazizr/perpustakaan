@@ -17,6 +17,7 @@
 
                 <th width="10px">No</th>
                 <th width="5px">Kode Kembali</th>
+                <th>Kode Pinjam</th>
                 <th>Tanggal Kembali</th>
                 <th>Jatuh Tempo</th>
                 <th>Denda per Hari</th>
@@ -69,6 +70,18 @@
 
                         </div>
 
+                    </div>
+
+                    <div class="form-group">
+
+                            <label for="name" class="col-sm-2 control-label">Kode Pinjam</label>
+    
+                            <div class="col-sm-12">
+    
+                                <select type="text" class="form-control select2 isi-pinjam" id="kode_pinjam" name="kode_pinjam" placeholder="Masukkan Nama Petugas" value="" maxlength="50" required="">
+                                </select>
+                            </div>
+    
                     </div>
 
                     <div class="form-group">
@@ -154,6 +167,22 @@
 
 
 @section('js')
+<script>
+    $("#productForm").validate({
+        rules: {
+            kode_kembali:{
+                required: true,
+                maxlength: 4
+            }
+        },
+        messages:{
+            kode_kembali:{
+                required:"Harap diisi",
+                maxlength : "Tidak bisa lebih dari 4"
+            }
+        }
+    })
+</script>
 <script type="text/javascript">
 
 $(function () {
@@ -182,6 +211,8 @@ $(function () {
 
           {data: 'kode_kembali', name: 'kode_kembali'},
 
+          {data: 'peminjaman.kode_pinjam', name: 'kode_pinjam'},
+
           {data: 'tanggal_kembali', name: 'tanggal_kembali'},
 
           {data: 'jatuh_tempo', name: 'jatuh_tempo'},
@@ -204,6 +235,25 @@ $(function () {
       ]
 
   });
+
+  $.ajax({
+    url: "{{ url('peminjaman') }}",
+    method: "GET",
+    dataType: "json",
+    
+    success: function (berhasil) {
+        // console.log(berhasil)
+        $.each(berhasil.data, function (key, value) {
+            $(".isi-pinjam").append(
+                `
+                <option value="${value.id}">
+                    ${value.kode_pinjam}
+                </option>        
+                `
+            )
+        }) 
+    }
+})
 
   $.ajax({
     url: "{{ url('buku') }}",

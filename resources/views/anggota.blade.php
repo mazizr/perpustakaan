@@ -40,15 +40,24 @@
 
 <div class="modal-dialog">
 
-    <div class="modal-content bg-dark">
+    <div class="modal-content">
 
         <div class="modal-header">
 
             <h4 class="modal-title" id="modelHeading"></h4>
 
         </div>
-
         <div class="modal-body">
+
+            @if ($errors->any())
+            <div class="toastrDefaultError">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
             <form id="productForm" name="productForm" class="form-horizontal">
 
@@ -60,8 +69,13 @@
 
                     <div class="col-sm-12">
 
-                        <input type="text" class="form-control" id="kode_anggota" name="kode_anggota" placeholder="Masukkan Kode Anggota" value="" maxlength="50" required="">
-
+                        <input type="text" class="form-control @error('kode_anggota') is-invalid @enderror" 
+                        id="kode_anggota" name="kode_anggota" placeholder="Masukkan Kode Anggota" value="" maxlength="50" required="">
+                        @error('kode_anggota')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{$message}}</strong>
+                                        </span>
+                                        @enderror
                     </div>
 
                 </div>
@@ -140,20 +154,46 @@
 @endsection
 
     @section('js')
+    <script>
+        $("#productForm").validate({
+            rules: {
+                kode_anggota: {
+                    required:true,
+                    maxlength : 4
+                },
+                nama: {
+                    required:true
+                },
+                jurusan: {
+                    required:true
+                },
+                alamat: {
+                    required:true
+                }
+            },
+            messages:{
+                kode_anggota:{
+                    required:"Harap diisi",
+                    maxlength:"Tidak bisa lebih dari 4"
+                },
+                nama:{
+                    required:"Harap diisi"
+                },
+                jurusan:{
+                    required:"Harap diisi"
+                },
+                alamat:{
+                    required:"Harap diisi"
+                }
+            }
+        })
+    </script>
     <script type="text/javascript">
-
       $(function () {
-    
-         
-    
           $.ajaxSetup({
-    
               headers: {
-    
                   'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    
               }
-    
         });
     
         
@@ -232,14 +272,11 @@
     
        });
     
-        
-    
         $('#saveBtn').click(function (e) {
     
             e.preventDefault();
     
             $(this).html('Sending..');
-    
         
     
             $.ajax({
@@ -253,7 +290,6 @@
               dataType: 'json',
     
               success: function (data) {
-    
          
     
                   $('#productForm').trigger("reset");

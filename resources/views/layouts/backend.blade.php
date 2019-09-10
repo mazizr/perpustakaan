@@ -35,6 +35,8 @@
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!-- bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
   @yield('css')
     
 </head>
@@ -146,6 +148,7 @@
     <!-- /.content-header -->
 
     <!-- Main content -->
+    @include('layouts.flash')
     @yield('content')
     <!-- /.content -->
   </div>
@@ -214,6 +217,7 @@
   </script>
 <!-- AdminLTE for demo purposes -->
 <script src="{{asset('assets/backend/dist/js/demo.js')}}"></script>
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
 @yield('js')
 </body>
 </html>

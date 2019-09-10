@@ -64,6 +64,10 @@ class PeminjamanController extends Controller
     public function store(Request $request)
 
     {
+        $request->validate([
+            'kode_pinjam' => 'required|max:4'
+        ]);
+
         Peminjaman::updateOrCreate(['id' => $request->peminjaman_id],
                 [
                     'kode_pinjam' => $request->kode_pinjam, 

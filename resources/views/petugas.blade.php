@@ -43,7 +43,7 @@
 
         <div class="modal-dialog">
     
-            <div class="modal-content bg-dark">
+            <div class="modal-content">
     
                 <div class="modal-header">
     
@@ -156,6 +156,43 @@
     
 
 @section('js')
+<script>
+    $("#productForm").validate({
+        rules: {
+            kode_petugas:{
+                required: true,
+                maxlength: 4
+            },
+            nama: {
+                required:true
+            },
+            jabatan: {
+                required:true
+            },
+            telepon: {
+                required:true
+            }
+        },
+        messages:{
+            kode_petugas:{
+                required:"Harap diisi",
+                maxlength : "Tidak bisa lebih dari 4"
+            },
+            nama:{
+                required:"Harap diisi"
+            },
+            jabatan:{
+                required:"Harap diisi"
+            },
+            telepon:{
+                required:"Harap diisi"
+            },
+            alamat:{
+                required:"Tentukkan tahun terbitnya"
+            }
+        }
+    })
+</script>
 <script type="text/javascript">
 
     $(function () {

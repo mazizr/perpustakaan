@@ -22,6 +22,12 @@ class CreateBukusTable extends Migration
             $table->date('tahun_terbit');
             $table->timestamps();
         });
+
+        Schema::create('rak_buku', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->unsignedInteger('buku_id');
+            $table->unsignedInteger('rak_id');
+        });
     }
 
     /**
@@ -32,5 +38,6 @@ class CreateBukusTable extends Migration
     public function down()
     {
         Schema::dropIfExists('bukus');
+        Schema::dropIfExists('rak_buku');
     }
 }

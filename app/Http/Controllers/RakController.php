@@ -66,20 +66,37 @@ class RakController extends Controller
 
     {
 
-        Rak::updateOrCreate(['id' => $request->rak_id],
+        $request->validate([
+            'kode_rak' => 'required|max:4',
+            'nama_rak' => 'required'
+        ]);
+        $rak = Rak::updateOrCreate(['id' => $request->rak_id],
 
                 [
                     'kode_rak' => $request->kode_rak, 
-                    'nama_rak' => $request->nama_rak,
-                    'kode_buku' => $request->kode_buku
+                    'nama_rak' => $request->nama_rak
+                    
+                ],
 
-                ]
-        );        
-
+                
+        );     
+        $rak->buku()->sync($request->buku);
    
-
+        
         return response()->json(['success'=>'Product saved successfully.']);
 
+        // $rak = new Rak;
+        // $rak->kode_rak = $request->kode_rak;
+        // $rak->nama_rak = $request->nama_rak;
+        // $rak->save();
+        // $rak->buku()->attach($request->buku);
+        // $response = [
+        //     'success' => true,
+        //     'data' => $rak,
+        //     'message' => 'berhasil'
+        // ];
+        // return response()->json($response, 200);
+        
     }
     
 
@@ -100,7 +117,7 @@ class RakController extends Controller
     {
 
         $rak = Rak::find($id);
-
+        $rak->buku->pluck('id')->toArray();
         return response()->json($rak);
 
     }

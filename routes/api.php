@@ -26,4 +26,8 @@ Route::resource('rak', 'RakAPIController', [
     'only' => ['index', 'show', 'store', 'update', 'destroy']
 ]);
 
+Route::resource('buku', 'BukuAPIController', [
+    'only' => ['index', 'show', 'store', 'update', 'destroy']
+]);
+
 
