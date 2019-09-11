@@ -71,6 +71,7 @@
                         <input type="text" class="form-control" id="kode_rak" name="kode_rak" placeholder="Masukkan Kode Rak" value="" maxlength="50" required="">
 
                     </div>
+                    <span id="error_kode_buku"></span>
 
                 </div>
 
@@ -92,7 +93,7 @@
 
                     <div class="col-sm-12">
 
-                          <select id="buku" class="form-control buku select2" multiple="multiple" data-placeholder="Select a State"
+                          <select id="buku" class="form-control buku select2" multiple="multiple"
                           style="width: 100%;" name="buku[]">
         
                     </div>
@@ -114,28 +115,6 @@
 
 @section('js')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/js/select2.min.js"></script>
-<script>
-    $("#productForm").validate({
-        rules: {
-            kode_rak:{
-                required: true,
-                maxlength: 4
-            },
-            nama_rak: {
-                required:true
-            }
-        },
-        messages:{
-            kode_rak:{
-                required:"Harap diisi",
-                maxlength : "Tidak bisa lebih dari 4"
-            },
-            nama_rak:{
-                required:"Harap diisi"
-            }
-        }
-    })
-</script>
 <script type="text/javascript">
 
   $(function () {
@@ -152,7 +131,12 @@
 
     });
 
-    $('.select2').select2();
+    $('.select2').select2({
+        placeholder: "Pilih Judul Buku",
+        maximumSelectionLength: 4,
+        tags: true,
+        tokenSeparators: [',', ' ']
+    });
 
     var table = $('.data-table').DataTable({
 
@@ -182,7 +166,6 @@
     });
 
     $.ajax({
-        
         url: "{{ url('buku') }}",
         method: "GET",
         dataType: "json",
@@ -192,7 +175,7 @@
             $.each(berhasil.data, function (key, value) {
                 $(".buku").append(
                     `
-                    <option value="${value.id}" (buku_id[key]==value.id?'selected':'')>
+                    <option value="${value.id}">
                         ${value.judul}
                     </option>        
                     `
@@ -213,6 +196,8 @@
         $('#modelHeading').html("Create New");
 
         $('#ajaxModel').modal('show');
+
+        $('#error_kode_buku').hide();
 
     });
     
@@ -235,7 +220,8 @@
 
           $('#nama_rak').val(data.nama_rak);
 
-            $('#buku').select2(data.buku.judul);
+            $('#buku').val([data.buku.id]);
+            $('#buku').trigger('change');
 
           
         
@@ -298,9 +284,14 @@
           },
 
           error: function (data) {
-
-              console.log('Error:', data);
-
+            var errors = data.responseJSON;
+              console.log(errors);
+              Swal.fire({
+                
+                type: 'error',
+                title: 'Oops...',
+                text: errors.message
+              })
               $('#saveBtn').html('Save Changes');
 
           }
