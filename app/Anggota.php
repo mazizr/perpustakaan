@@ -23,4 +23,6 @@ class Anggota extends Model
         {
     	    return $this->hasMany('App\Pengembalian', 'kode_anggota');
         }
+
+        
 }

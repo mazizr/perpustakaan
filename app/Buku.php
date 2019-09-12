@@ -4,7 +4,6 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-
 use Session;
 
 class Buku extends Model
@@ -30,4 +29,5 @@ class Buku extends Model
         {
     	    return $this->hasMany('App\Pengembalian', 'kode_buku');
         }
+
 }

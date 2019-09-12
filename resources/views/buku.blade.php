@@ -1,6 +1,7 @@
 @extends('layouts.backend')
 
 @section('content')
+@include('layouts.flash')
 <!-- Main content -->
 <div class="container">
 
@@ -49,7 +50,14 @@
         </div>
 
         <div class="modal-body">
-
+                <div id="result"></div>
+                <div class="alert alert-danger" style="display:none">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
             <form id="productForm" name="productForm" class="form-horizontal">
 
                <input type="hidden" name="buku_id" id="buku_id">
@@ -227,17 +235,16 @@
      
 
     $('#createNewProduct').click(function () {
-
         $('#saveBtn').val("create-product");
-
         $('#buku_id').val('');
-
         $('#productForm').trigger("reset");
-
         $('#modelHeading').html("Create New");
-
         $('#ajaxModel').modal('show');
-
+        $('.alert-danger').html('');
+        $('.alert-danger').css('display','none');
+        $("input").keypress(function(){
+            $('.alert-danger').css('display','none');
+        });
     });
 
     
@@ -247,24 +254,20 @@
       var buku_id = $(this).data('id');
 
       $.get("{{ url('buku') }}" +'/' + buku_id +'/edit', function (data) {
-
           $('#modelHeading').html("Edit Product");
-
           $('#saveBtn').val("edit-user");
-
           $('#ajaxModel').modal('show');
-
           $('#buku_id').val(data.id);
-
           $('#kode_buku').val(data.kode_buku);
-
           $('#judul').val(data.judul);
-
           $('#penulis').val(data.penulis);
-
           $('#penerbit').val(data.penerbit);
-
           $('#tahun_terbit').val(data.tahun_terbit);
+          $('.alert-danger').html('');
+            $('.alert-danger').css('display','none');
+            $("input").keypress(function(){
+                $('.alert-danger').css('display','none');
+            });
 
       })
 
@@ -312,13 +315,16 @@
 
           },
 
-          error: function (data) {
-
-              console.log('Error:', data);
-
-              $('#saveBtn').html('Save Changes');
-
-          }
+          error: function (request, status, error) {
+            $('.alert-danger').html('');
+            json = $.parseJSON(request.responseText);
+            $.each(json.errors, function(key, value){
+                $('.alert-danger').show();
+                $('.alert-danger').append('<p>'+value+'</p>');
+            });
+            $("#result").html('');
+            $('#saveBtn').html('Save Changes');
+        }
 
       });
 

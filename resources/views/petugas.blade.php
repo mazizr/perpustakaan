@@ -52,7 +52,14 @@
                 </div>
     
                 <div class="modal-body">
-    
+                    <div id="result"></div>
+                    <div class="alert alert-danger" style="display:none">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
                     <form id="productForm" name="productForm" class="form-horizontal">
     
                        <input type="hidden" name="petugas_id" id="petugas_id">
@@ -82,19 +89,25 @@
                         </div>
     
                         <div class="form-group">
-    
-                            <label for="name" class="col-sm-2 control-label">Jenis Kelamin</label>
-    
-                            <div class="col-sm-12">
-    
-                                <select id="jk" class="form-control" placeholder="Pilih Jenis Kelamin" name="jk">
-                                    <option value="Laki - Laki">Laki - Laki</option>
-                                    <option value="Perempuan">Perempuan</option>
-                                </select>
-        
+
+                                <label for="name" class="col-sm-2 control-label">Jenis Kelamin</label>
+            
+                                <div class="col-sm-12">
+            
+                                        <div class="form-group">
+                                                <div class="custom-control custom-radio">
+                                                  <input class="custom-control-input jk" type="radio" id="customRadio1" value="Laki - Laki" name="jk">
+                                                  <label for="customRadio1" class="custom-control-label">Laki - Laki</label>
+                                                </div>
+                                                <div class="custom-control custom-radio">
+                                                    <input class="custom-control-input jk" type="radio" value="Perempuan" id="customRadio2" name="jk">
+                                                    <label for="customRadio2" class="custom-control-label">Perempuan</label>
+                                                </div>
+                                        </div>
+            
+                                </div>
+            
                             </div>
-    
-                        </div>
     
                         <div class="form-group">
     
@@ -239,17 +252,16 @@
        
   
       $('#createNewProduct').click(function () {
-  
           $('#saveBtn').val("create-product");
-  
           $('#petugas_id').val('');
-  
           $('#productForm').trigger("reset");
-  
           $('#modelHeading').html("Create New");
-  
           $('#ajaxModel').modal('show');
-  
+          $('.alert-danger').html('');
+          $('.alert-danger').css('display','none');
+          $("input").keypress(function(){
+              $('.alert-danger').css('display','none');
+          });
       });
   
       
@@ -259,27 +271,25 @@
         var petugas_id = $(this).data('id');
   
         $.get("{{ url('petugas') }}" +'/' + petugas_id +'/edit', function (data) {
-  
             $('#modelHeading').html("Edit Product");
-  
             $('#saveBtn').val("edit-user");
-  
             $('#ajaxModel').modal('show');
-  
             $('#petugas_id').val(data.id);
-  
             $('#kode_petugas').val(data.kode_petugas);
-  
             $('#nama').val(data.nama);
-  
-            $('#jk').val(data.jk);
-  
+            if(data.jk == 'Laki - Laki'){
+                $("input[name='jk'][value='Laki - Laki']").prop('checked', true);
+            }else{
+              $("input[name='jk'][value='Perempuan']").prop('checked', true);
+            }
             $('#jabatan').val(data.jabatan);
-  
             $('#telepon').val(data.telepon);
-  
             $('#alamat').val(data.alamat);
-  
+            $('.alert-danger').html('');
+            $('.alert-danger').css('display','none');
+            $("input").keypress(function(){
+                $('.alert-danger').css('display','none');
+            });
         })
   
      });
@@ -329,12 +339,15 @@
   
             },
   
-            error: function (data) {
-  
-                console.log('Error:', data);
-  
+            error: function (request, status, error) {
+                $('.alert-danger').html('');
+                json = $.parseJSON(request.responseText);
+                $.each(json.errors, function(key, value){
+                    $('.alert-danger').show();
+                    $('.alert-danger').append('<p>'+value+'</p>');
+                });
+                $("#result").html('');
                 $('#saveBtn').html('Save Changes');
-  
             }
   
         });

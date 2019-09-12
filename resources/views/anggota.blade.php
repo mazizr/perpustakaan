@@ -49,16 +49,14 @@
         </div>
         <div class="modal-body">
 
-            @if ($errors->any())
-            <div class="toastrDefaultError">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-
+            <div id="result"></div>
+            <div class="alert alert-danger" style="display:none">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
             <form id="productForm" name="productForm" class="form-horizontal">
 
                <input type="hidden" name="anggota_id" id="anggota_id">
@@ -98,10 +96,16 @@
 
                     <div class="col-sm-12">
 
-                            <select id="jk" class="form-control" placeholder="Pilih Jenis Kelamin" name="jk">
-                                <option value="Laki - Laki">Laki - Laki</option>
-                                <option value="Perempuan">Perempuan</option>
-                            </select>
+                            <div class="form-group">
+                                    <div class="custom-control custom-radio">
+                                      <input class="custom-control-input jk" type="radio" id="customRadio1" value="Laki - Laki" name="jk">
+                                      <label for="customRadio1" class="custom-control-label">Laki - Laki</label>
+                                    </div>
+                                    <div class="custom-control custom-radio">
+                                        <input class="custom-control-input jk" type="radio" value="Perempuan" id="customRadio2" name="jk">
+                                        <label for="customRadio2" class="custom-control-label">Perempuan</label>
+                                    </div>
+                            </div>
 
                     </div>
 
@@ -229,17 +233,16 @@
          
     
         $('#createNewProduct').click(function () {
-    
             $('#saveBtn').val("create-product");
-    
             $('#anggota_id').val('');
-    
             $('#productForm').trigger("reset");
-    
             $('#modelHeading').html("Create New");
-    
             $('#ajaxModel').modal('show');
-    
+            $('.alert-danger').html('');
+            $('.alert-danger').css('display','none');
+            $("input").keypress(function(){
+                $('.alert-danger').css('display','none');
+            });
         });
     
         
@@ -249,25 +252,24 @@
           var anggota_id = $(this).data('id');
     
           $.get("{{ url('anggota') }}" +'/' + anggota_id +'/edit', function (data) {
-    
               $('#modelHeading').html("Edit Product");
-    
               $('#saveBtn').val("edit-user");
-    
               $('#ajaxModel').modal('show');
-    
               $('#anggota_id').val(data.id);
-    
               $('#kode_anggota').val(data.kode_anggota);
-    
               $('#nama').val(data.nama);
-    
-              $('#jk').val(data.jk);
-    
+              if(data.jk == 'Laki - Laki'){
+                  $("input[name='jk'][value='Laki - Laki']").prop('checked', true);
+              }else{
+                $("input[name='jk'][value='Perempuan']").prop('checked', true);
+              }
               $('#jurusan').val(data.jurusan);
-    
               $('#alamat').val(data.alamat);
-    
+              $('.alert-danger').html('');
+              $('.alert-danger').css('display','none');
+              $("input").keypress(function(){
+                  $('.alert-danger').css('display','none');
+              });
           })
     
        });
@@ -312,13 +314,16 @@
     
               },
     
-              error: function (data) {
-    
-                  console.log('Error:', data);
-    
-                  $('#saveBtn').html('Save Changes');
-    
-              }
+              error: function (request, status, error) {
+                $('.alert-danger').html('');
+                json = $.parseJSON(request.responseText);
+                $.each(json.errors, function(key, value){
+                    $('.alert-danger').show();
+                    $('.alert-danger').append('<p>'+value+'</p>');
+                });
+                $("#result").html('');
+                $('#saveBtn').html('Save Changes');
+            }
     
           });
     

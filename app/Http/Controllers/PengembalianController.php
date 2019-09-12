@@ -6,9 +6,9 @@ namespace App\Http\Controllers;
           
 
 use App\Pengembalian;
-
+use App\Http\Controllers\Controller;
+use App\Http\Requests\PengembalianRequest;
 use Illuminate\Http\Request;
-
 use DataTables;
 use Session;
 use Auth;
@@ -60,12 +60,8 @@ class PengembalianController extends Controller
 
      */
 
-    public function store(Request $request)
+    public function store(PengembalianRequest $request)
     {
-
-        $request->validate([
-            'kode_kembali' => 'required|max:4'
-        ]);
 
         $tanggal_kembali = strtotime($request->tanggal_kembali);
         $jatuh_tempo = strtotime($request->jatuh_tempo);

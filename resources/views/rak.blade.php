@@ -46,7 +46,14 @@
         </div>
 
         <div class="modal-body">
-
+            <div id="result"></div>
+            <div class="alert alert-danger" style="display:none">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
             <form id="productForm" name="productForm" class="form-horizontal">
 
                <input type="hidden" name="rak_id" id="rak_id">
@@ -69,9 +76,9 @@
                     <div class="col-sm-12">
 
                         <input type="text" class="form-control" id="kode_rak" name="kode_rak" placeholder="Masukkan Kode Rak" value="" maxlength="50" required="">
-
+                        
                     </div>
-                    <span id="error_kode_buku"></span>
+                    
 
                 </div>
 
@@ -114,62 +121,56 @@
 @endsection
 
 @section('js')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.5.3/js/bootstrapValidator.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/js/select2.min.js"></script>
 <script type="text/javascript">
 
   $(function () {
-
-     
-
       $.ajaxSetup({
-
           headers: {
-
               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-
           }
-
     });
 
     $('.select2').select2({
         placeholder: "Pilih Judul Buku",
         maximumSelectionLength: 4,
-        tags: true,
-        tokenSeparators: [',', ' ']
+        tags: true
     });
-
     var table = $('.data-table').DataTable({
-
         processing: true,
-
         serverSide: true,
-
         ajax: "{{ url('rak') }}",
-
         columns: [
-
             {data: 'DT_RowIndex', name: 'DT_RowIndex'},
-
             {data: 'kode_rak', name: 'kode_rak'},
-
             {data: 'nama_rak', name: 'nama_rak'},
-
             { data: 'buku[].judul', render :  function(judul){
                 return `${judul}`;
                 }
             },
-
             {data: 'action', name: 'action', orderable: false, searchable: false},
 
         ]
 
     });
+     
 
+    $('#createNewProduct').click(function () {
+        $('#saveBtn').val("create-product");
+        $('#rak_id').val('');
+        $('#productForm').trigger("reset");
+        $('#buku').val('').trigger('change');
+        $('#modelHeading').html("Create New");
+        $('#ajaxModel').modal('show');
+        $('.alert-danger').html('');
+        $('.alert-danger').css('display','none');
+    });
+    
     $.ajax({
         url: "{{ url('buku') }}",
         method: "GET",
-        dataType: "json",
-        
+        dataType: "json",      
         success: function (berhasil) {
             // console.log(berhasil)
             $.each(berhasil.data, function (key, value) {
@@ -183,48 +184,24 @@
             }) 
         }
     })
-     
-
-    $('#createNewProduct').click(function () {
-
-        $('#saveBtn').val("create-product");
-
-        $('#rak_id').val('');
-
-        $('#productForm').trigger("reset");
-
-        $('#modelHeading').html("Create New");
-
-        $('#ajaxModel').modal('show');
-
-        $('#error_kode_buku').hide();
-
-    });
-    
 
     $('body').on('click', '.editProduct', function () {
-
       var rak_id = $(this).data('id');
-
       $.get("{{ url('rak') }}" +'/' + rak_id +'/edit', function (data) {
-
-          $('#modelHeading').html("Edit Product");
-
-          $('#saveBtn').val("edit-user");
-
-          $('#ajaxModel').modal('show');
-
-          $('#rak_id').val(data.id);
-
-          $('#kode_rak').val(data.kode_rak);
-
-          $('#nama_rak').val(data.nama_rak);
-
-            $('#buku').val([data.buku.id]);
-            $('#buku').trigger('change');
-
-          
-        
+            $('#modelHeading').html("Edit Product");
+            $('#saveBtn').val("edit-user");
+            $('#ajaxModel').modal('show');
+            $('#rak_id').val(data.rak.id);
+            $('#kode_rak').val(data.rak.kode_rak);
+            $('#nama_rak').val(data.rak.nama_rak);
+            $('#buku').html('');
+            $('#buku').html(data.buku);
+            $('.alert-danger').html('');
+            $('.alert-danger').css('display','none');
+            $("input").keypress(function(){
+                $('.alert-danger').css('display','none');
+            });
+            
 
       })
 
@@ -259,8 +236,6 @@
 
           success: function (data) {
 
-     
-
               $('#productForm').trigger("reset");
 
               $('#ajaxModel').modal('hide');
@@ -283,18 +258,17 @@
 
           },
 
-          error: function (data) {
-            var errors = data.responseJSON;
-              console.log(errors);
-              Swal.fire({
-                
-                type: 'error',
-                title: 'Oops...',
-                text: errors.message
-              })
-              $('#saveBtn').html('Save Changes');
-
-          }
+          
+          error: function (request, status, error) {
+            $('.alert-danger').html('');
+            json = $.parseJSON(request.responseText);
+            $.each(json.errors, function(key, value){
+                $('.alert-danger').show();
+                $('.alert-danger').append('<p>'+value+'</p>');
+            });
+            $("#result").html('');
+            $('#saveBtn').html('Save Changes');
+        }
 
       });
 

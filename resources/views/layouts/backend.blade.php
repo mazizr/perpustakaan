@@ -148,7 +148,7 @@
     <!-- /.content-header -->
 
     <!-- Main content -->
-    @include('layouts.flash')
+    
     @yield('content')
     <!-- /.content -->
   </div>

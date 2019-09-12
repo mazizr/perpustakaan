@@ -1,18 +1,14 @@
-<?php
+<?php      
 
-         
-
-namespace App\Http\Controllers;
-
-          
+namespace App\Http\Controllers;      
 
 use App\Anggota;
-
+use App\Http\Controllers\Controller;
+use App\Http\Requests\AnggotaRequest;
 use Illuminate\Http\Request;
 use DataTables;
 use Session;
 use Auth;
-use Validator;
         
 
 class AnggotaController extends Controller
@@ -48,10 +44,9 @@ class AnggotaController extends Controller
    
 
                         $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Edit" class="edit btn btn-primary btn-sm editProduct"><ion-icon name="create"></ion-icon></a>';
-                        $btn = $btn.' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Delete" class="btn btn-danger btn-sm deleteAnggota"><ion-icon name="trash"></ion-icon></a>';
-
-    
-
+                        if ($row->peminjaman->count() == 0) {
+                            $btn = $btn.' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Delete" class="btn btn-danger btn-sm deleteAnggota"><ion-icon name="trash"></ion-icon></a>';
+                        }
                             return $btn;
 
                     })
@@ -82,15 +77,9 @@ class AnggotaController extends Controller
 
      */
 
-    public function store(Request $request)
+    public function store(AnggotaRequest $request)
 
     {
-        $request->validate([
-            'kode_anggota' => 'required|max:4',
-            'nama' => 'required',
-            'jurusan' => 'required',
-            'alamat' => 'required'
-        ]);
 
         Anggota::updateOrCreate(['id' => $request->anggota_id],
 
@@ -150,10 +139,12 @@ class AnggotaController extends Controller
 
     {
 
-        Anggota::find($id)->delete();
-
-     
-
+        $anggota = Anggota::find($id)->delete();
+        Session::flash("flash_notification",[
+            "level" => "Success",
+            "message" => "Berhasil menghapus<b>"
+                         . $anggota->nama."</b>"
+        ]);
         return response()->json(['success'=>'Product deleted successfully.']);
 
     }

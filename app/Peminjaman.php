@@ -35,18 +35,5 @@ class Peminjaman extends Model
        {
         return $this->hasMany('App\Pengembalian', 'kode_pinjam');
        }
-       
-
-       public static function boot()
-    {
-        parent::boot();
-        self::deleting(function (Peminjaman $peminjaman) {
-            // mengecek apakah penulis masih punya buku
-            if ($peminjaman->pengembalian->count() > 0) {
-                // membatalkan proses penghapusan
-                return true;
-            }
-        });
-    }
 
 }

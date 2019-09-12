@@ -315,17 +315,16 @@ $.ajax({
    
 
   $('#createNewProduct').click(function () {
-
       $('#saveBtn').val("create-product");
-
       $('#pengembalian_id').val('');
-
       $('#productForm').trigger("reset");
-
       $('#modelHeading').html("Create New");
-
       $('#ajaxModel').modal('show');
-
+      $('.alert-danger').html('');
+      $('.alert-danger').css('display','none');
+      $("input").keypress(function(){
+          $('.alert-danger').css('display','none');
+      });
   });
 
   
@@ -335,27 +334,21 @@ $.ajax({
     var pengembalian_id = $(this).data('id');
 
     $.get("{{ url('pengembalian') }}" +'/' + pengembalian_id +'/edit', function (data) {
-
         $('#modelHeading').html("Edit Product");
-
         $('#saveBtn').val("edit-user");
-
         $('#ajaxModel').modal('show');
-
         $('#pengembalian_id').val(data.id);
-
         $('#kode_kembali').val(data.kode_kembali);
-
         $('#tanggal_kembali').val(data.tanggal_kembali);
-
         $('#jatuh_tempo').val(data.jatuh_tempo);
-
         $('#kode_buku').val(data.kode_buku);
-
         $('#tanggal_pinjam').val(data.tanggal_pinjam);
-
         $('#tanggal_kembali').val(data.tanggal_kembali);
-
+        $('.alert-danger').html('');
+        $('.alert-danger').css('display','none');
+        $("input").keypress(function(){
+            $('.alert-danger').css('display','none');
+        });
     })
 
  });
@@ -405,12 +398,15 @@ $.ajax({
 
         },
 
-        error: function (data) {
-
-            console.log('Error:', data);
-
+        error: function (request, status, error) {
+            $('.alert-danger').html('');
+            json = $.parseJSON(request.responseText);
+            $.each(json.errors, function(key, value){
+                $('.alert-danger').show();
+                $('.alert-danger').append('<p>'+value+'</p>');
+            });
+            $("#result").html('');
             $('#saveBtn').html('Save Changes');
-
         }
 
     });

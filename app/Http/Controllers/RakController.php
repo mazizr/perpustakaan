@@ -4,12 +4,10 @@
 
 namespace App\Http\Controllers;
 
-          
-
+use App\Http\Controllers\Controller;
+use App\Http\Requests\KodeRakStoreRequest;
 use App\Rak;
-
 use Illuminate\Http\Request;
-
 use DataTables;
 use Session;
 use Auth;
@@ -62,14 +60,9 @@ class RakController extends Controller
 
      */
 
-    public function store(Request $request)
+    public function store(KodeRakStoreRequest $request)
 
     {
-
-        $request->validate([
-            'kode_rak' => 'required|max:4',
-            'nama_rak' => 'required'
-        ]);
         $rak = Rak::updateOrCreate(['id' => $request->rak_id],
 
                 [
@@ -82,21 +75,8 @@ class RakController extends Controller
         );     
         $rak->buku()->sync($request->buku);
    
-        
+        $validated = $request->validated();
         return response()->json(['success'=>'Product saved successfully.']);
-
-        // $rak = new Rak;
-        // $rak->kode_rak = $request->kode_rak;
-        // $rak->nama_rak = $request->nama_rak;
-        // $rak->save();
-        // $rak->buku()->attach($request->buku);
-        // $response = [
-        //     'success' => true,
-        //     'data' => $rak,
-        //     'message' => 'berhasil'
-        // ];
-        // return response()->json($response, 200);
-        
     }
     
 
@@ -117,8 +97,19 @@ class RakController extends Controller
     {
 
         $rak = Rak::find($id);
-        $rak->buku->pluck('id')->toArray();
-        return response()->json($rak);
+        $data_rak = ['id' => $rak->id, 'nama_rak' => $rak->nama_rak, 'kode_rak' => $rak->kode_rak];
+        $buku = \DB::select('SELECT b.id,b.judul,rb.rak_id 
+                            FROM bukus AS b 
+                            left JOIN rak_buku AS rb ON rb.buku_id = b.id 
+                            AND rb.rak_id=' .$rak->id.'
+                            ');
+        foreach ($buku as $value) {
+            $option[] = '<option value="' .$value->id. '" ' . ($value->rak_id == $rak->id ? 'selected' : '') . '>' . $value->judul . '</option>';
+        }
+        $test = implode('', $option);
+
+        $data = ['datarak' => $data_rak, 'buku' => $test, 'rak' => $rak];
+        return response()->json($data);
 
     }
 
