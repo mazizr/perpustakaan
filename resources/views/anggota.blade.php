@@ -56,7 +56,7 @@
                             <li>{{ $error }}</li>
                         @endforeach
                     </ul>
-                </div>
+            </div>
             <form id="productForm" name="productForm" class="form-horizontal">
 
                <input type="hidden" name="anggota_id" id="anggota_id">
@@ -69,11 +69,6 @@
 
                         <input type="text" class="form-control @error('kode_anggota') is-invalid @enderror" 
                         id="kode_anggota" name="kode_anggota" placeholder="Masukkan Kode Anggota" value="" maxlength="50" required="">
-                        @error('kode_anggota')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{$message}}</strong>
-                                        </span>
-                                        @enderror
                     </div>
 
                 </div>
@@ -158,40 +153,6 @@
 @endsection
 
     @section('js')
-    <script>
-        $("#productForm").validate({
-            rules: {
-                kode_anggota: {
-                    required:true,
-                    maxlength : 4
-                },
-                nama: {
-                    required:true
-                },
-                jurusan: {
-                    required:true
-                },
-                alamat: {
-                    required:true
-                }
-            },
-            messages:{
-                kode_anggota:{
-                    required:"Harap diisi",
-                    maxlength:"Tidak bisa lebih dari 4"
-                },
-                nama:{
-                    required:"Harap diisi"
-                },
-                jurusan:{
-                    required:"Harap diisi"
-                },
-                alamat:{
-                    required:"Harap diisi"
-                }
-            }
-        })
-    </script>
     <script type="text/javascript">
       $(function () {
           $.ajaxSetup({
@@ -234,6 +195,7 @@
     
         $('#createNewProduct').click(function () {
             $('#saveBtn').val("create-product");
+            $('#saveBtn').html("Save Changes");
             $('#anggota_id').val('');
             $('#productForm').trigger("reset");
             $('#modelHeading').html("Create New");
@@ -275,29 +237,16 @@
        });
     
         $('#saveBtn').click(function (e) {
-    
             e.preventDefault();
-    
             $(this).html('Sending..');
-        
-    
             $.ajax({
-    
               data: $('#productForm').serialize(),
-    
               url: "{{ url('anggota-store') }}",
-    
               type: "POST",
-    
               dataType: 'json',
-    
               success: function (data) {
-         
-    
                   $('#productForm').trigger("reset");
-    
                   $('#ajaxModel').modal('hide');
-    
                   table.draw();
                   Swal.fire({
                     position: 'center',

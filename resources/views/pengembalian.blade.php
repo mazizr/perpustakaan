@@ -56,13 +56,21 @@
 
             <div class="modal-body">
 
+                <div class="alert alert-danger" style="display:none">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            {{ $error }}
+                        @endforeach
+                    </ul>
+                </div>
+
                 <form id="productForm" name="productForm" class="form-horizontal">
 
                    <input type="hidden" name="pengembalian_id" id="pengembalian_id">
 
                     <div class="form-group">
 
-                        <label for="name" class="col-sm-2 control-label">Kode Kembali</label>
+                        <label for="name" class="control-label">Kode Kembali</label>
 
                         <div class="col-sm-12">
 
@@ -74,19 +82,20 @@
 
                     <div class="form-group">
 
-                            <label for="name" class="col-sm-2 control-label">Kode Pinjam</label>
+                            <label for="name" class="control-label">Kode Pinjam</label>
     
                             <div class="col-sm-12">
     
                                 <select type="text" class="form-control select2 isi-pinjam" id="kode_pinjam" name="kode_pinjam" placeholder="Masukkan Nama Petugas" value="" maxlength="50" required="">
                                 </select>
+
                             </div>
     
                     </div>
 
                     <div class="form-group">
 
-                        <label for="name" class="col-sm-2 control-label">Tanggal Kembali</label>
+                        <label for="name" class="control-label">Tanggal Kembali</label>
 
                         <div class="col-sm-12">
 
@@ -98,47 +107,45 @@
 
                     <div class="form-group">
 
-                        <label for="name" class="col-sm-2 control-label">Jatuh Tempo</label>
+                        <label for="name" class="control-label">Jatuh Tempo</label>
 
                         <div class="col-sm-12">
 
-                                <input type="date" name="jatuh_tempo" class="form-control" id="jatuh_tempo">
+                                <input type="text" name="jatuh_tempo" placeholder="Nama Anggota" class="form-control" id="jatuh_tempo" disabled>
                         </div>
 
                     </div>
 
                     <div class="form-group">
 
-                            <label for="name" class="col-sm-2 control-label">Nama Petugas</label>
+                            <label for="name" class="control-label">Nama Petugas</label>
     
                             <div class="col-sm-12">
     
-                                <select type="text" class="form-control select2 isi-petugas" id="kode_petugas" name="kode_petugas" placeholder="Masukkan Nama Petugas" value="" maxlength="50" required="">
-                                </select>
+                                    <input type="text" name="kode_petugas" placeholder="Nama Anggota" class="form-control" id="kode_petugas" disabled>
                             </div>
     
                         </div>
     
                         <div class="form-group">
     
-                            <label for="name" class="col-sm-2 control-label">Nama Anggota</label>
+                            <label for="name" class="control-label">Nama Anggota</label>
     
                             <div class="col-sm-12">
     
-                                    <select type="text" class="form-control select2 isi-anggota" id="kode_anggota" name="kode_anggota" placeholder="Masukkan Nama Petugas" value="" maxlength="50" required="">
-                                    </select>
+                                    <input type="text" name="nama_anggota" placeholder="Nama Anggota" class="form-control" id="nama_anggota" disabled>
+
                             </div>
     
                         </div>
     
                         <div class="form-group">
     
-                            <label for="name" class="col-sm-2 control-label">Nama Buku</label>
+                            <label for="name" class="control-label">Nama Buku</label>
     
                             <div class="col-sm-12">
     
-                                <select type="text" class="form-control select2 isi-buku" id="kode_buku" name="kode_buku" placeholder="Masukkan Jabatan Petugas" value="" maxlength="50" required="">
-                                </select>
+                                    <input type="text" name="kode_buku" placeholder="Nama Anggota" class="form-control" id="kode_buku" disabled>
                             </div>
     
                         </div>
@@ -167,73 +174,33 @@
 
 
 @section('js')
-<script>
-    $("#productForm").validate({
-        rules: {
-            kode_kembali:{
-                required: true,
-                maxlength: 4
-            }
-        },
-        messages:{
-            kode_kembali:{
-                required:"Harap diisi",
-                maxlength : "Tidak bisa lebih dari 4"
-            }
-        }
-    })
-</script>
 <script type="text/javascript">
 
 $(function () {
-
-   
-
     $.ajaxSetup({
         headers: {
           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
       });
-
       $('.select2').select2();
-
   var table = $('.data-table').DataTable({
-
       processing: true,
-
       serverSide: true,
-
       ajax: "{{ url('pengembalian') }}",
-
       columns: [
-
           {data: 'DT_RowIndex', name: 'DT_RowIndex'},
-
           {data: 'kode_kembali', name: 'kode_kembali'},
-
           {data: 'peminjaman.kode_pinjam', name: 'kode_pinjam'},
-
           {data: 'tanggal_kembali', name: 'tanggal_kembali'},
-
           {data: 'jatuh_tempo', name: 'jatuh_tempo'},
-
           {data: 'denda_per_hari', name: 'denda_per_hari'},
-          
           {data: 'jumlah_hari', name: 'jumlah_hari'},
-
           {data: 'total_denda', name: 'total_denda'},
-
           {data: 'petugas.nama', name: 'nama'},
-
           {data: 'anggota.nama', name: 'nama'},
-
           {data: 'buku.judul', name: 'judul'},
-
           {data: 'action', name: 'action', orderable: false, searchable: false},
-          
-
       ]
-
   });
 
   $.ajax({
@@ -312,7 +279,23 @@ $.ajax({
     }
 })
 
-   
+   $('#kode_pinjam').on('change', function(){
+        var kode_pinjam = $(this).val();
+        $.ajax({
+            url: "pengembalian-isi/"+kode_pinjam,
+            method: "GET",
+            dataType: "json",
+            success: function (berhasil) {
+                $.each(berhasil.isinya, function(key, value){
+                    console.log(value.nama_anggota);
+                    $('#nama_anggota').val(value.nama_anggota).html(value.nama_anggota);
+                    $('#kode_petugas').val(value.kode_petugas).html(value.nama_petugas);
+                    $('#kode_buku').val(value.judul);
+                    $('#jatuh_tempo').val(value.tanggal_kembali);
+                });
+            }
+        })
+   });
 
   $('#createNewProduct').click(function () {
       $('#saveBtn').val("create-product");
@@ -356,31 +339,16 @@ $.ajax({
   
 
   $('#saveBtn').click(function (e) {
-
       e.preventDefault();
-
       $(this).html('Save Changes');
-
-  
-
       $.ajax({
-
         data: $('#productForm').serialize(),
-
         url: "{{ url('pengembalian-store') }}",
-
         type: "POST",
-
         dataType: 'json',
-
         success: function (data) {
-
-   
-
             $('#productForm').trigger("reset");
-
             $('#ajaxModel').modal('hide');
-
             table.draw();
             Swal.fire({
                 position: 'center',
@@ -393,9 +361,6 @@ $.ajax({
                     popup: 'animated bounceOut'
                   }
               })
-
-       
-
         },
 
         error: function (request, status, error) {

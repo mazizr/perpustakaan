@@ -42,7 +42,7 @@ class PengembalianRequest extends FormRequest
             'kode_kembali.required' => 'Kode Pinjam wajib diisi',
             'kode_kembali.max' => 'Kode Pinjam Maksimal 4 Karakter',
             'kode_pinjam.required' => 'Kode Pinjam wajib Dipilih',
-            'jatuh_tempo.required' => 'Tanggal Pinjam Wajib Dipilih',
+            'jatuh_tempo.required' => 'Jatuh Tempo Wajib Dipilih',
             'kode_petugas.required' => 'Kode Petugas Wajib Dipilih',
             'kode_anggota.required' => 'Kode Anggota Wajib Dipilih',
             'kode_buku.required' => 'Kode Buku Wajib Dipilih'

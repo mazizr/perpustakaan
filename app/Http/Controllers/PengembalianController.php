@@ -59,13 +59,29 @@ class PengembalianController extends Controller
      * @return \Illuminate\Http\Response
 
      */
+    public function isi(Request $request,$id)
+    {
+        
+        $pengembalian = new Pengembalian;
+        $peminjaman = \DB::select('SELECT b.id,b.kode_pinjam,rb.id,rb.tanggal_kembali,rb.kode_petugas,p.nama AS nama_petugas,a.nama AS nama_anggota,bk.judul
+                                FROM pengembalians AS b 
+                                left JOIN peminjamen AS rb ON rb.id = b.kode_pinjam
+                                LEFT JOIN petugas AS p ON p.id = rb.kode_petugas
+                                LEFT JOIN anggotas AS a ON a.id = rb.kode_anggota
+                                LEFT JOIN bukus AS bk ON bk.id = rb.kode_buku
+                                WHERE b.kode_pinjam = '.$id.'
+                            ');
+        $data = ['isinya' => $peminjaman];
+        
+        return response()->json($data);
+    }
+
 
     public function store(PengembalianRequest $request)
     {
-
         $tanggal_kembali = strtotime($request->tanggal_kembali);
         $jatuh_tempo = strtotime($request->jatuh_tempo);
-        $jumlah =  $tanggal_kembali - $jatuh_tempo ;
+        $jumlah =  $tanggal_kembali - $jatuh_tempo_detik ;
         $jumlah_hari = floor($jumlah / (60 * 60 * 24));
         if ($jumlah_hari <= 0) {
             $jumlah_hari = 0;
@@ -85,11 +101,11 @@ class PengembalianController extends Controller
                     'jumlah_hari' => $jumlah_hari,
                     'total_denda' => $total_denda,
                     'kode_petugas' => $request->kode_petugas,
-                    'kode_anggota' => $request->kode_anggota,
+                    'kode_anggota' => $request->nama_anggota,
                     'kode_buku' => $request->kode_buku,
                 ]
         );       
-        return response()->json(['success'=>'Product saved successfully.']);
+        return response()->json($data);
     }
 
     /**

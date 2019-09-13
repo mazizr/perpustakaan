@@ -41,6 +41,7 @@ Route::get('/peminjaman/{id}/edit','PeminjamanController@edit');
 Route::delete('/peminjaman-destroy/{id}','PeminjamanController@destroy');
 
 Route::get('pengembalian','PengembalianController@index');
+Route::get('pengembalian-isi/{id}','PengembalianController@isi');
 Route::post('pengembalian-store','PengembalianController@store');
 Route::get('/pengembalian/{id}/edit','PengembalianController@edit');
 Route::delete('/pengembalian-destroy/{id}','PengembalianController@destroy');
