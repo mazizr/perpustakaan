@@ -86,7 +86,7 @@
     
                             <div class="col-sm-12">
     
-                                <select type="text" class="form-control select2 isi-pinjam" id="kode_pinjam" name="kode_pinjam" placeholder="Masukkan Nama Petugas" value="" maxlength="50" required="">
+                                <select type="text" class="form-control isi-pinjam" id="kode_pinjam" name="kode_pinjam" placeholder="Masukkan Nama Petugas" value="" maxlength="50" required="">
                                 </select>
 
                             </div>
@@ -110,8 +110,8 @@
                         <label for="name" class="control-label">Jatuh Tempo</label>
 
                         <div class="col-sm-12">
-
-                                <input type="text" name="jatuh_tempo" placeholder="Nama Anggota" class="form-control" id="jatuh_tempo" disabled>
+                                <input type="hidden" name="jatuh_tempo" id="isi_jatuh_tempo">
+                                <input type="date" placeholder="Nama Anggota" class="form-control" id="jatuh_tempo" disabled>
                         </div>
 
                     </div>
@@ -121,8 +121,8 @@
                             <label for="name" class="control-label">Nama Petugas</label>
     
                             <div class="col-sm-12">
-    
-                                    <input type="text" name="kode_petugas" placeholder="Nama Anggota" class="form-control" id="kode_petugas" disabled>
+                                    <input type="hidden" name="kode_petugas" id="isi_kode_petugas">
+                                    <input type="text" placeholder="Nama Anggota" class="form-control" id="kode_petugas" disabled>
                             </div>
     
                         </div>
@@ -132,8 +132,8 @@
                             <label for="name" class="control-label">Nama Anggota</label>
     
                             <div class="col-sm-12">
-    
-                                    <input type="text" name="nama_anggota" placeholder="Nama Anggota" class="form-control" id="nama_anggota" disabled>
+                                    <input type="hidden" name="kode_anggota" id="isi_kode_anggota">
+                                    <input type="text" class="form-control" id="kode_anggota" placeholder="Nama Anggota" value="" disabled>
 
                             </div>
     
@@ -144,8 +144,8 @@
                             <label for="name" class="control-label">Nama Buku</label>
     
                             <div class="col-sm-12">
-    
-                                    <input type="text" name="kode_buku" placeholder="Nama Anggota" class="form-control" id="kode_buku" disabled>
+                                    <input type="hidden" name="kode_buku" id="isi_kode_buku">
+                                    <input type="text" placeholder="Nama Anggota" class="form-control" id="kode_buku" disabled>
                             </div>
     
                         </div>
@@ -222,63 +222,6 @@ $(function () {
     }
 })
 
-  $.ajax({
-    url: "{{ url('buku') }}",
-    method: "GET",
-    dataType: "json",
-    
-    success: function (berhasil) {
-        // console.log(berhasil)
-        $.each(berhasil.data, function (key, value) {
-            $(".isi-buku").append(
-                `
-                <option value="${value.id}">
-                    ${value.judul}
-                </option>        
-                `
-            )
-        }) 
-    }
-})
-
-$.ajax({
-    url: "{{ url('petugas') }}",
-    method: "GET",
-    dataType: "json",
-    
-    success: function (berhasil) {
-        // console.log(berhasil)
-        $.each(berhasil.data, function (key, value) {
-            $(".isi-petugas").append(
-                `
-                <option value="${value.id}">
-                    ${value.nama}
-                </option>        
-                `
-            )
-        }) 
-    }
-})
-
-$.ajax({
-    url: "{{ url('anggota') }}",
-    method: "GET",
-    dataType: "json",
-    
-    success: function (berhasil) {
-        // console.log(berhasil)
-        $.each(berhasil.data, function (key, value) {
-            $(".isi-anggota").append(
-                `
-                <option value="${value.id}">
-                    ${value.nama}
-                </option>        
-                `
-            )
-        }) 
-    }
-})
-
    $('#kode_pinjam').on('change', function(){
         var kode_pinjam = $(this).val();
         $.ajax({
@@ -286,12 +229,16 @@ $.ajax({
             method: "GET",
             dataType: "json",
             success: function (berhasil) {
-                $.each(berhasil.isinya, function(key, value){
-                    console.log(value.nama_anggota);
-                    $('#nama_anggota').val(value.nama_anggota).html(value.nama_anggota);
-                    $('#kode_petugas').val(value.kode_petugas).html(value.nama_petugas);
+                $.each(berhasil, function(key, value){
+                    console.log(value);
+                    $('#kode_anggota').val(value.nama_anggota);
+                    $('#kode_petugas').val(value.nama_petugas);
                     $('#kode_buku').val(value.judul);
                     $('#jatuh_tempo').val(value.tanggal_kembali);
+                    $('#isi_kode_anggota').val(value.id_anggota);
+                    $('#isi_kode_petugas').val(value.id_petugas);
+                    $('#isi_kode_buku').val(value.id_buku);
+                    $('#isi_jatuh_tempo').val(value.tanggal_kembali);
                 });
             }
         })
@@ -317,21 +264,28 @@ $.ajax({
     var pengembalian_id = $(this).data('id');
 
     $.get("{{ url('pengembalian') }}" +'/' + pengembalian_id +'/edit', function (data) {
+        //console.log(data);
         $('#modelHeading').html("Edit Product");
         $('#saveBtn').val("edit-user");
         $('#ajaxModel').modal('show');
-        $('#pengembalian_id').val(data.id);
-        $('#kode_kembali').val(data.kode_kembali);
-        $('#tanggal_kembali').val(data.tanggal_kembali);
-        $('#jatuh_tempo').val(data.jatuh_tempo);
-        $('#kode_buku').val(data.kode_buku);
-        $('#tanggal_pinjam').val(data.tanggal_pinjam);
-        $('#tanggal_kembali').val(data.tanggal_kembali);
+        $('#pengembalian_id').val(data.datapengembalian.id);
+        $('#kode_pinjam').val(data.datapengembalian.kode_pinjam);
+        $('#kode_kembali').val(data.datapengembalian.kode_kembali);
+        $('#tanggal_kembali').val(data.datapengembalian.tanggal_kembali);
+        $('#jatuh_tempo').val(data.datapengembalian.jatuh_tempo);
+        $.each(data.peminjaman, function(key, value){
+            console.log(value)
+            $('#kode_buku').val(value.judul);
+            $('#kode_petugas').val(value.nama_petugas);
+            $('#kode_anggota').val(value.nama_anggota);
+        });
+        
         $('.alert-danger').html('');
         $('.alert-danger').css('display','none');
         $("input").keypress(function(){
             $('.alert-danger').css('display','none');
         });
+        
     })
 
  });

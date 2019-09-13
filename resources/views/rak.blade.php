@@ -46,29 +46,9 @@
         </div>
 
         <div class="modal-body">
-            <div id="result"></div>
-            <div class="alert alert-danger" style="display:none">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
             <form id="productForm" name="productForm" class="form-horizontal">
 
-               <input type="hidden" name="rak_id" id="rak_id">
-
-               <div class="form-group">
-
-                <div class="col-sm-12">
-
-                        <button align="right" type="submit" class="btn btn-outline-primary btn-flat" id="saveBtn" value="create"><ion-icon name="paper-plane"></ion-icon> Save changes
-                            </button>    
-
-                </div>
-
-            </div>
-
+                <input type="hidden" name="rak_id" id="rak_id">
                 <div class="form-group">
 
                     <label for="name" class="col-sm-2 control-label">Kode Rak</label>
@@ -101,16 +81,20 @@
                     <div class="col-sm-12">
 
                           <select id="buku" class="form-control buku select2" multiple="multiple"
-                          style="width: 100%;" name="buku[]">
+                           name="buku[]"></select>
         
                     </div>
 
                 </div>
 
             </form>
+        </div>
+        <div class="modal-footer">
+
+            <button align="right" type="submit" class="btn btn-outline-primary btn-flat" id="saveBtn" value="create"><ion-icon name="paper-plane"></ion-icon> Save changes
+            </button>
 
         </div>
-
     </div>
 
 </div>
@@ -165,6 +149,9 @@
         $('#ajaxModel').modal('show');
         $('.alert-danger').html('');
         $('.alert-danger').css('display','none');
+        $("input").keypress(function(){
+            $('.alert-danger').css('display','none');
+        });
     });
     
     $.ajax({
@@ -209,70 +196,70 @@
 
     
 
-    $('#saveBtn').click(function (e) {
+   $('#saveBtn').click(function (e) {
 
-        var formData    = new FormData($('#productForm')[0]);
+    var formData    = new FormData($('#productForm')[0]);
 
-        e.preventDefault();
+    e.preventDefault();
 
-        $(this).html('Sending..');
+    $(this).html('Sending..');
 
-    
 
-        $.ajax({
 
-          data: formData,
+    $.ajax({
 
-          url: "{{ url('rak-store') }}",
+      data: formData,
 
-          type: "POST",
+      url: "{{ url('rak-store') }}",
 
-          cache: true,
-            contentType: false,
-            processData: false,
-            async:false,
+      type: "POST",
 
-          dataType: 'json',
+      cache: true,
+        contentType: false,
+        processData: false,
+        async:false,
 
-          success: function (data) {
+      dataType: 'json',
 
-              $('#productForm').trigger("reset");
+      success: function (data) {
 
-              $('#ajaxModel').modal('hide');
+          $('#productForm').trigger("reset");
 
-              table.draw();
+          $('#ajaxModel').modal('hide');
 
-              Swal.fire({
-                position: 'center',
-                type: 'success',
-                animation: false,
-                title: 'Your work has been saved',
-                showConfirmButton: false,
-                timer: 1000,
-                customClass: {
-                    popup: 'animated bounceOut'
-                  }
-              })
+          table.draw();
 
-         
+          Swal.fire({
+            position: 'center',
+            type: 'success',
+            animation: false,
+            title: 'Your work has been saved',
+            showConfirmButton: false,
+            timer: 1000,
+            customClass: {
+                popup: 'animated bounceOut'
+              }
+          })
 
-          },
+     
 
-          
-          error: function (request, status, error) {
-            $('.alert-danger').html('');
-            json = $.parseJSON(request.responseText);
-            $.each(json.errors, function(key, value){
-                $('.alert-danger').show();
-                $('.alert-danger').append('<p>'+value+'</p>');
-            });
-            $("#result").html('');
-            $('#saveBtn').html('Save Changes');
-        }
+      },
 
-      });
+      
+      error: function (request, status, error) {
+        $('.alert-danger').html('');
+        json = $.parseJSON(request.responseText);
+        $.each(json.errors, function(key, value){
+            $('.alert-danger').show();
+            $('.alert-danger').append('<p>'+value+'</p>');
+        });
+        $("#result").html('');
+        $('#saveBtn').html('Save Changes');
+    }
 
-    });
+  });
+
+});
 
     
 

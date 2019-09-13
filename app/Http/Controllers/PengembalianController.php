@@ -63,17 +63,16 @@ class PengembalianController extends Controller
     {
         
         $pengembalian = new Pengembalian;
-        $peminjaman = \DB::select('SELECT b.id,b.kode_pinjam,rb.id,rb.tanggal_kembali,rb.kode_petugas,p.nama AS nama_petugas,a.nama AS nama_anggota,bk.judul
-                                FROM pengembalians AS b 
-                                left JOIN peminjamen AS rb ON rb.id = b.kode_pinjam
-                                LEFT JOIN petugas AS p ON p.id = rb.kode_petugas
-                                LEFT JOIN anggotas AS a ON a.id = rb.kode_anggota
-                                LEFT JOIN bukus AS bk ON bk.id = rb.kode_buku
-                                WHERE b.kode_pinjam = '.$id.'
+        $peminjaman = \DB::select('SELECT b.id,b.kode_pinjam,p.nama AS nama_petugas,a.nama AS nama_anggota,bk.judul, b.tanggal_kembali, 
+        a.id AS id_anggota, p.id AS id_petugas, bk.id AS id_buku
+        FROM peminjamen AS b 
+        LEFT JOIN petugas AS p ON p.id = b.kode_petugas
+        LEFT JOIN anggotas AS a ON a.id = b.kode_anggota
+        LEFT JOIN bukus AS bk ON bk.id = b.kode_buku
+        WHERE b.id = '.$id.'
                             ');
-        $data = ['isinya' => $peminjaman];
         
-        return response()->json($data);
+        return response()->json($peminjaman);
     }
 
 
@@ -81,7 +80,7 @@ class PengembalianController extends Controller
     {
         $tanggal_kembali = strtotime($request->tanggal_kembali);
         $jatuh_tempo = strtotime($request->jatuh_tempo);
-        $jumlah =  $tanggal_kembali - $jatuh_tempo_detik ;
+        $jumlah =  $tanggal_kembali - $jatuh_tempo ;
         $jumlah_hari = floor($jumlah / (60 * 60 * 24));
         if ($jumlah_hari <= 0) {
             $jumlah_hari = 0;
@@ -101,11 +100,11 @@ class PengembalianController extends Controller
                     'jumlah_hari' => $jumlah_hari,
                     'total_denda' => $total_denda,
                     'kode_petugas' => $request->kode_petugas,
-                    'kode_anggota' => $request->nama_anggota,
+                    'kode_anggota' => $request->kode_anggota,
                     'kode_buku' => $request->kode_buku,
                 ]
         );       
-        return response()->json($data);
+        return response()->json(['success' => 'Saved']);
     }
 
     /**
@@ -124,7 +123,19 @@ class PengembalianController extends Controller
 
     {
         $pengembalian = Pengembalian::find($id);
-        return response()->json($pengembalian);
+        $peminjaman = \DB::select('SELECT pg.id, a.nama AS nama_anggota, p.nama AS nama_petugas, bk.judul, pm.kode_pinjam
+                                    FROM pengembalians AS pg
+                                    LEFT JOIN petugas AS p ON p.id = pg.kode_petugas
+                                    LEFT JOIN anggotas AS a ON a.id = pg.kode_anggota
+                                    LEFT JOIN bukus AS bk ON bk.id = pg.kode_buku 
+                                    LEFT JOIN peminjamen pm ON pm.id = pg.kode_pinjam
+                                    WHERE pg.id = '.$id.'
+                                    ');
+                                    foreach ($peminjaman as $value) {
+        $option = '<option value="' .$value->id. '" ' . ($value->id == $pengembalian->id ? 'selected' : '') . '>' . $value->kode_pinjam . '</option>';
+    }
+        $data = ['datapengembalian' => $pengembalian, 'peminjaman' => $peminjaman, 'kode_pinjam' => $option];
+        return response()->json($data);
     }
 
   

@@ -21,9 +21,9 @@
                     <th>Nama</th>
                     <th>Jenis Kelamin</th>
                     <th>Jabatan</th>
-                    <th>Telepon</th>
+                    <th width="100px">Telepon</th>
                     <th width="180px">Alamat</th>
-                    <th width="75px">Aksi</th>
+                    <th width="100px">Aksi</th>
     
                 </tr>
     

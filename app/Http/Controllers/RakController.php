@@ -9,8 +9,6 @@ use App\Http\Requests\KodeRakStoreRequest;
 use App\Rak;
 use Illuminate\Http\Request;
 use DataTables;
-use Session;
-use Auth;
 
         
 
@@ -69,13 +67,9 @@ class RakController extends Controller
                     'kode_rak' => $request->kode_rak, 
                     'nama_rak' => $request->nama_rak
                     
-                ],
-
-                
+                ]
         );     
         $rak->buku()->sync($request->buku);
-   
-        $validated = $request->validated();
         return response()->json(['success'=>'Product saved successfully.']);
     }
     

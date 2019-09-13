@@ -19,7 +19,7 @@
             <th>Nama</th>
             <th>Jenis Kelamin</th>
             <th>Jurusan</th>
-            <th width="280px">Alamat</th>
+            <th width="90px">Alamat</th>
             <th width="75px">Aksi</th>
 
         </tr>
