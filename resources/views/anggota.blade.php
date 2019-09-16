@@ -38,13 +38,14 @@
 
 <div class="modal fade" id="ajaxModel" aria-hidden="true">
 
-<div class="modal-dialog">
+<div class="modal-dialog modal-lg">
 
     <div class="modal-content">
 
         <div class="modal-header">
 
             <h4 class="modal-title" id="modelHeading"></h4>
+            <button type="button" class="close" data-dismiss="modal"><ion-icon name="close-circle"></ion-icon></button>
 
         </div>
         <div class="modal-body">
@@ -112,7 +113,14 @@
 
                     <div class="col-sm-12">
 
-                        <input type="text" class="form-control" id="jurusan" name="jurusan" placeholder="Masukkan Jurusan" value="" maxlength="50" required="">
+                        <select class="form-control" name="jurusan" id="jurusan">
+                                
+                            <option selected disabled>-- Pilih Jurusan --</option>
+                            <option value="RPL">RPL</option>
+                            <option value="TKR">TKR</option>
+                            <option value="TSM">TSM</option>
+                            
+                        </select>
 
                     </div>
 
@@ -129,17 +137,17 @@
                         </div>
 
                     </div>
-  
-
-                <div class="col-sm-offset-2 col-sm-10">
-
-                 <button type="submit" class="btn btn-outline-primary btn-flat" id="saveBtn" value="create"><ion-icon name="paper-plane"></ion-icon> Save changes
-
-                 </button>
-
-                </div>
 
             </form>
+
+        </div>
+
+        <div class="modal-footer">
+            <button data-dismiss="modal" type="button" class="btn btn-outline-danger btn-flat" id="reset">Batal
+            </button>
+
+            <button align="right" type="submit" class="btn btn-outline-primary btn-flat" id="saveBtn" value="create">Simpan
+            </button>
 
         </div>
 
@@ -195,10 +203,11 @@
     
         $('#createNewProduct').click(function () {
             $('#saveBtn').val("create-product");
-            $('#saveBtn').html("Save Changes");
+            $('#saveBtn').html("Simpan");
             $('#anggota_id').val('');
             $('#productForm').trigger("reset");
             $('#modelHeading').html("Create New");
+            $('#ajaxModel').modal({backdrop: 'static', keyboard: false});
             $('#ajaxModel').modal('show');
             $('.alert-danger').html('');
             $('.alert-danger').css('display','none');
@@ -216,6 +225,7 @@
           $.get("{{ url('anggota') }}" +'/' + anggota_id +'/edit', function (data) {
               $('#modelHeading').html("Edit Product");
               $('#saveBtn').val("edit-user");
+              $('#ajaxModel').modal({backdrop: 'static', keyboard: false});
               $('#ajaxModel').modal('show');
               $('#anggota_id').val(data.id);
               $('#kode_anggota').val(data.kode_anggota);
@@ -238,7 +248,7 @@
     
         $('#saveBtn').click(function (e) {
             e.preventDefault();
-            $(this).html('Sending..');
+            $(this).html('Menyimpan..');
             $.ajax({
               data: $('#productForm').serialize(),
               url: "{{ url('anggota-store') }}",
@@ -271,7 +281,7 @@
                     $('.alert-danger').append('<p>'+value+'</p>');
                 });
                 $("#result").html('');
-                $('#saveBtn').html('Save Changes');
+                $('#saveBtn').html('Simpan');
             }
     
           });

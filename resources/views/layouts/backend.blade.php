@@ -218,6 +218,7 @@
 <!-- AdminLTE for demo purposes -->
 <script src="{{asset('assets/backend/dist/js/demo.js')}}"></script>
 <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+</script>
 @yield('js')
 </body>
 </html>

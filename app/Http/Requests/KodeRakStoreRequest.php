@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Request;
 
 class KodeRakStoreRequest extends FormRequest
 {
@@ -20,10 +21,10 @@ class KodeRakStoreRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(Request $request)
     {
         return [
-            'kode_rak' => 'required|max:4',
+            'kode_rak' => 'required|max:4|unique:bukus,kode_rak,'.$request->rak_id.',id',
             'nama_rak' => 'required',
             'buku' => 'required'
         ];
@@ -37,6 +38,7 @@ class KodeRakStoreRequest extends FormRequest
     {
         return [
             'kode_rak.required' => 'Kode Rak wajib diisi',
+            'kode_rak.unique' => 'Kode Rak telah terpakai',
             'kode_rak.max' => 'Kode Rak Maksimal 4 Karakter',
             'nama_rak.required' => 'Nama Rak Wajib Diisi!',
             'buku' => 'Judul Buku wajib Dipilih!'

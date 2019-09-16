@@ -42,7 +42,7 @@
         <div class="modal-header">
 
             <h4 class="modal-title" id="modelHeading"></h4>
-
+            <button type="button" class="close" data-dismiss="modal"><ion-icon name="close-circle"></ion-icon></button>
         </div>
 
         <div class="modal-body">
@@ -91,7 +91,10 @@
         </div>
         <div class="modal-footer">
 
-            <button align="right" type="submit" class="btn btn-outline-primary btn-flat" id="saveBtn" value="create"><ion-icon name="paper-plane"></ion-icon> Save changes
+            <button data-dismiss="modal" type="button" class="btn btn-outline-danger btn-flat" id="reset">Batal
+            </button>
+
+            <button align="right" type="submit" class="btn btn-outline-primary btn-flat" id="saveBtn" value="create">Simpan
             </button>
 
         </div>
@@ -146,6 +149,7 @@
         $('#productForm').trigger("reset");
         $('#buku').val('').trigger('change');
         $('#modelHeading').html("Create New");
+        $('#ajaxModel').modal({backdrop: 'static', keyboard: false});
         $('#ajaxModel').modal('show');
         $('.alert-danger').html('');
         $('.alert-danger').css('display','none');
@@ -177,6 +181,7 @@
       $.get("{{ url('rak') }}" +'/' + rak_id +'/edit', function (data) {
             $('#modelHeading').html("Edit Product");
             $('#saveBtn').val("edit-user");
+            $('#ajaxModel').modal({backdrop: 'static', keyboard: false});
             $('#ajaxModel').modal('show');
             $('#rak_id').val(data.rak.id);
             $('#kode_rak').val(data.rak.kode_rak);
@@ -202,7 +207,7 @@
 
     e.preventDefault();
 
-    $(this).html('Sending..');
+    $(this).html('Menyimpan..');
 
 
 
@@ -254,7 +259,7 @@
             $('.alert-danger').append('<p>'+value+'</p>');
         });
         $("#result").html('');
-        $('#saveBtn').html('Save Changes');
+        $('#saveBtn').html('Simpan');
     }
 
   });

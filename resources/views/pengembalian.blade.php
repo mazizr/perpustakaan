@@ -20,7 +20,6 @@
                 <th>Kode Pinjam</th>
                 <th>Tanggal Kembali</th>
                 <th>Jatuh Tempo</th>
-                <th>Denda per Hari</th>
                 <th>Jumlah Hari</th>
                 <th>Total Denda</th>
                 <th>Nama Petugas</th>
@@ -44,13 +43,14 @@
 
 <div class="modal fade" id="ajaxModel" aria-hidden="true">
 
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
 
         <div class="modal-content bg-dark">
 
             <div class="modal-header">
 
                 <h4 class="modal-title" id="modelHeading"></h4>
+                <button type="button" class="close" data-dismiss="modal"><ion-icon name="close-circle"></ion-icon></button>
 
             </div>
 
@@ -149,17 +149,17 @@
                             </div>
     
                         </div>
-      
-
-                    <div class="col-sm-offset-2 col-sm-10">
-
-                     <button type="submit" class="btn btn-outline-primary btn-flat" id="saveBtn" value="create"><ion-icon name="paper-plane"></ion-icon> Save changes
-
-                     </button>
-
-                    </div>
 
                 </form>
+
+            </div>
+
+            <div class="modal-footer">
+                <button data-dismiss="modal" type="button" class="btn btn-outline-danger btn-flat" id="reset">Batal
+                </button>
+
+                <button align="right" type="submit" class="btn btn-outline-primary btn-flat" id="saveBtn" value="create">Simpan
+                </button>
 
             </div>
 
@@ -193,7 +193,6 @@ $(function () {
           {data: 'peminjaman.kode_pinjam', name: 'kode_pinjam'},
           {data: 'tanggal_kembali', name: 'tanggal_kembali'},
           {data: 'jatuh_tempo', name: 'jatuh_tempo'},
-          {data: 'denda_per_hari', name: 'denda_per_hari'},
           {data: 'jumlah_hari', name: 'jumlah_hari'},
           {data: 'total_denda', name: 'total_denda'},
           {data: 'petugas.nama', name: 'nama'},
@@ -249,6 +248,7 @@ $(function () {
       $('#pengembalian_id').val('');
       $('#productForm').trigger("reset");
       $('#modelHeading').html("Create New");
+      $('#ajaxModel').modal({backdrop: 'static', keyboard: false});
       $('#ajaxModel').modal('show');
       $('.alert-danger').html('');
       $('.alert-danger').css('display','none');
@@ -267,6 +267,7 @@ $(function () {
         //console.log(data);
         $('#modelHeading').html("Edit Product");
         $('#saveBtn').val("edit-user");
+        $('#ajaxModel').modal({backdrop: 'static', keyboard: false});
         $('#ajaxModel').modal('show');
         $('#pengembalian_id').val(data.datapengembalian.id);
         $('#kode_pinjam').val(data.datapengembalian.kode_pinjam);
@@ -294,7 +295,7 @@ $(function () {
 
   $('#saveBtn').click(function (e) {
       e.preventDefault();
-      $(this).html('Save Changes');
+      $(this).html('Simpan');
       $.ajax({
         data: $('#productForm').serialize(),
         url: "{{ url('pengembalian-store') }}",
@@ -325,7 +326,7 @@ $(function () {
                 $('.alert-danger').append('<p>'+value+'</p>');
             });
             $("#result").html('');
-            $('#saveBtn').html('Save Changes');
+            $('#saveBtn').html('Simpan');
         }
 
     });

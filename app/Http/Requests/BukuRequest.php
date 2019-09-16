@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Request;
+use App\Buku;
 
 class BukuRequest extends FormRequest
 {
@@ -20,10 +22,10 @@ class BukuRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(Request $request)
     {
         return [
-            'kode_buku' => 'required|max:4',
+            'kode_buku' => 'required|max:4|unique:bukus,kode_buku,'.$request->buku_id.',id',
             'judul' => 'required',
             'penulis' => 'required',
             'penerbit' => 'required',
@@ -39,6 +41,7 @@ class BukuRequest extends FormRequest
     {
         return [
             'kode_buku.required' => 'Kode Buku wajib diisi',
+            'kode_buku.unique' => 'Kode Buku telah terpakai',
             'kode_buku.max' => 'Kode Buku Maksimal 4 Karakter',
             'judul.required' => 'Judul Wajib Diisi',
             'penulis.required' => 'Penulis Harus Dipilih',

@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Request;
 
 class PeminjamanRequest extends FormRequest
 {
@@ -20,10 +21,10 @@ class PeminjamanRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(Request $request)
     {
         return [
-            'kode_pinjam' => 'required|max:4',
+            'kode_pinjam' => 'required|max:4|unique:peminjamen,kode_pinjam,'.$request->peminjaman_id.',id',
             'tanggal_pinjam' => 'required',
             'tanggal_kembali' => 'required',
             'kode_petugas' => 'required',
@@ -40,6 +41,7 @@ class PeminjamanRequest extends FormRequest
     {
         return [
             'kode_pinjam.required' => 'Kode Pinjam wajib diisi',
+            'kode_pinjam.unique' => 'Kode Pinjam telah terpakai',
             'kode_pinjam.max' => 'Kode Pinjam Maksimal 4 Karakter',
             'tanggal_pinjam.required' => 'Tanggal Pinjam Wajib Dipilih',
             'tanggal_kembali.required' => 'Tanggal Kembali Harus Dipilih',

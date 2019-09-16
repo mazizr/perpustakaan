@@ -23,7 +23,7 @@ class AnggotaRequest extends FormRequest
     public function rules()
     {
         return [
-            'kode_anggota' => 'required|max:4',
+            'kode_anggota' => 'required|max:4|unique:anggotas,kode_anggota,'.$request->anggota_id.',id',
             'nama' => 'required',
             'jk' => 'required',
             'jurusan' => 'required',

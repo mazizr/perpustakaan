@@ -57,9 +57,10 @@ class BukuController extends Controller
 
         }
 
-      
+        $years = [];
+        for ($year=1900; $year <= 2020; $year++) $years[$year] = $year;
 
-        return view('buku');
+        return view('buku', compact('year'));
 
     }
 

@@ -41,14 +41,14 @@
     
     <div class="modal fade" id="ajaxModel" aria-hidden="true">
 
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-lg">
     
             <div class="modal-content">
     
                 <div class="modal-header">
     
                     <h4 class="modal-title" id="modelHeading"></h4>
-    
+                    <button type="button" class="close" data-dismiss="modal"><ion-icon name="close-circle"></ion-icon></button>
                 </div>
     
                 <div class="modal-body">
@@ -127,7 +127,7 @@
         
                                 <div class="col-sm-12">
         
-                                    <input type="text" class="form-control" id="telepon" name="telepon" placeholder="Masukkan Telepon Petugas" value="" maxlength="50" required="">
+                                    <input type="text" class="form-control allownumericwithoutdecimal" id="telepon" name="telepon" placeholder="Masukkan Telepon Petugas" value="" maxlength="50" required="">
         
                                 </div>
         
@@ -144,18 +144,19 @@
                                 </div>
         
                         </div>
-          
-    
-                        <div class="col-sm-offset-2 col-sm-10">
-    
-                         <button type="submit" class="btn btn-outline-primary btn-flat" id="saveBtn" value="create"><ion-icon name="paper-plane"></ion-icon> Save changes
-    
-                         </button>
-    
-                        </div>
     
                     </form>
     
+                </div>
+
+                <div class="modal-footer">
+    
+                        <button data-dismiss="modal" type="button" class="btn btn-outline-danger btn-flat" id="reset">Batal
+                        </button>
+
+                        <button align="right" type="submit" class="btn btn-outline-primary btn-flat" id="saveBtn" value="create">Simpan
+                        </button>
+
                 </div>
     
             </div>
@@ -169,6 +170,14 @@
     
 
 @section('js')
+<script>
+    $(".allownumericwithoutdecimal").on("keypress keyup blur",function (event) {    
+        $(this).val($(this).val().replace(/[^\d].+/, ""));
+            if ((event.which < 48 || event.which > 57)) {
+                event.preventDefault();
+            }
+    });
+</script>
 <script>
     $("#productForm").validate({
         rules: {
@@ -256,6 +265,7 @@
           $('#petugas_id').val('');
           $('#productForm').trigger("reset");
           $('#modelHeading').html("Create New");
+          $('#ajaxModel').modal({backdrop: 'static', keyboard: false});
           $('#ajaxModel').modal('show');
           $('.alert-danger').html('');
           $('.alert-danger').css('display','none');
@@ -273,6 +283,7 @@
         $.get("{{ url('petugas') }}" +'/' + petugas_id +'/edit', function (data) {
             $('#modelHeading').html("Edit Product");
             $('#saveBtn').val("edit-user");
+            $('#ajaxModel').modal({backdrop: 'static', keyboard: false});
             $('#ajaxModel').modal('show');
             $('#petugas_id').val(data.id);
             $('#kode_petugas').val(data.kode_petugas);
@@ -300,7 +311,7 @@
   
           e.preventDefault();
   
-          $(this).html('Save Changes');
+          $(this).html('Simpan');
   
       
   
@@ -347,7 +358,7 @@
                     $('.alert-danger').append('<p>'+value+'</p>');
                 });
                 $("#result").html('');
-                $('#saveBtn').html('Save Changes');
+                $('#saveBtn').html('Simpan');
             }
   
         });
