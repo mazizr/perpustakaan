@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Request;
 
 class AnggotaRequest extends FormRequest
 {
@@ -20,7 +21,7 @@ class AnggotaRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(Request $request)
     {
         return [
             'kode_anggota' => 'required|max:4|unique:anggotas,kode_anggota,'.$request->anggota_id.',id',
@@ -39,6 +40,7 @@ class AnggotaRequest extends FormRequest
     {
         return [
             'kode_anggota.required' => 'Kode Anggota wajib diisi',
+            'kode_anggota.unique' => 'Kode Anggota telah terpakai',
             'kode_anggota.max' => 'Kode Anggota Maksimal 4 Karakter',
             'nama.required' => 'Nama Wajib Diisi',
             'jk.required' => 'Jenis Kelamin Harus Dipilih',

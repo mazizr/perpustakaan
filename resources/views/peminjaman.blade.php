@@ -1,17 +1,17 @@
-@extends('layouts.backend')
+@extends('layouts.backend-baru')
 
 @section('content')
 <!-- Main content -->
 <div class="container">
         
-    <a class="btn btn-dark btn-sm" href="javascript:void(0)" id="createNewProduct">
-         Create New
+    <a class="btn btn-primary btn-flat btn-sm" href="javascript:void(0)" id="createNewProduct">
+        Create New
     </a>
     <br/>
     <br/>
     <table class="table table-bordered data-table" width="100%">
 
-        <thead class="thead-dark">
+        <thead class="thead-dark bg-primary">
 
             <tr>
 
@@ -70,7 +70,7 @@
 
                         <label for="name" class="col-sm-2 control-label">Kode Peminjaman</label>
 
-                        <div class="col-sm-12">
+                        <div class="col-sm-10">
 
                             <input type="text" class="form-control" id="kode_pinjam" name="kode_pinjam" placeholder="Masukkan Kode Petugas" value="" maxlength="50" required="">
 
@@ -82,9 +82,9 @@
 
                         <label for="name" class="col-sm-2 control-label">Nama Petugas</label>
 
-                        <div class="col-sm-12">
-
-                            <select type="text" class="form-control select2 isi-petugas" id="kode_petugas" name="kode_petugas" placeholder="Masukkan Nama Petugas" value="" maxlength="50" required="">
+                        <div class="col-sm-10">
+                            <input type="hidden" name="kode_petugas" class="p">
+                            <select style="width: 100%;" type="text" class="form-control select2 isi-petugas" id="kode_petugas" name="kode_petugas" placeholder="Masukkan Nama Petugas" value="" maxlength="50" required="">
                             </select>
                         </div>
 
@@ -94,9 +94,9 @@
 
                         <label for="name" class="col-sm-2 control-label">Nama Anggota</label>
 
-                        <div class="col-sm-12">
-
-                                <select type="text" class="form-control select2 isi-anggota" id="kode_anggota" name="kode_anggota" placeholder="Masukkan Nama Petugas" value="" maxlength="50" required="">
+                        <div class="col-sm-10">
+                                <input type="hidden" name="kode_anggota" class="a">
+                                <select style="width: 100%;" type="text" class="form-control select2 isi-anggota" id="kode_anggota" name="kode_anggota" placeholder="Masukkan Nama Petugas" value="" maxlength="50" required="">
                                 </select>
                         </div>
 
@@ -106,9 +106,9 @@
 
                         <label for="name" class="col-sm-2 control-label">Nama Buku</label>
 
-                        <div class="col-sm-12">
-
-                            <select type="text" class="form-control select2 isi-buku" id="kode_buku" name="kode_buku" placeholder="Masukkan Jabatan Petugas" value="" maxlength="50" required="">
+                        <div class="col-sm-10">
+                                <input type="hidden" name="kode_buku" class="b">
+                            <select style="width: 100%;" type="text" class="form-control select2 isi-buku" id="kode_buku" name="kode_buku" placeholder="Masukkan Jabatan Petugas" value="" maxlength="50" required="">
                             </select>
                         </div>
 
@@ -118,10 +118,13 @@
 
                             <label for="name" class="col-sm-2 control-label">Tanggal Peminjaman</label>
     
-                            <div class="col-sm-12">
-    
-                                <input type="date" class="form-control" id="tanggal_pinjam" name="tanggal_pinjam" placeholder="Masukkan Telepon Petugas" value="" maxlength="50" required="">
-    
+                            <div class="col-sm-10">
+                                    <div class="input-group date">
+                                        <div class="input-group-addon">
+                                          <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="text" class="form-control pull-right datepicker" required="" id="tanggal_pinjam" name="tanggal_pinjam">
+                                    </div>
                             </div>
     
                     </div>
@@ -130,9 +133,13 @@
 
                             <label class="col-sm-2 control-label">Tanggal Pengembalian</label>
     
-                            <div class="col-sm-12">
-    
-                                    <input type="date" class="form-control" id="tanggal_kembali" name="tanggal_kembali" placeholder="Masukkan Telepon Petugas" value="" maxlength="50" required="">
+                            <div class="col-sm-10">
+                                            <div class="input-group date">
+                                                <div class="input-group-addon">
+                                                  <i class="fa fa-calendar"></i>
+                                                </div>
+                                                <input style="width: 100%;" type="text" class="form-control pull-right datepicker" required="" id="tanggal_kembali" name="tanggal_kembali">
+                                            </div>
     
                             </div>
     
@@ -143,11 +150,12 @@
             </div>
 
             <div class="modal-footer">
-                <button data-dismiss="modal" type="button" class="btn btn-outline-danger btn-flat" id="reset">Batal
-                </button>
+    
+                    <button data-dismiss="modal" type="button" class="btn btn-default btn-flat pull-left" id="reset">Batal
+                    </button>
 
-                <button align="right" type="submit" class="btn btn-outline-primary btn-flat" id="saveBtn" value="create">Simpan
-                </button>
+                    <button align="right" type="submit" class="btn btn-primary btn-flat" id="saveBtn" value="create">Simpan
+                    </button>
 
             </div>
 
@@ -162,7 +170,9 @@
 
 
 @section('js')
+
 <script>
+    
     $("#productForm").validate({
         rules: {
             kode_pinjam:{
@@ -176,7 +186,33 @@
                 maxlength : "Tidak bisa lebih dari 4"
             }
         }
-    })
+    });
+
+    $('#ajaxModel').on('shown.bs.modal',function(){
+        $('.tgl').datepicker({
+                zIndex: 999999,
+                format: 'dd-mm-yyyy',
+                autoclose: true,
+                changeMonth: true,
+                changeYear: true,
+        });
+
+        $(document).ready(function(){
+            $('.tgl').on("cut paste",function(e) {
+            e.preventDefault();
+            });
+        });
+
+        $('.tgl').keydown(function(e) {
+            if (e.keyCode === 8 || e.keyCode === 46) {
+            return false;
+            }
+        });
+
+        $('.tgl').keypress(function(e) {
+            return false
+        });
+    });
 </script>
 <script type="text/javascript">
 
@@ -204,11 +240,11 @@ $(function () {
 
           {data: 'kode_pinjam', name: 'kode_pinjam'},
 
-          {data: 'petugas.nama', name: 'kode_petugas'},
+          {data: 'nama_petugas', name: 'kode_petugas'},
 
-          {data: 'anggota.nama', name: 'kode_anggota'},
+          {data: 'nama_anggota', name: 'kode_anggota'},
 
-          {data: 'buku.judul', name: 'kode_buku'},
+          {data: 'judul', name: 'kode_buku'},
 
           {data: 'tanggal_pinjam', name: 'tanggal_pinjam'},
 
@@ -286,6 +322,7 @@ $.ajax({
       $('#productForm').trigger("reset");
       $('#modelHeading').html("Create New");
       $('#ajaxModel').modal({backdrop: 'static', keyboard: false});
+      
       $('#ajaxModel').modal('show');
       $('.alert-danger').html('');
       $('.alert-danger').css('display','none');
@@ -299,28 +336,28 @@ $.ajax({
   $('body').on('click', '.editProduct', function () {
 
     var peminjaman_id = $(this).data('id');
-
-    $.get("{{ url('peminjaman') }}" +'/' + peminjaman_id +'/edit', function (data) {
-        $('#modelHeading').html("Edit Product");
-        $('#saveBtn').val("edit-user");
-        $('#ajaxModel').modal({backdrop: 'static', keyboard: false});
-        $('#ajaxModel').modal('show');
-        $('#peminjaman_id').val(data.id);
-        $('#kode_pinjam').val(data.kode_pinjam);
-        $('#kode_petugas').val(data.kode_petugas);
-        $('#kode_anggota').val(data.kode_anggota);
-        $('#kode_buku').val(data.kode_buku);
-        $('#tanggal_pinjam').val(data.tanggal_pinjam);
-        $('#tanggal_kembali').val(data.tanggal_kembali);
-        $('.alert-danger').html('');
+        $.get("{{ url('peminjaman') }}" +'/' + peminjaman_id +'/edit', function (data) {
+            $.each(data,function(key, value){
+                console.log(value);
+            $('#modelHeading').html("Edit Peminjaman");
+            $('#saveBtn').val("edit-user");
+            $('#ajaxModel').modal({backdrop: 'static', keyboard: false});
+            $('#ajaxModel').modal('show');
+            $('#peminjaman_id').val(value.id);
+            $('#kode_pinjam').val(value.kode_pinjam);
+            $('#tanggal_pinjam').val(value.tanggal_pinjam);
+            $('#tanggal_kembali').val(value.tanggal_kembali);
+            $('#kode_petugas').val(value.nama_petugas);
+            $('#kode_anggota').val(value.nama_anggota);
+            $('#kode_buku').val(value.judul);
+            $('.p').val(value.id_petugas);
+            $('.a').val(value.id_anggota);
+            $('.b').val(value.id_buku);
+            $('.alert-danger').html('');
             $('.alert-danger').css('display','none');
-            $("input").keypress(function(){
-                $('.alert-danger').css('display','none');
             });
-
-    })
-
- });
+        })
+    });
 
   
 

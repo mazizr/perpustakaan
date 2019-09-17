@@ -1,17 +1,17 @@
-@extends('layouts.backend')
+@extends('layouts.backend-baru')
     
 @section('content')
 <!-- Main content -->
 <div class="container">
         
-    <a class="btn btn-dark btn-sm" href="javascript:void(0)" id="createNewProduct">
-         Create New
+    <a class="btn btn-primary btn-flat btn-sm" href="javascript:void(0)" id="createNewProduct">
+        Create New
     </a>
     <br/>
     <br/>
     <table class="table table-bordered data-table">
 
-        <thead class="thead-dark">
+        <thead class="thead-dark bg-primary">
 
             <tr>
 
@@ -45,7 +45,7 @@
 
     <div class="modal-dialog modal-lg">
 
-        <div class="modal-content bg-dark">
+        <div class="modal-content">
 
             <div class="modal-header">
 
@@ -72,7 +72,7 @@
 
                         <label for="name" class="control-label">Kode Kembali</label>
 
-                        <div class="col-sm-12">
+                        <div class="col-sm-10">
 
                             <input type="text" class="form-control" id="kode_kembali" name="kode_kembali" placeholder="Masukkan Kode Petugas" value="" maxlength="50" required="">
 
@@ -84,7 +84,7 @@
 
                             <label for="name" class="control-label">Kode Pinjam</label>
     
-                            <div class="col-sm-12">
+                            <div class="col-sm-10">
     
                                 <select type="text" class="form-control isi-pinjam" id="kode_pinjam" name="kode_pinjam" placeholder="Masukkan Nama Petugas" value="" maxlength="50" required="">
                                 </select>
@@ -97,11 +97,14 @@
 
                         <label for="name" class="control-label">Tanggal Kembali</label>
 
-                        <div class="col-sm-12">
-
-                            <input type="date" class="form-control" name="tanggal_kembali" id="tanggal_kembali">
-
-                        </div>
+                                <div class="col-sm-10">
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                              <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" class="form-control pull-right datepicker" required="" id="tanggal_kembali" name="tanggal_kembali">
+                                        </div>
+                                </div>
 
                     </div>
 
@@ -109,9 +112,9 @@
 
                         <label for="name" class="control-label">Jatuh Tempo</label>
 
-                        <div class="col-sm-12">
+                        <div class="col-sm-10">
                                 <input type="hidden" name="jatuh_tempo" id="isi_jatuh_tempo">
-                                <input type="date" placeholder="Nama Anggota" class="form-control" id="jatuh_tempo" disabled>
+                                <input type="text" placeholder="Nama Anggota" class="form-control datepicker" id="jatuh_tempo" disabled>
                         </div>
 
                     </div>
@@ -120,7 +123,7 @@
 
                             <label for="name" class="control-label">Nama Petugas</label>
     
-                            <div class="col-sm-12">
+                            <div class="col-sm-10">
                                     <input type="hidden" name="kode_petugas" id="isi_kode_petugas">
                                     <input type="text" placeholder="Nama Anggota" class="form-control" id="kode_petugas" disabled>
                             </div>
@@ -131,7 +134,7 @@
     
                             <label for="name" class="control-label">Nama Anggota</label>
     
-                            <div class="col-sm-12">
+                            <div class="col-sm-10">
                                     <input type="hidden" name="kode_anggota" id="isi_kode_anggota">
                                     <input type="text" class="form-control" id="kode_anggota" placeholder="Nama Anggota" value="" disabled>
 
@@ -143,7 +146,7 @@
     
                             <label for="name" class="control-label">Nama Buku</label>
     
-                            <div class="col-sm-12">
+                            <div class="col-sm-10">
                                     <input type="hidden" name="kode_buku" id="isi_kode_buku">
                                     <input type="text" placeholder="Nama Anggota" class="form-control" id="kode_buku" disabled>
                             </div>
@@ -155,11 +158,12 @@
             </div>
 
             <div class="modal-footer">
-                <button data-dismiss="modal" type="button" class="btn btn-outline-danger btn-flat" id="reset">Batal
-                </button>
+    
+                    <button data-dismiss="modal" type="button" class="btn btn-default btn-flat pull-left" id="reset">Batal
+                    </button>
 
-                <button align="right" type="submit" class="btn btn-outline-primary btn-flat" id="saveBtn" value="create">Simpan
-                </button>
+                    <button align="right" type="submit" class="btn btn-primary btn-flat" id="saveBtn" value="create">Simpan
+                    </button>
 
             </div>
 
@@ -190,14 +194,14 @@ $(function () {
       columns: [
           {data: 'DT_RowIndex', name: 'DT_RowIndex'},
           {data: 'kode_kembali', name: 'kode_kembali'},
-          {data: 'peminjaman.kode_pinjam', name: 'kode_pinjam'},
+          {data: 'kode_pinjam', name: 'kode_pinjam'},
           {data: 'tanggal_kembali', name: 'tanggal_kembali'},
           {data: 'jatuh_tempo', name: 'jatuh_tempo'},
           {data: 'jumlah_hari', name: 'jumlah_hari'},
           {data: 'total_denda', name: 'total_denda'},
-          {data: 'petugas.nama', name: 'nama'},
-          {data: 'anggota.nama', name: 'nama'},
-          {data: 'buku.judul', name: 'judul'},
+          {data: 'nama_petugas', name: 'nama'},
+          {data: 'nama_anggota', name: 'nama'},
+          {data: 'judul', name: 'judul'},
           {data: 'action', name: 'action', orderable: false, searchable: false},
       ]
   });
@@ -272,13 +276,17 @@ $(function () {
         $('#pengembalian_id').val(data.datapengembalian.id);
         $('#kode_pinjam').val(data.datapengembalian.kode_pinjam);
         $('#kode_kembali').val(data.datapengembalian.kode_kembali);
-        $('#tanggal_kembali').val(data.datapengembalian.tanggal_kembali);
-        $('#jatuh_tempo').val(data.datapengembalian.jatuh_tempo);
+        $('#isi_jatuh_tempo').val(data.datapengembalian.jatuh_tempo);
         $.each(data.peminjaman, function(key, value){
             console.log(value)
             $('#kode_buku').val(value.judul);
             $('#kode_petugas').val(value.nama_petugas);
             $('#kode_anggota').val(value.nama_anggota);
+            $('#isi_kode_anggota').val(value.id_anggota);
+            $('#isi_kode_petugas').val(value.id_petugas);
+            $('#isi_kode_buku').val(value.id_buku);
+            $('#jatuh_tempo').val(value.jatuh_tempo);
+            $('#tanggal_kembali').val(value.tanggal_kembali);
         });
         
         $('.alert-danger').html('');

@@ -1,41 +1,50 @@
-@include('layouts.flash')
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="csrf-token" content="{{ csrf_token() }}">
-  <title>Ajax CRUD</title>
+  <title>Perpustakaan | Dashboard</title>
   <!-- Tell the browser to be responsive to screen width -->
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <!-- Bootstrap 3.3.7 -->
+  <link rel="stylesheet" href="{{ asset('assets/backend-baru/bower_components/bootstrap/dist/css/bootstrap.min.css') }}">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="{{asset('assets/backend/plugins/fontawesome-free/css/all.min.css')}}">
+  <link rel="stylesheet" href="{{ asset('assets/backend-baru/bower_components/font-awesome/css/font-awesome.min.css') }}">
   <!-- Ionicons -->
-  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css')}}">
-  <!-- Tempusdominus Bbootstrap 4 -->
-  <link rel="stylesheet" href="{{asset('assets/backend/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css')}}">
-  <!-- iCheck -->
-  <link rel="stylesheet" href="{{asset('assets/backend/plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
-  <!-- JQVMap -->
-  <link rel="stylesheet" href="{{asset('assets/backend/plugins/jqvmap/jqvmap.min.css')}}">
+  <link rel="stylesheet" href="{{ asset('assets/backend-baru/bower_components/Ionicons/css/ionicons.min.css') }}">
   <!-- Theme style -->
-  <link rel="stylesheet" href="{{ asset('assets/backend/dist/css/adminlte.min.css')}}">
-  <!-- DataTables -->
-  <link rel="stylesheet" href="{{ asset('assets/backend/plugins/datatables-bs4/css/dataTables.bootstrap4.css')}}">
-  <!-- overlayScrollbars -->
-  <link rel="stylesheet" href="{{asset('assets/backend/plugins/overlayScrollbars/css/OverlayScrollbars.min.css')}}">
+  <link rel="stylesheet" href="{{ asset('assets/backend-baru/dist/css/AdminLTE.min.css') }}">
+  <!-- AdminLTE Skins. Choose a skin from the css/skins
+       folder instead of downloading all of them to reduce the load. -->
+  <link rel="stylesheet" href="{{ asset('assets/backend-baru/dist/css/skins/_all-skins.min.css') }}">
+  <!-- iCheck for checkboxes and radio inputs -->
+  <link rel="stylesheet" href="{{ asset('assets/backend-baru/plugins/iCheck/all.css') }}">
+  <!-- Morris chart -->
+  <link rel="stylesheet" href="{{ asset('assets/backend-baru/bower_components/morris.js/morris.css') }}">
+  <!-- jvectormap -->
+  <link rel="stylesheet" href="{{ asset('assets/backend-baru/bower_components/jvectormap/jquery-jvectormap.css') }}">
+  <!-- Date Picker -->
+  <link rel="stylesheet" href="{{ asset('assets/backend-baru/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}">
   <!-- Daterange picker -->
-  <link rel="stylesheet" href="{{asset('assets/backend/plugins/daterangepicker/daterangepicker.css')}}">
-  <!-- summernote -->
-  <link rel="stylesheet" href="{{asset('assets/backend/plugins/summernote/summernote-bs4.css')}}">
-  <link rel="stylesheet" href="{{asset('assets/backend/animate.css')}}">
-  <!-- Google Font: Source Sans Pro -->
-  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
+  <link rel="stylesheet" href="{{ asset('assets/backend-baru/bower_components/bootstrap-daterangepicker/daterangepicker.css') }}">
+  <!-- bootstrap wysihtml5 - text editor -->
+  <link rel="stylesheet" href="{{ asset('assets/backend-baru/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css') }}">
 
-        <!-- Styles -->
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js') }}"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js') }}"></script>
+  <![endif]-->
+
+  <!-- Google Font -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+  <!-- DataTable -->
+  <link rel="stylesheet" href="datatables.min.css">
+  <!-- Select2 -->
+  <link rel="stylesheet" href="{{ asset('assets/backend-baru/bower_components/select2/dist/css/select2.min.css') }}">
+  <!-- Styles -->
         <style>
             html, body {
                 background-color: #fff;
@@ -89,180 +98,112 @@
             }
         </style>
   @yield('css')
-    
 </head>
-<body class="hold-transition sidebar-mini layout-fixed">
-<div class="wrapper">
-
-  <!-- Navbar -->
-  <!-- /.navbar -->
-
-  <!-- Main Sidebar Container -->
-  <aside class="main-sidebar sidebar-dark-primary elevation-4">
-    <!-- Brand Logo -->
+<body class="hold-transition skin-blue sidebar-mini">
     
-
-    <!-- Sidebar -->
-    <div class="sidebar">
-      <!-- Sidebar user panel (optional) -->
-      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        <div class="image">
-          <img src="{{asset('assets/backend/dist/img/aziz.jpg')}}" class="img-circle elevation-2" alt="User Image">
-        </div>
-        <div class="info">
-          <p class="text-white">Mohammad Aziz Riza</p>
-        </div>
-      </div>
-
-      <!-- Sidebar Menu -->
-      <nav class="mt-2">
-          <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-            <!-- Add icons to the links using the .nav-icon class
-                 with font-awesome or any other icon font library -->
-            <li class="nav-item has-treeview">
-              <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-th"></i>
-                <p>
-                  Data Master
-                  <i class="right fas fa-angle-left"></i>
-                </p>
-              </a>
-              <ul class="nav nav-treeview">
-                  <li class="nav-item">
-                      <a href="{{ url('petugas')}}" class="nav-link">
-                        <i class="far fa-circle nav-icon text-info"></i>
-                        <p>Petugas</p>
-                      </a>
-                  </li>
-                  <li class="nav-item">
-                      <a href="{{ url('anggota')}}" class="nav-link">
-                        <i class="far fa-circle nav-icon text-info"></i>
-                        <p>Anggota</p>
-                      </a>
-                    </li>
-                    <li class="nav-item">
-                      <a href="{{ url('buku')}}" class="nav-link">
-                        <i class="far fa-circle nav-icon text-info"></i>
-                        <p>Buku</p>
-                      </a>
-                    </li>
-                <li class="nav-item">
-                  <a href="{{ url('rak')}}" class="nav-link">
-                    <i class="far fa-circle nav-icon text-info"></i>
-                    <p>Rak</p>
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li class="nav-item has-treeview">
-                <a href="#" class="nav-link">
-                  <i class="nav-icon fas fa-edit"></i>
-                  <p>
-                    Transaksi
-                    <i class="right fas fa-angle-left"></i>
-                  </p>
-                </a>
-                <ul class="nav nav-treeview">
-                    <li class="nav-item">
-                        <a href="{{ url('peminjaman')}}" class="nav-link">
-                          <i class="far fa-circle nav-icon text-warning"></i>
-                          <p>Peminjaman</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ url('pengembalian')}}" class="nav-link">
-                          <i class="far fa-circle nav-icon text-warning"></i>
-                          <p>Pengembalian</p>
-                        </a>
-                      </li>
-                </ul>
-              </li>
-          </ul>
-        </nav>
-      <!-- /.sidebar-menu -->
-    </div>
-    <!-- /.sidebar -->
-  </aside>
+<div class="wrapper">
+    @include('layouts.backend-baru.sidebar')
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    
-    <!-- /.content-header -->
-
+    {{--  <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <i class="glyphicon glyphicon-book"></i>
+      <h1>
+        Perpustakaan
+      </h1>
+      <br/>
+    </section>  --}}
+<br/>
     <!-- Main content -->
     <div class="flex-center position-ref full-height">
         <div class="content">
             <div class="title m-b-md">
-                <ion-icon name="book"></ion-icon> Perpustakaan
+                <i class="glyphicon glyphicon-book"></i> Perpustakaan
             </div>
         </div>
     </div>
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
-  <footer class="main-footer">
-    <strong>Copyright &copy; 2014-2019 <a href="http://adminlte.io">AdminLTE.io</a>.</strong>
-    All rights reserved.
-    <div class="float-right d-none d-sm-inline-block">
-      <b>Version</b> 3.0.0-rc.1
-    </div>
-  </footer>
-
-  <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark">
-    <!-- Control sidebar content goes here -->
-    
-  </aside>
-  <!-- /.control-sidebar -->
 </div>
 <!-- ./wrapper -->
-
-<!-- jQuery -->
-<script src="{{asset('assets/backend/plugins/jquery/jquery.min.js')}}"></script>
+<!-- jQuery 3 -->
+<script src="{{ asset('assets/backend-baru/bower_components/jquery/dist/jquery.min.js') }}"></script>
 <!-- jQuery UI 1.11.4 -->
-<script src="{{asset('assets/backend/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
+<script src="{{ asset('assets/backend-baru/bower_components/jquery-ui/jquery-ui.min.js') }}"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
 <script>
-  $.widget.bridge('uibutton', $.ui.button)
+  $.widget.bridge('uibutton', $.ui.button);
 </script>
-<!-- Bootstrap 4 -->
-<script src="{{asset('assets/backend/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
-<!-- ChartJS -->
-<script src="{{asset('assets/backend/plugins/chart.js')}}/Chart.min.js')}}"></script>
+<script>
+        jQuery.ready();
+</script>
+<!-- Bootstrap 3.3.7 -->
+<script src="{{ asset('assets/backend-baru/bower_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+<!-- Morris.js charts -->
+<script src="{{ asset('assets/backend-baru/bower_components/raphael/raphael.min.js') }}"></script>
+<script src="{{ asset('assets/backend-baru/bower_components/morris.js/morris.min.js') }}"></script>
 <!-- Sparkline -->
-<script src="{{asset('assets/backend/plugins/sparklines/sparkline.js')}}"></script>
-<!-- JQVMap -->
-<script src="{{asset('assets/backend/plugins/jqvmap/jquery.vmap.min.js')}}"></script>
-<script src="{{asset('assets/backend/plugins/jqvmap/maps/jquery.vmap.world.js')}}"></script>
+<script src="{{ asset('assets/backend-baru/bower_components/jquery-sparkline/dist/jquery.sparkline.min.js') }}"></script>
+<!-- jvectormap -->
+<script src="{{ asset('assets/backend-baru/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js') }}"></script>
+<script src="{{ asset('assets/backend-baru/plugins/jvectormap/jquery-jvectormap-world-mill-en.js') }}"></script>
 <!-- jQuery Knob Chart -->
-<script src="{{asset('assets/backend/plugins/jquery-knob/jquery.knob.min.js')}}"></script>
+<script src="{{ asset('assets/backend-baru/bower_components/jquery-knob/dist/jquery.knob.min.js') }}"></script>
 <!-- daterangepicker -->
-<script src="{{asset('assets/backend/plugins/moment/moment.min.js')}}"></script>
-<script src="{{asset('assets/backend/plugins/daterangepicker/daterangepicker.js')}}"></script>
-<!-- Tempusdominus Bootstrap 4 -->
-<script src="{{asset('assets/backend/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js')}}"></script>
-<!-- Summernote -->
-<script src="{{asset('assets/backend/plugins/summernote/summernote-bs4.min.js')}}"></script>
-<!-- overlayScrollbars -->
-<script src="{{asset('assets/backend/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js')}}"></script>
-<!-- DataTables -->
-<script src="{{ asset('assets/backend/plugins/datatables/jquery.dataTables.js')}}"></script>
-<script src="{{ asset('assets/backend/plugins/datatables-bs4/js/dataTables.bootstrap4.js')}}"></script>
+<script src="{{ asset('assets/backend-baru/bower_components/moment/min/moment.min.js') }}"></script>
+<script src="{{ asset('assets/backend-baru/bower_components/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
+<!-- datepicker -->
+<script src="{{ asset('assets/backend-baru/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
+<!-- Bootstrap WYSIHTML5 -->
+<script src="{{ asset('assets/backend-baru/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js') }}"></script>
+<!-- Slimscroll -->
+<script src="{{ asset('assets/backend-baru/bower_components/jquery-slimscroll/jquery.slimscroll.min.js') }}"></script>
+<!-- FastClick -->
+<script src="{{ asset('assets/backend-baru/bower_components/fastclick/lib/fastclick.js') }}"></script>
 <!-- AdminLTE App -->
-<script src="{{asset('assets/backend/dist/js/adminlte.js')}}"></script>
+<script src="{{ asset('assets/backend-baru/dist/js/adminlte.min.js') }}"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="{{asset('assets/backend/dist/js/pages/dashboard.js')}}"></script>
-<script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
+<script src="{{ asset('assets/backend-baru/dist/js/pages/dashboard.js') }}"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="{{ asset('assets/backend-baru/dist/js/demo.js') }}"></script>
+<!-- DataTables -->
+<script src="datatables.min.js"></script>
+<!-- Select2 -->
+<script src="{{ asset('assets/backend-baru/bower_components/select2/dist/js/select2.full.min.js') }}"></script>
+<!-- datepicker -->
+<script>
+    $('.datepicker').datepicker({
+        autoclose: true,
+        zIndex: 999999,
+        format: 'dd-mm-yyyy',
+        autoclose: true,
+        changeMonth: true,
+        changeYear: true,
+    })
+</script>
+<!-- iCheck 1.0.1 -->
+<script src="{{ asset('assets/backend-baru/plugins/iCheck/icheck.min.js') }}"></script>
+<!-- page script -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 <script>
-    $(function () {
-      $("#example1").DataTable();
-      
-    });
-  </script>
-<!-- AdminLTE for demo purposes -->
-<script src="{{asset('assets/backend/dist/js/demo.js')}}"></script>
+  //iCheck for checkbox and radio inputs
+  $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
+    checkboxClass: 'icheckbox_minimal-blue',
+    radioClass   : 'iradio_minimal-blue'
+  })
+  //Red color scheme for iCheck
+  $('input[type="checkbox"].minimal-red, input[type="radio"].minimal-red').iCheck({
+    checkboxClass: 'icheckbox_minimal-red',
+    radioClass   : 'iradio_minimal-red'
+  })
+  //Flat red color scheme for iCheck
+  $('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck({
+    checkboxClass: 'icheckbox_flat-green',
+    radioClass   : 'iradio_flat-green'
+  })
+</script>
 @yield('js')
 </body>
 </html>

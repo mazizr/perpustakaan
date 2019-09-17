@@ -1,15 +1,17 @@
-@extends('layouts.backend')
+@extends('layouts.backend-baru')
 
 @section('content')
 <!-- Main content -->
 <div class="container">
 
-    <a class="btn btn-dark btn-sm" href="javascript:void(0)" id="createNewProduct"> Create New</a>
+    <a class="btn btn-primary btn-flat btn-sm" href="javascript:void(0)" id="createNewProduct">
+        Create New
+    </a>
     <br/>
     <br/>
     <table class="table table-bordered data-table" width="100%">
 
-    <thead class="thead-dark">
+    <thead class="thead-dark bg-primary">
 
         <tr>
 
@@ -66,7 +68,7 @@
 
                     <label for="name" class="col-sm-2 control-label">Kode Anggota</label>
 
-                    <div class="col-sm-12">
+                    <div class="col-sm-10">
 
                         <input type="text" class="form-control @error('kode_anggota') is-invalid @enderror" 
                         id="kode_anggota" name="kode_anggota" placeholder="Masukkan Kode Anggota" value="" maxlength="50" required="">
@@ -78,7 +80,7 @@
 
                     <label for="name" class="col-sm-2 control-label">Nama</label>
 
-                    <div class="col-sm-12">
+                    <div class="col-sm-10">
 
                         <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukkan Nama Anggota" value="" maxlength="50" required="">
 
@@ -90,17 +92,26 @@
 
                     <label for="name" class="col-sm-2 control-label">Jenis Kelamin</label>
 
-                    <div class="col-sm-12">
+                    <div class="col-sm-10">
 
                             <div class="form-group">
-                                    <div class="custom-control custom-radio">
+                                    <label>
+                                            <input type="radio" name="jk" value="Laki - Laki" class="minimal jk">
+                                            Laki - Laki
+                                    </label>
+                                    <br>
+                                    <label>
+                                            <input type="radio" name="jk" value="Perempuan" class="minimal jk">
+                                            Perempuan
+                                    </label>
+                                    {{--  <div class="custom-control custom-radio">
                                       <input class="custom-control-input jk" type="radio" id="customRadio1" value="Laki - Laki" name="jk">
                                       <label for="customRadio1" class="custom-control-label">Laki - Laki</label>
                                     </div>
                                     <div class="custom-control custom-radio">
                                         <input class="custom-control-input jk" type="radio" value="Perempuan" id="customRadio2" name="jk">
                                         <label for="customRadio2" class="custom-control-label">Perempuan</label>
-                                    </div>
+                                    </div>  --}}
                             </div>
 
                     </div>
@@ -111,7 +122,7 @@
 
                     <label for="name" class="col-sm-2 control-label">Jurusan</label>
 
-                    <div class="col-sm-12">
+                    <div class="col-sm-10">
 
                         <select class="form-control" name="jurusan" id="jurusan">
                                 
@@ -130,7 +141,7 @@
 
                         <label class="col-sm-2 control-label">Alamat</label>
 
-                        <div class="col-sm-12">
+                        <div class="col-sm-10">
 
                             <textarea id="alamat" name="alamat" required="" placeholder="Masukkan Alamat" class="form-control"></textarea>
 
@@ -143,11 +154,12 @@
         </div>
 
         <div class="modal-footer">
-            <button data-dismiss="modal" type="button" class="btn btn-outline-danger btn-flat" id="reset">Batal
-            </button>
+    
+                <button data-dismiss="modal" type="button" class="btn btn-default btn-flat pull-left" id="reset">Batal
+                </button>
 
-            <button align="right" type="submit" class="btn btn-outline-primary btn-flat" id="saveBtn" value="create">Simpan
-            </button>
+                <button align="right" type="submit" class="btn btn-primary btn-flat" id="saveBtn" value="create">Simpan
+                </button>
 
         </div>
 
@@ -262,7 +274,7 @@
                     position: 'center',
                     type: 'success',
                     animation: false,
-                    title: 'Your work has been saved',
+                    title: 'Data Telah Tersimpan',
                     showConfirmButton: false,
                     timer: 1000,
                     customClass: {
@@ -294,13 +306,14 @@
     
             var anggota_id = $(this).data("id");
             Swal.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
+                title: 'Apa kamu yakin?',
+                text: "Kamu akan menghapus ini!",
                 type: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
+                cancelButtonText: 'Tidak!',
+                confirmButtonText: 'Ya, Hapus ini!'
               }).then((result) => {
                 if (result.value) {
                     $.ajax({

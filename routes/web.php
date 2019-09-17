@@ -37,6 +37,7 @@ Route::delete('/rak-destroy/{id}','RakController@destroy');
 
 Route::get('/peminjaman','PeminjamanController@index');
 Route::post('/peminjaman-store','PeminjamanController@store');
+Route::get('peminjaman-isi/{id}','PengembalianController@isi');
 Route::get('/peminjaman/{id}/edit','PeminjamanController@edit');
 Route::delete('/peminjaman-destroy/{id}','PeminjamanController@destroy');
 

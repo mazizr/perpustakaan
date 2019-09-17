@@ -32,12 +32,22 @@ class PengembalianController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = Pengembalian::with('petugas','anggota','buku','peminjaman')->get();
+            $data = \DB::select('SELECT pg.id, pg.kode_kembali, pj.kode_pinjam, 
+            date_format(pg.tanggal_kembali,"%d-%m-%Y") AS tanggal_kembali, 
+            date_format(pj.tanggal_kembali,"%d-%m-%Y") AS jatuh_tempo,
+            ags.nama AS nama_anggota, 
+            pg.denda_per_hari, pg.total_denda, pt.nama AS nama_petugas, bk.judul, pg.jumlah_hari
+                        FROM pengembalians AS pg 
+                        LEFT JOIN peminjamen AS pj ON pj.id = pg.kode_pinjam
+                        LEFT JOIN petugas AS pt ON pt.id = pj.kode_petugas
+                        LEFT JOIN anggotas AS ags ON  ags.id = pj.kode_anggota
+                        LEFT JOIN bukus AS bk ON bk.id = pj.kode_buku 
+            ');
             return Datatables::of($data)
                     ->addIndexColumn()
-                    ->addColumn('action', function($row){
-                           $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Edit" class="edit btn btn-primary btn-sm editProduct"><ion-icon name="create"></ion-icon></a>';
-                           $btn = $btn.' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Delete" class="btn btn-danger btn-sm deletePetugas"><ion-icon name="trash"></ion-icon></a>';
+                    ->addColumn('action', function($data){
+                           $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$data->id.'" data-original-title="Edit" class="edit btn btn-primary btn-sm editProduct"><i class="glyphicon glyphicon-pencil"></i></a>';
+                           $btn = $btn.' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$data->id.'" data-original-title="Delete" class="btn btn-danger btn-sm deletePetugas"><i class="glyphicon glyphicon-trash"></i></a>';
                             return $btn;
                     })
                     ->rawColumns(['action'])
@@ -63,7 +73,7 @@ class PengembalianController extends Controller
     {
         
         $pengembalian = new Pengembalian;
-        $peminjaman = \DB::select('SELECT b.id,b.kode_pinjam,p.nama AS nama_petugas,a.nama AS nama_anggota,bk.judul, b.tanggal_kembali, 
+        $peminjaman = \DB::select('SELECT b.id,b.kode_pinjam,p.nama AS nama_petugas,a.nama AS nama_anggota,bk.judul, date_format(tanggal_kembali,"%d-%m-%Y") AS tanggal_kembali,
         a.id AS id_anggota, p.id AS id_petugas, bk.id AS id_buku
         FROM peminjamen AS b 
         LEFT JOIN petugas AS p ON p.id = b.kode_petugas
@@ -78,9 +88,11 @@ class PengembalianController extends Controller
 
     public function store(PengembalianRequest $request)
     {
-        $tanggal_kembali = strtotime($request->tanggal_kembali);
-        $jatuh_tempo = strtotime($request->jatuh_tempo);
-        $jumlah =  $tanggal_kembali - $jatuh_tempo ;
+        $tanggal_kembali = \Carbon\Carbon::parse($request->tanggal_kembali)->format("Y-m-d");
+        $jatuh_tempo = \Carbon\Carbon::parse($request->jatuh_tempo)->format("Y-m-d");
+        $tanggal_kembali_detik =  strtotime($request->tanggal_kembali);
+        $jatuh_tempo_detik = strtotime($request->jatuh_tempo);
+        $jumlah =  $tanggal_kembali_detik - $jatuh_tempo_detik ;
         $jumlah_hari = floor($jumlah / (60 * 60 * 24));
         if ($jumlah_hari <= 0) {
             $jumlah_hari = 0;
@@ -94,8 +106,8 @@ class PengembalianController extends Controller
                 [
                     'kode_kembali' => $request->kode_kembali, 
                     'kode_pinjam' => $request->kode_pinjam, 
-                    'tanggal_kembali' => $request->tanggal_kembali,
-                    'jatuh_tempo' => $request->jatuh_tempo,
+                    'tanggal_kembali' => $tanggal_kembali,
+                    'jatuh_tempo' => $jatuh_tempo,
                     'denda_per_hari' => 2000,
                     'jumlah_hari' => $jumlah_hari,
                     'total_denda' => $total_denda,
@@ -123,12 +135,14 @@ class PengembalianController extends Controller
 
     {
         $pengembalian = Pengembalian::find($id);
-        $peminjaman = \DB::select('SELECT pg.id, a.nama AS nama_anggota, p.nama AS nama_petugas, bk.judul, pm.kode_pinjam
+        $peminjaman = \DB::select('SELECT pg.id, a.nama AS nama_anggota, p.nama AS nama_petugas, bk.judul, pm.kode_pinjam,p.id AS id_petugas,a.id AS id_anggota,bk.id AS id_buku,
+        date_format(pm.tanggal_kembali,"%d-%m-%Y") AS jatuh_tempo,
+date_format(pg.tanggal_kembali,"%d-%m-%Y") AS tanggal_kembali
                                     FROM pengembalians AS pg
                                     LEFT JOIN petugas AS p ON p.id = pg.kode_petugas
                                     LEFT JOIN anggotas AS a ON a.id = pg.kode_anggota
                                     LEFT JOIN bukus AS bk ON bk.id = pg.kode_buku 
-                                    LEFT JOIN peminjamen pm ON pm.id = pg.kode_pinjam
+                                    LEFT JOIN peminjamen pm ON pm.id = pg.kode_pinjam                         
                                     WHERE pg.id = '.$id.'
                                     ');
                                     foreach ($peminjaman as $value) {

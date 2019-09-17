@@ -1,15 +1,17 @@
-@extends('layouts.backend')
+@extends('layouts.backend-baru')
 
 @section('content')
 <!-- Main content -->
 <div class="container">
 
-    <a class="btn btn-dark btn-sm" href="javascript:void(0)" id="createNewProduct"> Create New</a>
+    <a class="btn btn-primary btn-flat btn-sm" href="javascript:void(0)" id="createNewProduct">
+        Create New
+    </a>
     <br/>
     <br/>
     <table class="table table-bordered data-table" width="100%">
 
-    <thead class="thead-dark">
+    <thead class="thead-dark bg-primary">
 
         <tr>
 
@@ -46,6 +48,13 @@
         </div>
 
         <div class="modal-body">
+            <div class="alert alert-danger" style="display:none">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>  
             <form id="productForm" name="productForm" class="form-horizontal">
 
                 <input type="hidden" name="rak_id" id="rak_id">
@@ -53,7 +62,7 @@
 
                     <label for="name" class="col-sm-2 control-label">Kode Rak</label>
 
-                    <div class="col-sm-12">
+                    <div class="col-sm-10">
 
                         <input type="text" class="form-control" id="kode_rak" name="kode_rak" placeholder="Masukkan Kode Rak" value="" maxlength="50" required="">
                         
@@ -66,7 +75,7 @@
 
                     <label for="name" class="col-sm-2 control-label">Nama Rak</label>
 
-                    <div class="col-sm-12">
+                    <div class="col-sm-10">
 
                         <input type="text" class="form-control" id="nama_rak" name="nama_rak" placeholder="Masukkan Nama Rak" value="" maxlength="50" required="">
 
@@ -78,10 +87,10 @@
 
                     <label for="name" class="col-sm-2 control-label">Judul Buku</label>
 
-                    <div class="col-sm-12">
+                    <div class="col-sm-10">
 
                           <select id="buku" class="form-control buku select2" multiple="multiple"
-                           name="buku[]"></select>
+                           name="buku[]" style="width: 100%;"></select>
         
                     </div>
 
@@ -90,12 +99,12 @@
             </form>
         </div>
         <div class="modal-footer">
+    
+                <button data-dismiss="modal" type="button" class="btn btn-default btn-flat pull-left" id="reset">Batal
+                </button>
 
-            <button data-dismiss="modal" type="button" class="btn btn-outline-danger btn-flat" id="reset">Batal
-            </button>
-
-            <button align="right" type="submit" class="btn btn-outline-primary btn-flat" id="saveBtn" value="create">Simpan
-            </button>
+                <button align="right" type="submit" class="btn btn-primary btn-flat" id="saveBtn" value="create">Simpan
+                </button>
 
         </div>
     </div>
@@ -202,23 +211,14 @@
     
 
    $('#saveBtn').click(function (e) {
-
     var formData    = new FormData($('#productForm')[0]);
-
     e.preventDefault();
-
     $(this).html('Menyimpan..');
 
-
-
     $.ajax({
-
       data: formData,
-
       url: "{{ url('rak-store') }}",
-
       type: "POST",
-
       cache: true,
         contentType: false,
         processData: false,

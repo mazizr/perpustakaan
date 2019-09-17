@@ -1,22 +1,21 @@
-    @extends('layouts.backend')
+    @extends('layouts.backend-baru')
     
     @section('content')
     <!-- Main content -->
     <div class="container">
             
-        <a class="btn btn-dark btn-sm" href="javascript:void(0)" id="createNewProduct">
-             Create New
+        <a class="btn btn-primary btn-flat btn-sm" href="javascript:void(0)" id="createNewProduct">
+            Create New
         </a>
         <br/>
         <br/>
-        <table class="table table-bordered data-table" width="100%">
+        <table id="example1" class="table table-bordered data-table">
 
-            <thead class="thead-dark">
+            <thead class="thead-dark bg-primary">
     
                 <tr>
     
                     <th width="10px">No</th>
-    
                     <th width="20px">Kode Petugas</th>
                     <th>Nama</th>
                     <th>Jenis Kelamin</th>
@@ -45,7 +44,7 @@
     
             <div class="modal-content">
     
-                <div class="modal-header">
+                <div class="modal-header box box-primary">
     
                     <h4 class="modal-title" id="modelHeading"></h4>
                     <button type="button" class="close" data-dismiss="modal"><ion-icon name="close-circle"></ion-icon></button>
@@ -59,8 +58,8 @@
                                     <li>{{ $error }}</li>
                                 @endforeach
                             </ul>
-                        </div>
-                    <form id="productForm" name="productForm" class="form-horizontal">
+                        </div>  
+                    <form id="productForm" name="productForm" class="form-horizontal" role="form">
     
                        <input type="hidden" name="petugas_id" id="petugas_id">
     
@@ -68,7 +67,7 @@
     
                             <label for="name" class="col-sm-2 control-label">Kode Petugas</label>
     
-                            <div class="col-sm-12">
+                            <div class="col-sm-10">
     
                                 <input type="text" class="form-control" id="kode_petugas" name="kode_petugas" placeholder="Masukkan Kode Petugas" value="" maxlength="50" required="">
     
@@ -80,7 +79,7 @@
     
                             <label for="name" class="col-sm-2 control-label">Nama</label>
     
-                            <div class="col-sm-12">
+                            <div class="col-sm-10">
     
                                 <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukkan Nama Petugas" value="" maxlength="50" required="">
     
@@ -92,7 +91,7 @@
 
                                 <label for="name" class="col-sm-2 control-label">Jenis Kelamin</label>
             
-                                <div class="col-sm-12">
+                                <div class="col-sm-10">
             
                                         <div class="form-group">
                                                 <div class="custom-control custom-radio">
@@ -113,7 +112,7 @@
     
                             <label for="name" class="col-sm-2 control-label">Jabatan</label>
     
-                            <div class="col-sm-12">
+                            <div class="col-sm-10">
     
                                 <input type="text" class="form-control" id="jabatan" name="jabatan" placeholder="Masukkan Jabatan Petugas" value="" maxlength="50" required="">
     
@@ -125,9 +124,9 @@
     
                                 <label for="name" class="col-sm-2 control-label">Telepon</label>
         
-                                <div class="col-sm-12">
+                                <div class="col-sm-10">
         
-                                    <input type="text" class="form-control allownumericwithoutdecimal" id="telepon" name="telepon" placeholder="Masukkan Telepon Petugas" value="" maxlength="50" required="">
+                                    <input type="text" maxlength="12" class="form-control equipCatValidation allownumericwithoutdecimal" id="telepon" name="telepon" placeholder="Masukkan Telepon Petugas" value="" maxlength="50" required="">
         
                                 </div>
         
@@ -137,7 +136,7 @@
     
                                 <label class="col-sm-2 control-label">Alamat</label>
         
-                                <div class="col-sm-12">
+                                <div class="col-sm-10">
         
                                     <textarea id="alamat" name="alamat" required="" placeholder="Masukkan Alamat" class="form-control"></textarea>
         
@@ -151,10 +150,10 @@
 
                 <div class="modal-footer">
     
-                        <button data-dismiss="modal" type="button" class="btn btn-outline-danger btn-flat" id="reset">Batal
+                        <button data-dismiss="modal" type="button" class="btn btn-default btn-flat pull-left" id="reset">Batal
                         </button>
 
-                        <button align="right" type="submit" class="btn btn-outline-primary btn-flat" id="saveBtn" value="create">Simpan
+                        <button align="right" type="submit" class="btn btn-primary btn-flat" id="saveBtn" value="create">Simpan
                         </button>
 
                 </div>
@@ -170,62 +169,15 @@
     
 
 @section('js')
-<script>
-    $(".allownumericwithoutdecimal").on("keypress keyup blur",function (event) {    
-        $(this).val($(this).val().replace(/[^\d].+/, ""));
-            if ((event.which < 48 || event.which > 57)) {
-                event.preventDefault();
-            }
-    });
-</script>
-<script>
-    $("#productForm").validate({
-        rules: {
-            kode_petugas:{
-                required: true,
-                maxlength: 4
-            },
-            nama: {
-                required:true
-            },
-            jabatan: {
-                required:true
-            },
-            telepon: {
-                required:true
-            }
-        },
-        messages:{
-            kode_petugas:{
-                required:"Harap diisi",
-                maxlength : "Tidak bisa lebih dari 4"
-            },
-            nama:{
-                required:"Harap diisi"
-            },
-            jabatan:{
-                required:"Harap diisi"
-            },
-            telepon:{
-                required:"Harap diisi"
-            },
-            alamat:{
-                required:"Tentukkan tahun terbitnya"
-            }
-        }
-    })
-</script>
 <script type="text/javascript">
 
     $(function () {
-  
-       
   
         $.ajaxSetup({
             headers: {
               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
-          });
+        });
 
       var table = $('.data-table').DataTable({
   
@@ -413,6 +365,14 @@
     });
   
 </script>
-   @endsection
+<script>
+        $(".allownumericwithoutdecimal").on("keypress keyup blur",function (event) {    
+            $(this).val($(this).val().replace(/[^\d].+/, ""));
+                if ((event.which < 48 || event.which > 57)) {
+                    event.preventDefault();
+                }
+        });
+</script>
+@endsection
 </body>
 </html>

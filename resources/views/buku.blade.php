@@ -1,16 +1,18 @@
-@extends('layouts.backend')
+@extends('layouts.backend-baru')
 
 @section('content')
 @include('layouts.flash')
 <!-- Main content -->
 <div class="container">
 
-    <a class="btn btn-dark btn-sm" href="javascript:void(0)" id="createNewProduct">Create New</a>
+    <a class="btn btn-primary btn-flat btn-sm" href="javascript:void(0)" id="createNewProduct">
+        Create New
+    </a>
     <br/>
     <br/>
     <table class="table table-bordered data-table" width="100%">
 
-    <thead class="thead-dark">
+    <thead class="thead-dark bg-primary">
 
         <tr>
 
@@ -46,7 +48,7 @@
         <div class="modal-header">
 
             <h4 class="modal-title" id="modelHeading"></h4>
-            <button type="button" class="close" data-dismiss="modal"><ion-icon name="close-circle"></ion-icon></button>
+            <button type="button" class="close" data-dismiss="modal">&times </button>
 
         </div>
 
@@ -67,7 +69,7 @@
 
                     <label for="name" class="col-sm-2 control-label">Kode Buku</label>
 
-                    <div class="col-sm-12">
+                    <div class="col-sm-10">
 
                         <input type="text" class="form-control" id="kode_buku" name="kode_buku" placeholder="Masukkan Kode Buku" value="" maxlength="50" required="">
 
@@ -79,7 +81,7 @@
 
                     <label for="name" class="col-sm-2 control-label">Judul</label>
 
-                    <div class="col-sm-12">
+                    <div class="col-sm-10">
 
                         <input type="text" class="form-control" id="judul" name="judul" placeholder="Masukkan Judul Buku" value="" maxlength="50" required="">
 
@@ -91,7 +93,7 @@
 
                     <label for="name" class="col-sm-2 control-label">Penulis</label>
 
-                    <div class="col-sm-12">
+                    <div class="col-sm-10">
 
                         <input type="text" class="form-control" id="penulis" name="penulis" placeholder="Masukkan Penulis" value="" maxlength="50" required="">
 
@@ -103,7 +105,7 @@
 
                     <label for="name" class="col-sm-2 control-label">Penerbit</label>
 
-                    <div class="col-sm-12">
+                    <div class="col-sm-10">
 
                         <input type="text" class="form-control" id="penerbit" name="penerbit" placeholder="Masukkan Penerbit" value="" maxlength="50" required="">
 
@@ -115,7 +117,7 @@
 
                     <label for="name" class="col-sm-2 control-label">Tahun Terbit</label>
 
-                    <div class="col-sm-12">
+                    <div class="col-sm-10">
 
                         <select class="form-control" name="tahun_terbit" id="tahun_terbit">
                                 
@@ -137,11 +139,12 @@
         </div>
 
         <div class="modal-footer">
-            <button data-dismiss="modal" type="button" class="btn btn-outline-danger btn-flat" id="reset">Batal
-            </button>
+    
+                <button data-dismiss="modal" type="button" class="btn btn-default btn-flat pull-left" id="reset">Batal
+                </button>
 
-            <button align="right" type="submit" class="btn btn-outline-primary btn-flat" id="saveBtn" value="create">Simpan
-            </button>
+                <button align="right" type="submit" class="btn btn-primary btn-flat" id="saveBtn" value="create">Simpan
+                </button>
 
         </div>
 

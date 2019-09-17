@@ -24,7 +24,7 @@ class KodeRakStoreRequest extends FormRequest
     public function rules(Request $request)
     {
         return [
-            'kode_rak' => 'required|max:4|unique:bukus,kode_rak,'.$request->rak_id.',id',
+            'kode_rak' => 'required|max:4',
             'nama_rak' => 'required',
             'buku' => 'required'
         ];
