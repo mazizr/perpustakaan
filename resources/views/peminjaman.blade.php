@@ -2,40 +2,54 @@
 
 @section('content')
 <!-- Main content -->
-<div class="container">
-        
-    <a class="btn btn-primary btn-flat btn-sm" href="javascript:void(0)" id="createNewProduct">
-        Create New
-    </a>
-    <br/>
-    <br/>
-    <table class="table table-bordered data-table" width="100%">
+    <div class="box box-widget">
+            <div class="box-header with-border">
+              <div class="user-block">
+                    <br/>
+                    <a class="btn btn-primary btn-flat btn-sm" href="javascript:void(0)" id="createNewProduct">
+                            Create New
+                    </a>
+                    <br/>
+                    <br/>
+              </div>
+              <!-- /.user-block -->
+              <div class="box-tools">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                </div>
+              <!-- /.box-tools -->
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                    <table class="table table-bordered data-table" width="100%">
 
-        <thead class="thead-dark bg-primary">
-
-            <tr>
-
-                <th width="10px">No</th>
-
-                <th width="5px">Kode Peminjaman</th>
-                <th>Nama Petugas</th>
-                <th>Nama Anggota</th>
-                <th>Judul Buku</th>
-                <th>Tanggal Pinjam</th>
-                <th>Tanggal Kembali</th>
-                <th width="75px">Aksi</th>
-
-            </tr>
-
-        </thead>
-
-        <tbody>
-
-        </tbody>
-
-    </table>
-
-</div>
+                            <thead class="thead-dark bg-primary">
+                    
+                                <tr>
+                    
+                                    <th width="10px">No</th>
+                    
+                                    <th width="5px">Kode Peminjaman</th>
+                                    <th>Nama Petugas</th>
+                                    <th>Nama Anggota</th>
+                                    <th>Judul Buku</th>
+                                    <th>Tanggal Pinjam</th>
+                                    <th>Tanggal Kembali</th>
+                                    <th width="75px">Aksi</th>
+                    
+                                </tr>
+                    
+                            </thead>
+                    
+                            <tbody>
+                    
+                            </tbody>
+                    
+                    </table>
+            </div>
+            <!-- /.box-body -->
+            <!-- /.box-footer -->
+    </div>
 
    
 

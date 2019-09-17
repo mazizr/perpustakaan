@@ -46,7 +46,7 @@
   <link rel="stylesheet" href="{{ asset('assets/backend-baru/bower_components/select2/dist/css/select2.min.css') }}">
   @yield('css')
 </head>
-<body class="hold-transition skin-blue sidebar-mini">
+<body class="hold-transition skin-blue sidebar-mini fixed">
     
 <div class="wrapper">
     @include('layouts.backend-baru.sidebar')

@@ -2,38 +2,51 @@
     
     @section('content')
     <!-- Main content -->
-    <div class="container">
-            
-        <a class="btn btn-primary btn-flat btn-sm" href="javascript:void(0)" id="createNewProduct">
-            Create New
-        </a>
-        <br/>
-        <br/>
-        <table id="example1" class="table table-bordered data-table">
+    <div class="box box-widget">
+            <div class="box-header with-border">
+              <div class="user-block">
+                    <br/>
+                    <a class="btn btn-primary btn-flat btn-sm" href="javascript:void(0)" id="createNewProduct">
+                            Create New
+                    </a>
+                    <br/>
+                    <br/>
+              </div>
+              <!-- /.user-block -->
+              <div class="box-tools">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                </div>
+              <!-- /.box-tools -->
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                    <table id="example1" class="table table-bordered data-table" style="width: 100%;">
 
-            <thead class="thead-dark bg-primary">
-    
-                <tr>
-    
-                    <th width="10px">No</th>
-                    <th width="20px">Kode Petugas</th>
-                    <th>Nama</th>
-                    <th>Jenis Kelamin</th>
-                    <th>Jabatan</th>
-                    <th width="100px">Telepon</th>
-                    <th width="180px">Alamat</th>
-                    <th width="100px">Aksi</th>
-    
-                </tr>
-    
-            </thead>
-    
-            <tbody>
-    
-            </tbody>
-    
-        </table>
-    
+                            <thead class="thead-dark bg-primary">
+                    
+                                <tr>
+                    
+                                    <th width="10px">No</th>
+                                    <th width="20px">Kode Petugas</th>
+                                    <th>Nama</th>
+                                    <th>Jenis Kelamin</th>
+                                    <th>Jabatan</th>
+                                    <th width="100px">Telepon</th>
+                                    <th width="180px">Alamat</th>
+                                    <th width="100px">Aksi</th>
+                    
+                                </tr>
+                    
+                            </thead>
+                    
+                            <tbody>
+                    
+                            </tbody>
+                    
+                    </table>
+            </div>
+            <!-- /.box-body -->
     </div>
     
        
