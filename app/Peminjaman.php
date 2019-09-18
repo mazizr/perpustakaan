@@ -28,7 +28,7 @@ class Peminjaman extends Model
 
        public function buku()
        {
-           return $this->belongsTo('App\Buku', 'kode_buku');
+           return $this->belongsToMany('App\Buku','peminjaman_buku','id_peminjaman','id_buku');
        }
 
        public function pengembalian()

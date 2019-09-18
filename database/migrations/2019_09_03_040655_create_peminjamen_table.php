@@ -20,8 +20,13 @@ class CreatePeminjamenTable extends Migration
             $table->date('tanggal_kembali');
             $table->unsignedBigInteger('kode_petugas');
             $table->unsignedBigInteger('kode_anggota');
-            $table->unsignedBigInteger('kode_buku');
             $table->timestamps();
+        });
+
+        Schema::create('peminjaman_buku', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->unsignedInteger('id_buku');
+            $table->unsignedInteger('id_peminjaman');
         });
     }
 
@@ -33,5 +38,6 @@ class CreatePeminjamenTable extends Migration
     public function down()
     {
         Schema::dropIfExists('peminjamen');
+        Schema::dropIfExists('peminjaman_buku');
     }
 }

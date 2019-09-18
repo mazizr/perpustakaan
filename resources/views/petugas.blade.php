@@ -27,14 +27,14 @@
                     
                                 <tr>
                     
-                                    <th width="10px">No</th>
-                                    <th width="20px">Kode Petugas</th>
+                                    <th>No</th>
+                                    <th>Kode Petugas</th>
                                     <th>Nama</th>
                                     <th>Jenis Kelamin</th>
                                     <th>Jabatan</th>
-                                    <th width="100px">Telepon</th>
-                                    <th width="180px">Alamat</th>
-                                    <th width="100px">Aksi</th>
+                                    <th>Telepon</th>
+                                    <th>Alamat</th>
+                                    <th width="15%">Aksi</th>
                     
                                 </tr>
                     

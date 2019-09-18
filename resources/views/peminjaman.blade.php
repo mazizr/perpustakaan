@@ -97,8 +97,8 @@
                         <label for="name" class="col-sm-2 control-label">Nama Petugas</label>
 
                         <div class="col-sm-10">
-                            <input type="hidden" name="kode_petugas" class="p">
-                            <select style="width: 100%;" type="text" class="form-control select2 isi-petugas" id="kode_petugas" name="kode_petugas" placeholder="Masukkan Nama Petugas" value="" maxlength="50" required="">
+                            {{--  <input type="hidden" name="kode_petugas" class="p">  --}}
+                            <select style="width: 100%;" type="text" class="form-control isi-petugas" id="kode_petugas" name="kode_petugas">
                             </select>
                         </div>
 
@@ -109,8 +109,8 @@
                         <label for="name" class="col-sm-2 control-label">Nama Anggota</label>
 
                         <div class="col-sm-10">
-                                <input type="hidden" name="kode_anggota" class="a">
-                                <select style="width: 100%;" type="text" class="form-control select2 isi-anggota" id="kode_anggota" name="kode_anggota" placeholder="Masukkan Nama Petugas" value="" maxlength="50" required="">
+                                {{--  <input type="hidden" name="kode_anggota" class="a">  --}}
+                                <select style="width: 100%;" class="form-control isi-anggota" id="kode_anggota" name="kode_anggota">
                                 </select>
                         </div>
 
@@ -121,9 +121,9 @@
                         <label for="name" class="col-sm-2 control-label">Nama Buku</label>
 
                         <div class="col-sm-10">
-                                <input type="hidden" name="kode_buku" class="b">
-                            <select style="width: 100%;" type="text" class="form-control select2 isi-buku" id="kode_buku" name="kode_buku" placeholder="Masukkan Jabatan Petugas" value="" maxlength="50" required="">
-                            </select>
+                                <input type="hidden" name="buku" class="b">
+                                <select id="buku" class="form-control isi-buku select2" multiple="multiple"
+                                name="buku[]" style="width: 100%;"></select>
                         </div>
 
                     </div>
@@ -258,7 +258,7 @@ $(function () {
 
           {data: 'nama_anggota', name: 'kode_anggota'},
 
-          {data: 'judul', name: 'kode_buku'},
+          { data: 'buku', name: 'buku' },
 
           {data: 'tanggal_pinjam', name: 'tanggal_pinjam'},
 
@@ -274,8 +274,7 @@ $(function () {
   $.ajax({
     url: "{{ url('buku') }}",
     method: "GET",
-    dataType: "json",
-    
+    dataType: "json",      
     success: function (berhasil) {
         // console.log(berhasil)
         $.each(berhasil.data, function (key, value) {
@@ -288,7 +287,7 @@ $(function () {
             )
         }) 
     }
-})
+    })
 
 $.ajax({
     url: "{{ url('petugas') }}",
@@ -336,7 +335,7 @@ $.ajax({
       $('#productForm').trigger("reset");
       $('#modelHeading').html("Create New");
       $('#ajaxModel').modal({backdrop: 'static', keyboard: false});
-      
+      $('#buku').val('').trigger('change');
       $('#ajaxModel').modal('show');
       $('.alert-danger').html('');
       $('.alert-danger').css('display','none');
@@ -351,56 +350,43 @@ $.ajax({
 
     var peminjaman_id = $(this).data('id');
         $.get("{{ url('peminjaman') }}" +'/' + peminjaman_id +'/edit', function (data) {
-            $.each(data,function(key, value){
-                console.log(value);
+            $.each(data.datapeminjaman,function(key, value){
+                $('#peminjaman_id').val(value.id);
+                $('#buku').html('');
+                $('#kode_pinjam').val(value.kode_pinjam);
+                $('#tanggal_pinjam').val(value.tanggal_pinjam);
+                $('#tanggal_kembali').val(value.tanggal_kembali);
+                $('#kode_petugas').val(value.id_petugas);
+                $('#kode_anggota').val(value.id_anggota);
+                
+            });
+            $('#buku').html('');
+            $('#buku').html(data.buku);
             $('#modelHeading').html("Edit Peminjaman");
             $('#saveBtn').val("edit-user");
             $('#ajaxModel').modal({backdrop: 'static', keyboard: false});
             $('#ajaxModel').modal('show');
-            $('#peminjaman_id').val(value.id);
-            $('#kode_pinjam').val(value.kode_pinjam);
-            $('#tanggal_pinjam').val(value.tanggal_pinjam);
-            $('#tanggal_kembali').val(value.tanggal_kembali);
-            $('#kode_petugas').val(value.nama_petugas);
-            $('#kode_anggota').val(value.nama_anggota);
-            $('#kode_buku').val(value.judul);
-            $('.p').val(value.id_petugas);
-            $('.a').val(value.id_anggota);
-            $('.b').val(value.id_buku);
             $('.alert-danger').html('');
             $('.alert-danger').css('display','none');
-            });
+            
         })
     });
 
   
 
   $('#saveBtn').click(function (e) {
-
       e.preventDefault();
-
       $(this).html('Simpan');
-
-  
-
       $.ajax({
-
         data: $('#productForm').serialize(),
-
         url: "{{ url('peminjaman-store') }}",
-
         type: "POST",
-
         dataType: 'json',
-
         success: function (data) {
 
-   
-
             $('#productForm').trigger("reset");
-
             $('#ajaxModel').modal('hide');
-
+            
             table.draw();
             Swal.fire({
                 position: 'center',

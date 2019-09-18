@@ -23,7 +23,6 @@ class CreatePengembaliansTable extends Migration
             $table->double('total_denda');
             $table->unsignedBigInteger('kode_petugas');
             $table->unsignedBigInteger('kode_anggota');
-            $table->unsignedBigInteger('kode_buku');
             $table->timestamps();
         });
     }

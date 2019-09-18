@@ -162,7 +162,6 @@
                             <label for="name" class="control-label">Nama Buku</label>
     
                             <div class="col-sm-10">
-                                    <input type="hidden" name="kode_buku" id="isi_kode_buku">
                                     <input type="text" placeholder="Nama Anggota" class="form-control" id="kode_buku" disabled>
                             </div>
     
@@ -216,7 +215,7 @@ $(function () {
           {data: 'total_denda', name: 'total_denda'},
           {data: 'nama_petugas', name: 'nama'},
           {data: 'nama_anggota', name: 'nama'},
-          {data: 'judul', name: 'judul'},
+          { data: 'buku', name: 'buku' },
           {data: 'action', name: 'action', orderable: false, searchable: false},
       ]
   });
@@ -247,17 +246,19 @@ $(function () {
             method: "GET",
             dataType: "json",
             success: function (berhasil) {
-                $.each(berhasil, function(key, value){
-                    console.log(value);
+                $.each(berhasil.datapeminjaman, function(key, value){
+                    
                     $('#kode_anggota').val(value.nama_anggota);
                     $('#kode_petugas').val(value.nama_petugas);
-                    $('#kode_buku').val(value.judul);
+                    
                     $('#jatuh_tempo').val(value.tanggal_kembali);
                     $('#isi_kode_anggota').val(value.id_anggota);
                     $('#isi_kode_petugas').val(value.id_petugas);
-                    $('#isi_kode_buku').val(value.id_buku);
+                    
                     $('#isi_jatuh_tempo').val(value.tanggal_kembali);
                 });
+                console.log(berhasil.buku);
+                $('#kode_buku').val(berhasil.buku);
             }
         })
    });
@@ -293,17 +294,16 @@ $(function () {
         $('#kode_kembali').val(data.datapengembalian.kode_kembali);
         $('#isi_jatuh_tempo').val(data.datapengembalian.jatuh_tempo);
         $.each(data.peminjaman, function(key, value){
-            console.log(value)
-            $('#kode_buku').val(value.judul);
+            
             $('#kode_petugas').val(value.nama_petugas);
             $('#kode_anggota').val(value.nama_anggota);
             $('#isi_kode_anggota').val(value.id_anggota);
             $('#isi_kode_petugas').val(value.id_petugas);
-            $('#isi_kode_buku').val(value.id_buku);
             $('#jatuh_tempo').val(value.jatuh_tempo);
             $('#tanggal_kembali').val(value.tanggal_kembali);
         });
-        
+        console.log(data)
+        $('#kode_buku').val(data.buku);
         $('.alert-danger').html('');
         $('.alert-danger').css('display','none');
         $("input").keypress(function(){

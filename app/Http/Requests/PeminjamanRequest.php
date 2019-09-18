@@ -28,8 +28,7 @@ class PeminjamanRequest extends FormRequest
             'tanggal_pinjam' => 'required',
             'tanggal_kembali' => 'required',
             'kode_petugas' => 'required',
-            'kode_anggota' => 'required',
-            'kode_buku' => 'required'
+            'kode_anggota' => 'required'
         ];
     }
      /**
@@ -46,8 +45,7 @@ class PeminjamanRequest extends FormRequest
             'tanggal_pinjam.required' => 'Tanggal Pinjam Wajib Dipilih',
             'tanggal_kembali.required' => 'Tanggal Kembali Harus Dipilih',
             'kode_petugas.required' => 'Kode Petugas Wajib Dipilih',
-            'kode_anggota.required' => 'Kode Anggota Wajib Dipilih',
-            'kode_buku.required' => 'Kode Buku Wajib Dipilih'
+            'kode_anggota.required' => 'Kode Anggota Wajib Dipilih'
 
         ];
     }

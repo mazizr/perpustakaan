@@ -67,6 +67,10 @@
 
             <div id="result"></div>
             <div class="alert alert-danger" style="display:none">
+            <h4>
+            <i class="icon fa fa-ban"></i>
+            Peringatan !
+            </h4>
                     <ul>
                         @foreach ($errors->all() as $error)
                             <li>{{ $error }}</li>
@@ -108,23 +112,14 @@
                     <div class="col-sm-10">
 
                             <div class="form-group">
-                                    <label>
-                                            <input type="radio" name="jk" value="Laki - Laki" class="minimal jk">
-                                            Laki - Laki
-                                    </label>
-                                    <br>
-                                    <label>
-                                            <input type="radio" name="jk" value="Perempuan" class="minimal jk">
-                                            Perempuan
-                                    </label>
-                                    {{--  <div class="custom-control custom-radio">
+                                    <div class="custom-control custom-radio">
                                       <input class="custom-control-input jk" type="radio" id="customRadio1" value="Laki - Laki" name="jk">
                                       <label for="customRadio1" class="custom-control-label">Laki - Laki</label>
                                     </div>
                                     <div class="custom-control custom-radio">
                                         <input class="custom-control-input jk" type="radio" value="Perempuan" id="customRadio2" name="jk">
                                         <label for="customRadio2" class="custom-control-label">Perempuan</label>
-                                    </div>  --}}
+                                    </div>
                             </div>
 
                     </div>

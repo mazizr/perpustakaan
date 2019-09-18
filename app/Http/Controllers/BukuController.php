@@ -45,7 +45,7 @@ class BukuController extends Controller
                         if ($row->rak->count() == 0 && $row->peminjaman->count() == 0) {
                             $btn = $btn.' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Delete" class="btn btn-danger btn-sm deleteBuku"><i class="glyphicon glyphicon-trash"></i></a>';
                         }else {
-                            $btn = $btn.' | <span class="badge badge-warning">Dipakai</span>';
+                            $btn = $btn.' | <span class="label label-warning"> Dipakai</span>';
                         }
                             return $btn;
 

@@ -28,8 +28,7 @@ class PengembalianRequest extends FormRequest
             'kode_pinjam' => 'required',
             'jatuh_tempo' => 'required',
             'kode_petugas' => 'required',
-            'kode_anggota' => 'required',
-            'kode_buku' => 'required'
+            'kode_anggota' => 'required'
         ];
     }
      /**
@@ -46,8 +45,7 @@ class PengembalianRequest extends FormRequest
             'kode_pinjam.required' => 'Kode Pinjam wajib Dipilih',
             'jatuh_tempo.required' => 'Jatuh Tempo Wajib Dipilih',
             'kode_petugas.required' => 'Kode Petugas Wajib Dipilih',
-            'kode_anggota.required' => 'Kode Anggota Wajib Dipilih',
-            'kode_buku.required' => 'Kode Buku Wajib Dipilih'
+            'kode_anggota.required' => 'Kode Anggota Wajib Dipilih'
 
         ];
     }
