@@ -19,7 +19,7 @@
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="{{ asset('assets/backend-baru/dist/css/skins/_all-skins.min.css') }}">
   <!-- iCheck for checkboxes and radio inputs -->
-  <link rel="stylesheet" href="{{ asset('assets/backend-baru/plugins/iCheck/all.css') }}">
+  <link rel="stylesheet" href="http://apro-admin-templates.websitedesignmarketingagency.com/aproadmin/assets/vendor_plugins/iCheck/all.css">
   <!-- Morris chart -->
   <link rel="stylesheet" href="{{ asset('assets/backend-baru/bower_components/morris.js/morris.css') }}">
   <!-- jvectormap -->
@@ -42,6 +42,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
   <!-- DataTable -->
   <link rel="stylesheet" href="datatables.min.css">
+  <link href="dataTables.bootstrap4.css" rel="stylesheet">
   <!-- Select2 -->
   <link rel="stylesheet" href="{{ asset('assets/backend-baru/bower_components/select2/dist/css/select2.min.css') }}">
   @yield('css')
@@ -111,6 +112,7 @@
 <script src="{{ asset('assets/backend-baru/dist/js/demo.js') }}"></script>
 <!-- DataTables -->
 <script src="datatables.min.js"></script>
+<script src="dataTables.bootstrap.min.js"></script>
 <!-- Select2 -->
 <script src="{{ asset('assets/backend-baru/bower_components/select2/dist/js/select2.full.min.js') }}"></script>
 <!-- datepicker -->
@@ -125,7 +127,7 @@
     })
 </script>
 <!-- iCheck 1.0.1 -->
-<script src="{{ asset('assets/backend-baru/plugins/iCheck/icheck.min.js') }}"></script>
+<script src="http://apro-admin-templates.websitedesignmarketingagency.com/aproadmin/assets/vendor_plugins/iCheck/icheck.min.js"></script>
 <!-- page script -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 <script>
